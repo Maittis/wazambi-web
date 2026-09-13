@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getSessionStaff } from "@/lib/auth";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -26,9 +27,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  let initialMe: { id: number; fullName: string; email: string; role: string } | null = null;
+  try {
+    const staff = await getSessionStaff();
+    if (staff) {
+      initialMe = { id: staff.id, fullName: staff.fullName, email: staff.email, role: staff.role };
+    }
+  } catch {
+    initialMe = null;
+  }
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-poppins`}>
@@ -38,9 +48,9 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <Header />
+        <Header initialMe={initialMe} />
         <main id="main-content">{children}</main>
-        <Footer />
+        <Footer initialMe={initialMe} />
       </body>
     </html>
   );

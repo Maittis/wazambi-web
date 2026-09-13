@@ -6,6 +6,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { navLinks, mobileNav, site } from "@/lib/content";
 import { useContent } from "@/components/content/useContent";
+import { useSession } from "@/components/content/useSession";
+import type { SessionUser } from "@/components/content/useSession";
 
 const dropdowns: Record<string, { label: string; href: string }[]> = {
   Solutions: [
@@ -20,15 +22,22 @@ const dropdowns: Record<string, { label: string; href: string }[]> = {
   ],
 };
 
-export default function Header() {
+export default function Header({ initialMe }: { initialMe?: SessionUser | null }) {
   const [open, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const me = useSession(initialMe);
   const pathname = usePathname();
 
   useEffect(() => {
     setOpen(false);
     setOpenDropdown(null);
   }, [pathname]);
+
+  const logout = async () => {
+    setOpen(false);
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.assign("/");
+  };
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -110,18 +119,38 @@ export default function Header() {
             </nav>
 
             <div className="flex items-center gap-3">
-              <Link
-                href="/customer-admin"
-                className="hidden lg:inline-block rounded-[100px] border-2 border-white/40 px-5 py-2.5 text-center font-poppins text-[14px] font-bold leading-none text-white transition-all duration-300 hover:bg-white hover:text-navy"
-              >
-                Client Login
-              </Link>
-              <Link
-                href="/fleet-assessment"
-                className="hidden lg:inline-block btn-primary text-[14px]"
-              >
-                Get a Free Assessment
-              </Link>
+              {me === undefined ? null : me ? (
+                <>
+                  <Link
+                    href="/customer-admin"
+                    className="hidden lg:inline-block rounded-[100px] border-2 border-white/40 px-5 py-2.5 text-center font-poppins text-[14px] font-bold leading-none text-white transition-all duration-300 hover:bg-white hover:text-navy"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={logout}
+                    className="hidden lg:inline-block font-poppins text-[14px] font-bold text-white transition-colors hover:text-gold"
+                  >
+                    Log out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/customer-admin"
+                    className="hidden lg:inline-block rounded-[100px] border-2 border-white/40 px-5 py-2.5 text-center font-poppins text-[14px] font-bold leading-none text-white transition-all duration-300 hover:bg-white hover:text-navy"
+                  >
+                    Client Login
+                  </Link>
+                  <Link
+                    href="/fleet-assessment"
+                    className="hidden lg:inline-block btn-primary text-[14px]"
+                  >
+                    Get a Free Assessment
+                  </Link>
+                </>
+              )}
               <button
                 type="button"
                 aria-label="Open main menu"
@@ -142,7 +171,7 @@ export default function Header() {
 
       <div style={{ height: 0 }} />
 
-      <MobileMenu open={open} onClose={() => setOpen(false)} />
+      <MobileMenu open={open} onClose={() => setOpen(false)} me={me} onLogout={logout} />
     </>
   );
 }
@@ -173,7 +202,17 @@ function AnnouncementBar() {
   );
 }
 
-function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+function MobileMenu({
+  open,
+  onClose,
+  me,
+  onLogout,
+}: {
+  open: boolean;
+  onClose: () => void;
+  me: { fullName: string; role: string } | null | undefined;
+  onLogout: () => Promise<void> | void;
+}) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -265,17 +304,38 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
         </ul>
 
         <div className="mt-8 space-y-3 pb-10">
-          <Link href="/fleet-assessment" onClick={onClose} className="btn-primary block w-full text-center">
-            Get a Free Assessment
-          </Link>
-          <div className="flex gap-3">
-            <Link href="/customer-admin" onClick={onClose} className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
-              Client Login
-            </Link>
-            <Link href="/agents" className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
-              Agent Login
-            </Link>
-          </div>
+          {me ? (
+            <>
+              <Link
+                href="/customer-admin"
+                onClick={onClose}
+                className="btn-primary block w-full text-center"
+              >
+                Go to Dashboard
+              </Link>
+              <button
+                type="button"
+                onClick={onLogout}
+                className="btn-outline block w-full border-white/40 text-white hover:bg-white hover:text-navy"
+              >
+                Log out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/fleet-assessment" onClick={onClose} className="btn-primary block w-full text-center">
+                Get a Free Assessment
+              </Link>
+              <div className="flex gap-3">
+                <Link href="/customer-admin" onClick={onClose} className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
+                  Client Login
+                </Link>
+                <Link href="/agents" className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
+                  Agent Login
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </nav>
     </div>

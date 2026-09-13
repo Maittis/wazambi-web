@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { site } from "@/lib/content";
+import { useSession } from "@/components/content/useSession";
+import type { SessionUser } from "@/components/content/useSession";
 
 const columns = [
   {
@@ -28,13 +32,6 @@ const columns = [
       { label: "Become an Agent", href: "/agents" },
     ],
   },
-  {
-    title: "Login",
-    links: [
-      { label: "Client Login", href: "/customer-admin" },
-      { label: "Agent Login", href: "https://wazambi-gps.vercel.app/" },
-    ],
-  },
 ];
 
 const legalLinks = [
@@ -42,7 +39,8 @@ const legalLinks = [
   { label: "Terms and Conditions", href: "/terms" },
 ];
 
-export default function Footer() {
+export default function Footer({ initialMe }: { initialMe?: SessionUser | null }) {
+  const me = useSession(initialMe);
   return (
     <footer role="contentinfo" aria-label="Site Footer" className="bg-navy text-white">
       <div className="container-wz py-14">
@@ -70,6 +68,29 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+          <div>
+            <h3 className="mb-4 text-[14px] font-semibold uppercase tracking-[0.08em] text-gold">
+              Login
+            </h3>
+            <ul className="space-y-2.5">
+              <li>
+                <Link
+                  href="/customer-admin"
+                  className="text-[14px] font-light text-white/80 transition-colors hover:text-white hover:underline"
+                >
+                  {me === undefined ? "Client Login" : me ? "Dashboard" : "Client Login"}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="https://wazambi-gps.vercel.app/"
+                  className="text-[14px] font-light text-white/80 transition-colors hover:text-white hover:underline"
+                >
+                  Agent Login
+                </Link>
+              </li>
+            </ul>
+          </div>
           <div>
             <h3 className="mb-4 text-[14px] font-semibold uppercase tracking-[0.08em] text-gold">
               Contact
