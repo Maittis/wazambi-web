@@ -120,7 +120,7 @@ export default function Dashboard() {
 
   const logout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.replace("/customer-admin/login");
+    router.replace("/");
   };
 
   if (!me) return <div className="min-h-screen bg-navy" />;
