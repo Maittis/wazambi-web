@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { navLinks, mobileNav, site } from "@/lib/content";
 import { useContent } from "@/components/content/useContent";
-import { useSession } from "@/components/content/useSession";
+import { useSession, dashboardHref } from "@/components/content/useSession";
 import type { SessionUser } from "@/components/content/useSession";
 
 const dropdowns: Record<string, { label: string; href: string }[]> = {
@@ -26,6 +26,7 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
   const [open, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const me = useSession(initialMe);
+  const dashHref = dashboardHref(me);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -122,7 +123,7 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
               {me === undefined ? null : me ? (
                 <>
                   <Link
-                    href="/customer-admin"
+                    href={dashHref}
                     className="hidden lg:inline-block rounded-[100px] border-2 border-white/40 px-5 py-2.5 text-center font-poppins text-[14px] font-bold leading-none text-white transition-all duration-300 hover:bg-white hover:text-navy"
                   >
                     Dashboard
@@ -138,7 +139,7 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
               ) : (
                 <>
                   <Link
-                    href="/customer-admin"
+                    href="/portal"
                     className="hidden lg:inline-block rounded-[100px] border-2 border-white/40 px-5 py-2.5 text-center font-poppins text-[14px] font-bold leading-none text-white transition-all duration-300 hover:bg-white hover:text-navy"
                   >
                     Client Login
@@ -171,7 +172,7 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
 
       <div style={{ height: 0 }} />
 
-      <MobileMenu open={open} onClose={() => setOpen(false)} me={me} onLogout={logout} />
+      <MobileMenu open={open} onClose={() => setOpen(false)} me={me} onLogout={logout} dashHref={dashHref} />
     </>
   );
 }
@@ -207,11 +208,13 @@ function MobileMenu({
   onClose,
   me,
   onLogout,
+  dashHref,
 }: {
   open: boolean;
   onClose: () => void;
-  me: { fullName: string; role: string } | null | undefined;
+  me: SessionUser | null | undefined;
   onLogout: () => Promise<void> | void;
+  dashHref: string;
 }) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -307,7 +310,7 @@ function MobileMenu({
           {me ? (
             <>
               <Link
-                href="/customer-admin"
+                href={dashHref}
                 onClick={onClose}
                 className="btn-primary block w-full text-center"
               >
@@ -327,7 +330,7 @@ function MobileMenu({
                 Get a Free Assessment
               </Link>
               <div className="flex gap-3">
-                <Link href="/customer-admin" onClick={onClose} className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
+                <Link href="/portal" onClick={onClose} className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
                   Client Login
                 </Link>
                 <Link href="/agents" className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">

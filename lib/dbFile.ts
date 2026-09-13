@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { CollectionName, DbRow, DbShape } from "./dbTypes";
-import { emptyShape, seedStaff } from "./seed";
+import { emptyShape, seedStaff, seedCustomers, seedVehicles } from "./seed";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DB_FILE = path.join(DATA_DIR, "db.json");
@@ -31,6 +31,8 @@ function writeDbFile(db: DbShape): void {
 function seedShape(): DbShape {
   const seed = emptyShape();
   seed.staff = seedStaff();
+  seed.customers = seedCustomers();
+  seed.vehicles = seedVehicles();
   return seed;
 }
 

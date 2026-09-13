@@ -87,8 +87,8 @@ export default function Dashboard() {
     fetch("/api/auth/session")
       .then((r) => r.json())
       .then((d) => {
-        if (!d.ok) {
-          router.replace("/customer-admin/login");
+        if (!d.ok || d.kind !== "staff") {
+          router.replace(d.kind === "customer" ? "/portal" : "/customer-admin/login");
           return;
         }
         setMe(d.staff);

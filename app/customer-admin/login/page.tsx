@@ -11,7 +11,7 @@ export default function AdminLoginPage() {
   const isLoggedIn = () =>
     fetch("/api/auth/session")
       .then((r) => r.json())
-      .then((d) => d.ok === true)
+      .then((d) => d.ok === true && d.kind === "staff")
       .catch(() => false);
 
   if (!checked) {

@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-export default function LoginForm() {
-  const router = useRouter();
+interface Props {
+  onSuccess: () => void;
+}
+
+export default function CustomerLogin({ onSuccess }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,15 +18,14 @@ export default function LoginForm() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("/api/customer/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
-      router.push("/customer-admin");
-      router.refresh();
+      onSuccess();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
@@ -37,10 +38,10 @@ export default function LoginForm() {
       <div className="w-full max-w-[420px] rounded-2xl bg-white p-8">
         <Image src="/images/wazambi-logo-dark-v2.svg" alt="Wazambi GPS" width={200} height={42} className="h-8 w-auto mx-auto" />
         <h1 className="mt-6 text-center text-[22px] font-bold uppercase text-navy">
-          Wazambi Staff Dashboard
+          Customer Portal
         </h1>
         <p className="mt-2 text-center text-[13px] font-light text-ink/60">
-          Manage leads, assessments, customers and website content.
+          Track your vehicles in real time.
         </p>
         <form onSubmit={submit} className="mt-8 space-y-4">
           <label className="block text-[13px] font-medium text-ink/75">
@@ -69,8 +70,7 @@ export default function LoginForm() {
           </button>
         </form>
         <p className="mt-6 text-center text-[12px] font-light text-ink/50">
-          Demo staff accounts: owner@wazambigps.com / sales@wazambigps.com / content@wazambigps.com
-          (password: wazambi123)
+          Logged in as a customer? Ask Wazambi for your login details.
         </p>
       </div>
     </div>

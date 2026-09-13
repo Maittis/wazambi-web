@@ -119,20 +119,43 @@ export type FollowUp = {
 
 export type Customer = {
   id: number;
-  leadId: number;
+  leadId?: number | null;
   contactName: string;
   company?: string;
   phone?: string;
+  email?: string;
+  passwordHash?: string;
+  active: boolean;
   vehicleCount?: number;
   status: string;
   createdAt: string;
+  updatedAt: string;
+};
+
+export type Vehicle = {
+  id: number;
+  customerId: number;
+  name: string;
+  plate?: string;
+  vehicleType?: string;
+  status: string;
+  lastLocation?: string;
+  latitude?: string;
+  longitude?: string;
+  speedKph?: number;
+  fuelLevelPct?: number;
+  ignition?: boolean;
+  lastUpdate?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DbRow = { id: number };
 
 export type SessionRow = DbRow & {
   tokenHash: string;
-  staffId: number;
+  staffId?: number | null;
+  customerId?: number | null;
   expiresAt: string;
   createdAt: string;
 };
@@ -160,6 +183,7 @@ export type CollectionName =
   | "contactMessages"
   | "followUps"
   | "customers"
+  | "vehicles"
   | "pageViews"
   | "events"
   | "sessions";
@@ -175,9 +199,10 @@ export type DbShape = {
   contactMessages: ContactMessage[];
   followUps: FollowUp[];
   customers: Customer[];
+  vehicles: Vehicle[];
   pageViews: Array<{ id: number; path: string; createdAt: string }>;
   events: Array<{ id: number; eventType: string; leadId?: number; meta: Record<string, unknown>; createdAt: string }>;
-  sessions: Array<{ tokenHash: string; staffId: number; expiresAt: string; createdAt: string }>;
+  sessions: Array<{ tokenHash: string; staffId?: number | null; customerId?: number | null; expiresAt: string; createdAt: string }>;
   settings: Record<string, unknown>;
 };
 

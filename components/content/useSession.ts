@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-export type SessionUser = { id: number; fullName: string; email: string; role: string };
+export type SessionUser =
+  | { kind: "staff"; id: number; fullName: string; email: string; role?: string }
+  | { kind: "customer"; id: number; fullName: string; email: string };
 
 export function useSession(initialMe?: SessionUser | null) {
   const [me, setMe] = useState<SessionUser | null | undefined>(initialMe);
@@ -14,7 +16,18 @@ export function useSession(initialMe?: SessionUser | null) {
     fetch("/api/auth/session")
       .then((r) => r.json())
       .then((d) => {
-        if (!cancelled) setMe(d.ok ? d.staff : null);
+        if (cancelled) return;
+        if (!d.ok) {
+          setMe(null);
+          return;
+        }
+        if (d.kind === "staff") {
+          setMe({ kind: "staff", ...d.staff });
+        } else if (d.kind === "customer") {
+          setMe({ kind: "customer", ...d.customer });
+        } else {
+          setMe(null);
+        }
       })
       .catch(() => {
         if (!cancelled) setMe(null);
@@ -25,4 +38,8 @@ export function useSession(initialMe?: SessionUser | null) {
   }, [pathname]);
 
   return me;
+}
+
+export function dashboardHref(me?: SessionUser | null): string {
+  return me?.kind === "customer" ? "/portal" : "/customer-admin";
 }

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { site } from "@/lib/content";
-import { useSession } from "@/components/content/useSession";
+import { useSession, dashboardHref } from "@/components/content/useSession";
 import type { SessionUser } from "@/components/content/useSession";
 
 const columns = [
@@ -41,6 +41,7 @@ const legalLinks = [
 
 export default function Footer({ initialMe }: { initialMe?: SessionUser | null }) {
   const me = useSession(initialMe);
+  const dashHref = dashboardHref(me);
   return (
     <footer role="contentinfo" aria-label="Site Footer" className="bg-navy text-white">
       <div className="container-wz py-14">
@@ -75,10 +76,18 @@ export default function Footer({ initialMe }: { initialMe?: SessionUser | null }
             <ul className="space-y-2.5">
               <li>
                 <Link
-                  href="/customer-admin"
+                  href={me ? dashHref : "/portal"}
                   className="text-[14px] font-light text-white/80 transition-colors hover:text-white hover:underline"
                 >
                   {me === undefined ? "Client Login" : me ? "Dashboard" : "Client Login"}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/customer-admin"
+                  className="text-[14px] font-light text-white/80 transition-colors hover:text-white hover:underline"
+                >
+                  Staff Login
                 </Link>
               </li>
               <li>

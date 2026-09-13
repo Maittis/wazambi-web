@@ -1,16 +1,14 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getSessionStaff } from "@/lib/auth";
+import { getSessionUser } from "@/lib/auth";
+import type { SessionUser } from "@/components/content/useSession";
 
 export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  let initialMe: { id: number; fullName: string; email: string; role: string } | null = null;
+  let initialMe: SessionUser | null = null;
   try {
-    const staff = await getSessionStaff();
-    if (staff) {
-      initialMe = { id: staff.id, fullName: staff.fullName, email: staff.email, role: staff.role };
-    }
+    initialMe = (await getSessionUser()) as SessionUser | null;
   } catch {
     initialMe = null;
   }

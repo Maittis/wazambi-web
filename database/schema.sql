@@ -23,11 +23,13 @@ CREATE TABLE IF NOT EXISTS staff (
 CREATE TABLE IF NOT EXISTS sessions (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   token_hash TEXT NOT NULL UNIQUE,
-  staff_id BIGINT NOT NULL REFERENCES staff(id) ON DELETE CASCADE,
+  staff_id BIGINT REFERENCES staff(id) ON DELETE CASCADE,
+  customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE,
   expires_at TIMESTAMPTZ NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_sessions_staff ON sessions(staff_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_customer ON sessions(customer_id);
 
 -- ---------- EDITABLE CONTENT ----------
 CREATE TABLE IF NOT EXISTS system_settings (
@@ -150,13 +152,43 @@ CREATE TABLE IF NOT EXISTS customers (
   lead_id BIGINT REFERENCES leads(id) ON DELETE SET NULL,
   contact_name TEXT NOT NULL,
   company TEXT,
+  email TEXT UNIQUE,
   phone TEXT,
+  password_hash TEXT,
   vehicle_count INTEGER,
   status TEXT NOT NULL DEFAULT 'active',
+  active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_customers_lead ON customers(lead_id);
+
+CREATE TABLE IF NOT EXISTS vehicles (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  plate TEXT,
+  vehicle_type TEXT,
+  status TEXT,
+  last_location TEXT,
+  latitude TEXT,
+  longitude TEXT,
+  speed_kph INTEGER,
+  fuel_level_pct INTEGER,
+  ignition BOOLEAN,
+  last_update TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_vehicles_customer ON vehicles(customer_id);
+
+-- ---------- UPGRADES (idempotent — safe to re-run on an existing database) ----------
+ALTER TABLE sessions ADD COLUMN IF NOT EXISTS customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE;
+ALTER TABLE sessions ALTER COLUMN staff_id DROP NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_sessions_customer ON sessions(customer_id);
+ALTER TABLE customers ADD COLUMN IF NOT EXISTS email TEXT UNIQUE;
+ALTER TABLE customers ADD COLUMN IF NOT EXISTS password_hash TEXT;
+ALTER TABLE customers ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT TRUE;
 
 CREATE TABLE IF NOT EXISTS follow_ups (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
