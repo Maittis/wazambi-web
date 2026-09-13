@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" fill="none">
+  <rect width="520" height="460" rx="20" fill="#0A1633"/>
+  <text x="40" y="70" font-family="Poppins, Arial, sans-serif" font-size="22" font-weight="800" fill="#FFC400" letter-spacing="3">FLEET MANAGEMENT</text>
+  <rect x="80" y="260" width="360" height="110" rx="16" fill="#12224A"/>
+  <path d="M140 260 180 180h160l40 80" fill="#1E5EFF"/>
+  <circle cx="150" cy="370" r="26" fill="#0E1B3A"/>
+  <circle cx="150" cy="370" r="12" fill="#FFC400"/>
+  <circle cx="370" cy="370" r="26" fill="#0E1B3A"/>
+  <circle cx="370" cy="370" r="12" fill="#FFC400"/>
+  <rect x="80" y="200" width="360" height="16" rx="8" fill="#0E1B3A"/>
+  <rect x="100" y="120" width="46" height="20" rx="6" fill="#FF7A00"/>
+  <rect x="156" y="120" width="46" height="20" rx="6" fill="#FF7A00"/>
+  <rect x="212" y="120" width="46" height="20" rx="6" fill="#FF7A00"/>
+  <rect x="268" y="120" width="46" height="20" rx="6" fill="#2C4A88"/>
+  <path d="M330 130h90" stroke="#3E5E9E" stroke-width="6" stroke-linecap="round"/>
+  <rect x="80" y="66" width="120" height="26" rx="6" fill="#0E1B3A"/>
+  <path d="M220 79c18-14 60-14 78 0" stroke="#1E5EFF" stroke-width="6" stroke-linecap="round"/>
+</svg>

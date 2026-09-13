@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" fill="none">
+  <rect width="520" height="460" rx="20" fill="#EFEFEE"/>
+  <text x="40" y="70" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="800" fill="#0A1633" letter-spacing="3">CUSTOMER RESULT</text>
+  <circle cx="260" cy="210" r="130" fill="#0A1633"/>
+  <circle cx="260" cy="210" r="90" fill="#12224A"/>
+  <path d="M260 130c0 44 30 66 30 88 0 16-14 30-30 30s-30-14-30-30c0-22 30-44 30-88Z" fill="#FFC400"/>
+  <rect x="220" y="330" width="80" height="14" rx="7" fill="#1E5EFF"/>
+  <rect x="200" y="356" width="120" height="14" rx="7" fill="#FFC400"/>
+  <rect x="240" y="382" width="40" height="14" rx="7" fill="#FF7A00"/>
+</svg>

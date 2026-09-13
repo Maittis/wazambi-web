@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="856" viewBox="0 0 520 856" fill="none">
+  <rect width="520" height="856" fill="#0A1633"/>
+  <text x="30" y="60" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="800" fill="#FFC400" letter-spacing="3">WAZAMBI GPS</text>
+  <text x="30" y="88" font-family="Arial, sans-serif" font-size="13" fill="#8FA3C8">CUSTOMER USING THE APPLICATION</text>
+  <rect x="150" y="150" width="220" height="466" rx="32" fill="#12224A"/>
+  <rect x="166" y="180" width="188" height="330" rx="16" fill="#0E1B3A"/>
+  <rect x="215" y="136" width="90" height="28" rx="12" fill="#0E1B3A"/>
+  <rect x="186" y="200" width="76" height="14" rx="7" fill="#2C4A88"/>
+  <text x="196" y="210" font-family="Arial, sans-serif" font-size="9" fill="#FFC400">LIVE TRACKING</text>
+  <circle cx="260" cy="286" r="44" fill="#0E1B3A" stroke="#1E5EFF" stroke-width="4"/>
+  <path d="M260 246c6 18 22 26 22 40 0 12-10 22-22 22s-22-10-22-22c0-14 16-22 22-40Z" fill="#FFC400"/>
+  <circle cx="260" cy="286" r="8" fill="#1E5EFF"/>
+  <path d="M236 360h48" stroke="#2C4A88" stroke-width="6" stroke-linecap="round"/>
+  <path d="M236 380h48" stroke="#2C4A88" stroke-width="6" stroke-linecap="round"/>
+  <path d="M236 400h48" stroke="#2C4A88" stroke-width="6" stroke-linecap="round"/>
+  <rect x="196" y="424" width="128" height="42" rx="21" fill="#FFC400"/>
+  <text x="260" y="450" font-family="Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="#0A1633">VIEW FLEET</text>
+  <circle cx="260" cy="548" r="28" fill="#0E1B3A"/>
+  <circle cx="260" cy="548" r="10" fill="#1E5EFF"/>
+  <path d="M234 502v-14a26 26 0 0 1 52 0v38a26 26 0 0 0 52 0v-10" stroke="#3E5E9E" stroke-width="6" stroke-linecap="round"/>
+  <g transform="translate(-10,700)" opacity="0.9">
+    <circle cx="260" cy="60" r="46" fill="#FF7A00"/>
+    <path d="M260 18a42 42 0 1 0 0 84 42 42 0 0 0 0-84Zm0 22a20 20 0 1 1 0 40 20 20 0 0 1 0-40Z" fill="#0A1633"/>
+  </g>
+  <path d="M420 220h80" stroke="#1E5EFF" stroke-width="5" stroke-dasharray="8 8" stroke-linecap="round"/>
+  <path d="M12 300h70" stroke="#FFC400" stroke-width="5" stroke-dasharray="8 8" stroke-linecap="round"/>
+</svg>

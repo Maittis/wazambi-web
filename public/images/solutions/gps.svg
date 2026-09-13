@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" fill="none">
+  <rect width="520" height="460" rx="20" fill="#0A1633"/>
+  <text x="40" y="70" font-family="Poppins, Arial, sans-serif" font-size="22" font-weight="800" fill="#FFC400" letter-spacing="3">GPS TRACKING</text>
+  <circle cx="260" cy="210" r="120" fill="#12224A" stroke="#1E5EFF" stroke-width="5"/>
+  <circle cx="260" cy="210" r="80" fill="#0E1B3A" stroke="#2C4A88" stroke-width="3"/>
+  <path d="M260 90c0 60 40 90 40 120 0 22-18 40-40 40s-40-18-40-40c0-30 40-60 40-120Z" fill="#FFC400"/>
+  <circle cx="260" cy="210" r="20" fill="#1E5EFF"/>
+  <path d="M260 40v40M260 340v40M40 210h40M440 210h40" stroke="#3E5E9E" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="120" cy="330" r="10" fill="#FF7A00"/>
+  <circle cx="400" cy="90" r="10" fill="#FFC400"/>
+</svg>

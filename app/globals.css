@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-poppins text-ink bg-white antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold text-navy;
+  }
+}
+
+@layer components {
+  .container-wz {
+    @apply mx-auto w-full max-w-[1170px] px-5;
+  }
+
+  .eyebrow {
+    @apply text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.14em] text-electric-blue;
+  }
+
+  .headline {
+    @apply font-extrabold uppercase leading-[1.15] text-navy;
+  }
+
+  .btn-pill {
+    @apply inline-block rounded-[100px] px-6 py-3.5 text-center font-poppins font-bold leading-none transition-all duration-300 border-[2.5px];
+  }
+
+  .btn-primary {
+    @apply btn-pill bg-gold border-gold text-navy hover:bg-white hover:text-navy;
+  }
+
+  .btn-outline {
+    @apply btn-pill bg-transparent border-navy text-navy hover:bg-navy hover:text-white;
+  }
+
+  .btn-white {
+    @apply btn-pill bg-white border-white text-navy hover:bg-transparent hover:text-white;
+  }
+
+  .card-wz {
+    @apply rounded-[8px] shadow-card;
+  }
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+}

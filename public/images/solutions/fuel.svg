@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" fill="none">
+  <rect width="520" height="460" rx="20" fill="#0A1633"/>
+  <text x="40" y="70" font-family="Poppins, Arial, sans-serif" font-size="22" font-weight="800" fill="#FFC400" letter-spacing="3">FUEL MONITORING</text>
+  <path d="M260 60c-70 90-110 150-110 200a110 110 0 0 0 220 0c0-50-40-110-110-200Zm0 260a50 50 0 0 1 0-100 50 50 0 0 1 0 100Z" fill="#FF7A00"/>
+  <path d="M280 130h90v40h-60v120h-30z" fill="#FFC400"/>
+  <rect x="360" y="380" width="90" height="16" rx="8" fill="#12224A"/>
+  <path d="M200 330h-40a40 40 0 0 1-40-40v-90" stroke="#1E5EFF" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="120" cy="196" r="8" fill="#1E5EFF"/>
+  <path d="M340 300h70" stroke="#FFC400" stroke-width="8" stroke-linecap="round" stroke-dasharray="4 10"/>
+  <path d="M300 360h80" stroke="#3E5E9E" stroke-width="6" stroke-linecap="round"/>
+</svg>

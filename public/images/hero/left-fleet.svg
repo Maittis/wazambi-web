@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="872" viewBox="0 0 600 872" fill="none">
+  <rect width="600" height="872" fill="#0A1633"/>
+  <text x="30" y="60" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="800" fill="#FFC400" letter-spacing="3">WAZAMBI GPS</text>
+  <text x="30" y="88" font-family="Arial, sans-serif" font-size="13" fill="#8FA3C8">FLEET VEHICLES</text>
+  <g transform="translate(60,140)">
+    <rect x="0" y="80" width="180" height="120" rx="14" fill="#12224A"/>
+    <rect x="-6" y="150" width="192" height="18" rx="8" fill="#0A1633"/>
+    <circle cx="30" cy="20" r="22" fill="#0E1B3A"/>
+    <circle cx="30" cy="20" r="12" fill="#FFC400"/>
+    <rect x="150" y="168" width="18" height="42" rx="6" fill="#FFC400"/>
+    <circle cx="160" cy="210" r="8" fill="#0A1633"/>
+    <rect x="78" y="0" width="70" height="40" rx="10" fill="#FF7A00"/>
+    <path d="M86 12h54" stroke="#0A1633" stroke-width="5" stroke-linecap="round"/>
+    <rect x="8" y="60" width="46" height="20" rx="6" fill="#1E5EFF"/>
+    <rect x="60" y="60" width="46" height="20" rx="6" fill="#1E5EFF"/>
+  </g>
+  <g transform="translate(320,160)">
+    <rect x="0" y="80" width="200" height="140" rx="14" fill="#12224A"/>
+    <rect x="-6" y="170" width="212" height="18" rx="8" fill="#0A1633"/>
+    <circle cx="36" cy="24" r="24" fill="#0E1B3A"/>
+    <circle cx="36" cy="24" r="13" fill="#FFC400"/>
+    <rect x="168" y="188" width="18" height="42" rx="6" fill="#FFC400"/>
+    <circle cx="180" cy="230" r="8" fill="#0A1633"/>
+    <rect x="86" y="0" width="80" height="46" rx="10" fill="#FF7A00"/>
+    <path d="M96 13h60" stroke="#0A1633" stroke-width="5" stroke-linecap="round"/>
+    <rect x="86" y="40" width="34" height="12" rx="4" fill="#1E5EFF"/>
+    <rect x="124" y="40" width="24" height="12" rx="4" fill="#1E5EFF"/>
+  </g>
+  <g transform="translate(120,420)">
+    <rect x="0" y="70" width="150" height="100" rx="12" fill="#12224A"/>
+    <rect x="-6" y="130" width="162" height="16" rx="8" fill="#0A1633"/>
+    <circle cx="24" cy="18" r="18" fill="#0E1B3A"/>
+    <circle cx="24" cy="18" r="10" fill="#FFC400"/>
+    <rect x="124" y="146" width="16" height="36" rx="6" fill="#FFC400"/>
+    <circle cx="132" cy="182" r="7" fill="#0A1633"/>
+    <rect x="66" y="0" width="62" height="36" rx="8" fill="#FF7A00"/>
+  </g>
+  <g transform="translate(380,460)">
+    <rect x="0" y="70" width="150" height="100" rx="12" fill="#12224A"/>
+    <rect x="-6" y="130" width="162" height="16" rx="8" fill="#0A1633"/>
+    <circle cx="24" cy="18" r="18" fill="#0E1B3A"/>
+    <circle cx="24" cy="18" r="10" fill="#FFC400"/>
+    <rect x="124" y="146" width="16" height="36" rx="6" fill="#FFC400"/>
+    <circle cx="132" cy="182" r="7" fill="#0A1633"/>
+    <rect x="66" y="0" width="62" height="36" rx="8" fill="#1E5EFF"/>
+  </g>
+  <g>
+    <circle cx="540" cy="760" r="60" fill="#1E5EFF" opacity="0.2"/>
+    <path d="M540 700a60 60 0 1 0 0 120 60 60 0 0 0 0-120Zm0 90a30 30 0 1 1 0-60 30 30 0 0 1 0 60Zm0-46a16 16 0 1 0 0 32 16 16 0 0 0 0-32Z" fill="#FFC400"/>
+  </g>
+</svg>

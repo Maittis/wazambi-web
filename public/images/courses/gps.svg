@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" fill="none">
+  <rect width="520" height="460" rx="20" fill="#12224A"/>
+  <circle cx="260" cy="210" r="130" fill="#0E1B3A" stroke="#1E5EFF" stroke-width="5"/>
+  <path d="M260 90c0 60 44 92 44 120 0 24-20 44-44 44s-44-20-44-44c0-28 44-60 44-120Z" fill="#FFC400"/>
+  <circle cx="260" cy="210" r="14" fill="#1E5EFF"/>
+  <text x="260" y="395" font-family="Arial, sans-serif" font-size="13" fill="#8FA3C8" text-anchor="middle">FREE COURSE</text>
+</svg>

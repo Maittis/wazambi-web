@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" fill="none">
+  <rect width="520" height="460" rx="20" fill="#12224A"/>
+  <rect x="80" y="260" width="360" height="110" rx="16" fill="#0E1B3A"/>
+  <path d="M140 260 180 180h160l40 80" fill="#1E5EFF"/>
+  <circle cx="150" cy="370" r="26" fill="#12224A"/>
+  <circle cx="150" cy="370" r="12" fill="#FFC400"/>
+  <circle cx="370" cy="370" r="26" fill="#12224A"/>
+  <circle cx="370" cy="370" r="12" fill="#FF4000"/>
+  <rect x="80" y="200" width="360" height="16" rx="8" fill="#0E1B3A"/>
+  <rect x="100" y="120" width="46" height="20" rx="6" fill="#FF7A00"/>
+  <rect x="156" y="120" width="46" height="20" rx="6" fill="#FF7A00"/>
+  <rect x="212" y="120" width="46" height="20" rx="6" fill="#FF7A00"/>
+  <text x="260" y="395" font-family="Arial, sans-serif" font-size="13" fill="#8FA3C8" text-anchor="middle">FREE COURSE</text>
+</svg>

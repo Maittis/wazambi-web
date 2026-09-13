@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" fill="none">
+  <rect width="1200" height="640" fill="#0A1633"/>
+  <circle cx="1020" cy="120" r="90" fill="#12224A" stroke="#2C4A88" stroke-width="4"/>
+  <path d="M1020 44c0 40 26 60 26 80 0 14-12 26-26 26s-26-12-26-26c0-20 26-40 26-80Z" fill="#FFC400"/>
+  <rect x="70" y="60" width="220" height="12" rx="6" fill="#2C4A88"/>
+  <rect x="70" y="88" width="150" height="12" rx="6" fill="#2C4A88" opacity="0.6"/>
+  <rect x="70" y="520" width="190" height="12" rx="6" fill="#2C4A88"/>
+  <rect x="70" y="548" width="120" height="12" rx="6" fill="#2C4A88" opacity="0.6"/>
+  <circle cx="600" cy="300" r="86" fill="#FFC400"/>
+  <path d="M572 250l96 50-96 50z" fill="#0A1633"/>
+  <rect x="380" y="520" width="440" height="70" rx="35" fill="#FFC400"/>
+  <text x="600" y="564" font-family="Poppins, Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="#0A1633">WATCH WAZAMBI IN ACTION</text>
+</svg>

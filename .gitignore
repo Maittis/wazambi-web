@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+build
+next-env.d.ts
+*.log
+.DS_Store
+
+# environment & runtime data
+.env
+.env.*
+!.env.example
+data/db.json

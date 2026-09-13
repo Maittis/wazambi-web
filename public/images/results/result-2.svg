@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="460" viewBox="0 0 520 460" fill="none">
+  <rect width="520" height="460" rx="20" fill="#0A1633"/>
+  <text x="40" y="70" font-family="Poppins, Arial, sans-serif" font-size="20" font-weight="800" fill="#FFC400" letter-spacing="3">CUSTOMER RESULT</text>
+  <rect x="120" y="280" width="280" height="90" rx="12" fill="#12224A"/>
+  <path d="M160 280 190 220h140l30 60" fill="#1E5EFF"/>
+  <circle cx="180" cy="370" r="22" fill="#0E1B3A"/>
+  <circle cx="180" cy="370" r="10" fill="#FFC400"/>
+  <circle cx="340" cy="370" r="22" fill="#0E1B3A"/>
+  <circle cx="340" cy="370" r="10" fill="#FFC400"/>
+  <rect x="130" y="230" width="260" height="12" rx="6" fill="#0E1B3A"/>
+  <rect x="170" y="160" width="90" height="46" rx="8" fill="#FF7A00"/>
+  <path d="M176 172h78" stroke="#0A1633" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="320" cy="150" r="10" fill="#FFC400"/>
+</svg>
