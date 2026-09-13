@@ -150,6 +150,18 @@ export type Vehicle = {
   updatedAt: string;
 };
 
+export type VehiclePosition = {
+  id: number;
+  vehicleId: number;
+  latitude?: string;
+  longitude?: string;
+  speedKph?: number;
+  fuelLevelPct?: number;
+  ignition?: boolean;
+  recordedAt: string;
+  createdAt: string;
+};
+
 export type DbRow = { id: number };
 
 export type SessionRow = DbRow & {
@@ -184,6 +196,7 @@ export type CollectionName =
   | "followUps"
   | "customers"
   | "vehicles"
+  | "vehiclePositions"
   | "pageViews"
   | "events"
   | "sessions";
@@ -200,6 +213,7 @@ export type DbShape = {
   followUps: FollowUp[];
   customers: Customer[];
   vehicles: Vehicle[];
+  vehiclePositions: VehiclePosition[];
   pageViews: Array<{ id: number; path: string; createdAt: string }>;
   events: Array<{ id: number; eventType: string; leadId?: number; meta: Record<string, unknown>; createdAt: string }>;
   sessions: Array<{ tokenHash: string; staffId?: number | null; customerId?: number | null; expiresAt: string; createdAt: string }>;

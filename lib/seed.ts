@@ -15,6 +15,7 @@ export function emptyShape(): Omit<DbShape, "settings"> & { settings: Record<str
     followUps: [],
     customers: [],
     vehicles: [],
+    vehiclePositions: [],
     pageViews: [],
     events: [],
     sessions: [],

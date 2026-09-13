@@ -14,6 +14,7 @@ const readable: Record<string, string[]> = {
   followUps: ["owner", "admin", "sales_manager", "salesperson"],
   customers: ["owner", "admin", "sales_manager", "salesperson"],
   vehicles: ["owner", "admin", "sales_manager", "salesperson"],
+  vehiclePositions: ["owner", "admin", "sales_manager", "salesperson"],
   staff: ["owner", "admin"],
   pageViews: ["owner", "admin"],
   events: ["owner", "admin", "sales_manager"],
@@ -38,6 +39,14 @@ export async function GET(req: NextRequest) {
     }
 
     let data = await readTable<DbRow>(resource as CollectionName);
+
+    if (resource === "vehiclePositions") {
+      const vehicleId = Number(searchParams.get("vehicleId") || 0);
+      const limit = Math.min(Number(searchParams.get("limit") || 300), 1000);
+      data = (data as Array<{ vehicleId?: number }>)
+        .filter((p) => (vehicleId ? p.vehicleId === vehicleId : true))
+        .slice(-limit) as DbRow[];
+    }
 
     if (resource === "staff") {
       data = (data as Array<{ id: number; fullName: string; email: string; role: string; active: boolean }>).map(

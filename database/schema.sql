@@ -182,6 +182,19 @@ CREATE TABLE IF NOT EXISTS vehicles (
 );
 CREATE INDEX IF NOT EXISTS idx_vehicles_customer ON vehicles(customer_id);
 
+CREATE TABLE IF NOT EXISTS vehicle_positions (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  vehicle_id BIGINT NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
+  latitude TEXT,
+  longitude TEXT,
+  speed_kph INTEGER,
+  fuel_level_pct INTEGER,
+  ignition BOOLEAN,
+  recorded_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_vehicle_positions_vehicle ON vehicle_positions(vehicle_id, recorded_at);
+
 -- ---------- UPGRADES (idempotent — safe to re-run on an existing database) ----------
 ALTER TABLE sessions ADD COLUMN IF NOT EXISTS customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE;
 ALTER TABLE sessions ALTER COLUMN staff_id DROP NOT NULL;

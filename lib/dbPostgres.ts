@@ -178,6 +178,19 @@ const TABLES: Record<CollectionName, TableDef> = {
       { k: "updatedAt", col: "updated_at", t: "ts" },
     ],
   },
+  vehiclePositions: {
+    t: "vehicle_positions",
+    fields: [
+      { k: "vehicleId", col: "vehicle_id", t: "int" },
+      { k: "latitude", col: "latitude", t: "text" },
+      { k: "longitude", col: "longitude", t: "text" },
+      { k: "speedKph", col: "speed_kph", t: "int" },
+      { k: "fuelLevelPct", col: "fuel_level_pct", t: "int" },
+      { k: "ignition", col: "ignition", t: "bool" },
+      { k: "recordedAt", col: "recorded_at", t: "ts" },
+      { k: "createdAt", col: "created_at", t: "ts" },
+    ],
+  },
   pageViews: {
     t: "page_views",
     fields: [
@@ -218,6 +231,7 @@ const SELECT_COLS: Record<CollectionName, string> = {
   followUps: `id::int AS "id", lead_id::int AS "leadId", salesperson_id::int AS "salespersonId", follow_up_type AS "followUpType", ${tsSql("due_date")} AS "dueDate", status, notes, ${tsSql("completed_at")} AS "completedAt", ${tsSql("created_at")} AS "createdAt", ${tsSql("updated_at")} AS "updatedAt"`,
   customers: `id::int AS "id", lead_id::int AS "leadId", contact_name AS "contactName", company, phone, email, password_hash AS "passwordHash", active, vehicle_count::int AS "vehicleCount", status, ${tsSql("created_at")} AS "createdAt", ${tsSql("updated_at")} AS "updatedAt"`,
   vehicles: `id::int AS "id", customer_id::int AS "customerId", name, plate, vehicle_type AS "vehicleType", status, last_location AS "lastLocation", latitude, longitude, speed_kph::int AS "speedKph", fuel_level_pct::int AS "fuelLevelPct", ignition, ${tsSql("last_update")} AS "lastUpdate", ${tsSql("created_at")} AS "createdAt", ${tsSql("updated_at")} AS "updatedAt"`,
+  vehiclePositions: `id::int AS "id", vehicle_id::int AS "vehicleId", latitude, longitude, speed_kph::int AS "speedKph", fuel_level_pct::int AS "fuelLevelPct", ignition, ${tsSql("recorded_at")} AS "recordedAt", ${tsSql("created_at")} AS "createdAt"`,
   pageViews: `id::int AS "id", path, ${tsSql("created_at")} AS "createdAt"`,
   events: `id::int AS "id", event_type AS "eventType", lead_id::int AS "leadId", meta, ${tsSql("created_at")} AS "createdAt"`,
   sessions: `id::int AS "id", token_hash AS "tokenHash", staff_id::int AS "staffId", customer_id::int AS "customerId", ${tsSql("expires_at")} AS "expiresAt", ${tsSql("created_at")} AS "createdAt"`,
@@ -296,6 +310,7 @@ async function readAllCollections(): Promise<Omit<DbShape, "settings">> {
     "followUps",
     "customers",
     "vehicles",
+    "vehiclePositions",
     "pageViews",
     "events",
     "sessions",
