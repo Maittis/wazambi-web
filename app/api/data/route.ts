@@ -13,6 +13,7 @@ const readable: Record<string, string[]> = {
   contactMessages: ["owner", "admin", "sales_manager", "salesperson"],
   followUps: ["owner", "admin", "sales_manager", "salesperson"],
   customers: ["owner", "admin", "sales_manager", "salesperson"],
+  vehicles: ["owner", "admin", "sales_manager", "salesperson"],
   staff: ["owner", "admin"],
   pageViews: ["owner", "admin"],
   events: ["owner", "admin", "sales_manager"],

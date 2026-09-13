@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { Vehicle } from "@/lib/db";
 
 function FuelBar({ pct }: { pct: number }) {
@@ -80,6 +81,12 @@ export default function PortalDashboard() {
             <span className="rounded-[100px] border border-white/30 px-4 py-1.5 text-[13px] font-medium">
               {vehicles.length} vehicle{vehicles.length === 1 ? "" : "s"}
             </span>
+            <Link
+              href="/portal/account"
+              className="hidden rounded-[100px] border-2 border-white/40 px-4 py-1.5 text-[13px] font-semibold transition-colors hover:bg-white hover:text-navy sm:inline-block"
+            >
+              Account
+            </Link>
             <button
               type="button"
               onClick={logout}

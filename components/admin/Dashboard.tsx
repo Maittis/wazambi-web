@@ -105,7 +105,7 @@ export default function Dashboard() {
       registrations: ["registrations", "leads"],
       quotations: ["quotationRequests", "leads", "staff"],
       contacts: ["contactMessages", "leads"],
-      customers: ["customers", "leads"],
+      customers: ["customers", "leads", "vehicles"],
       followups: ["followUps", "leads", "staff"],
       salespeople: ["staff"],
       emails: ["emailDeliveries", "leads"],
@@ -644,45 +644,257 @@ function Contacts({ data }: { data: any }) {
 }
 
 function Customers({ data }: { data: any }) {
-  const customers: any[] = data.customers ?? [];
-  const leads: any[] = data.leads ?? [];
+  const [customers, setCustomers] = useState<any[]>(data.customers ?? []);
+  const [leads] = useState<any[]>(data.leads ?? []);
+  const [vehicles, setVehicles] = useState<any[]>(data.vehicles ?? []);
+  const [showNew, setShowNew] = useState(false);
+  const [manageId, setManageId] = useState<number | null>(null);
+  const [showResetId, setShowResetId] = useState<number | null>(null);
+  const [notice, setNotice] = useState<string>("");
+  const [err, setErr] = useState<string>("");
+
   const won = leads.filter((l) => l.status === "sold");
+
+  const refetch = async () => {
+    const [c, v] = await Promise.all([
+      fetch("/api/data?resource=customers").then((r) => r.json()),
+      fetch("/api/data?resource=vehicles").then((r) => r.json()),
+    ]);
+    if (c.ok) setCustomers(c.data);
+    if (v.ok) setVehicles(v.data);
+  };
+
+  const call = async (payload: any) => {
+    setErr("");
+    setNotice("");
+    const res = await fetch("/api/customer/account", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const d = await res.json();
+    if (!res.ok) throw new Error(d.error || "Request failed");
+    await refetch();
+    return d;
+  };
+
+  const run = async (label: string, payload: any) => {
+    try {
+      const d = await call(payload);
+      setNotice(label + (d.tempPassword ? ` — temporary password: ${d.tempPassword} (share it once)` : ""));
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Request failed");
+    }
+  };
+
+  const managed = customers.find((c) => c.id === manageId) ?? null;
+  const managedVehicles = vehicles.filter((v) => v.customerId === manageId);
+
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-navy/10 bg-white p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-navy/10 bg-white p-4">
         <p className="text-[12px] text-ink/60">
-          <strong className="text-navy">{won.length}</strong> leads marked as customers (status "sold").
-          Customer records appear here once created from won leads.
+          <strong className="text-navy">{won.length}</strong> won leads ·{" "}
+          <strong className="text-navy">{customers.length}</strong> customer records. Give a customer{" "}
+          <strong className="text-navy">portal access</strong> so they can log in at{" "}
+          <a className="text-electric-blue" href="/portal" target="_blank" rel="noopener noreferrer">/portal</a>.
         </p>
+        <PrimaryBtn onClick={() => setShowNew(true)}>New customer</PrimaryBtn>
       </div>
+
+      {notice && (
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-[13px] text-emerald-800">{notice}</div>
+      )}
+      {err && <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-800">{err}</div>}
+
       <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
-        <table className="w-full min-w-[700px]">
+        <table className="w-full min-w-[800px]">
           <thead className="bg-paper">
             <tr>
               <Th>Contact</Th>
               <Th>Company</Th>
-              <Th>Phone</Th>
+              <Th>Email</Th>
+              <Th>Portal</Th>
               <Th>Vehicles</Th>
               <Th>Status</Th>
-              <Th>Created</Th>
+              <Th>Actions</Th>
             </tr>
           </thead>
           <tbody>
-            {customers.map((c) => (
-              <tr key={c.id} className="border-t border-navy/5">
-                <Td className="font-semibold text-ink/90">{c.contactName}</Td>
-                <Td>{c.company ?? "—"}</Td>
-                <Td>{c.phone ?? "—"}</Td>
-                <Td>{c.vehicleCount ?? "—"}</Td>
-                <Td><Badge status={c.status} /></Td>
-                <Td className="whitespace-nowrap">{c.createdAt?.slice(0, 10)}</Td>
-              </tr>
-            ))}
-            {customers.length === 0 && <tr><Td colSpan={6} className="text-center text-ink/40">No customer records yet</Td></tr>}
+            {customers.map((c) => {
+              const portal = c.active && c.email && c.passwordHash ? "active" : c.active ? "no-access" : "disabled";
+              return (
+                <tr key={c.id} className="border-t border-navy/5">
+                  <Td className="font-semibold text-ink/90">{c.contactName}</Td>
+                  <Td>{c.company ?? "—"}</Td>
+                  <Td>{c.email ?? "—"}</Td>
+                  <Td>
+                    {portal === "active" ? (
+                      <span className="inline-block rounded-full bg-green-200 px-2.5 py-0.5 text-[11px] font-semibold text-green-900">Portal active</span>
+                    ) : portal === "disabled" ? (
+                      <span className="inline-block rounded-full bg-red-200 px-2.5 py-0.5 text-[11px] font-semibold text-red-800">Disabled</span>
+                    ) : (
+                      <span className="inline-block rounded-full bg-amber-200 px-2.5 py-0.5 text-[11px] font-semibold text-amber-900">No access</span>
+                    )}
+                    {portal === "no-access" && (
+                      <span className="block text-[11px] text-ink/50">no password set</span>
+                    )}
+                  </Td>
+                  <Td>{c.vehicleCount ?? vehicles.filter((v: any) => v.customerId === c.id).length}</Td>
+                  <Td><Badge status={c.status} /></Td>
+                  <Td>
+                    <GhostBtn onClick={() => setManageId(c.id)}>Manage</GhostBtn>
+                  </Td>
+                </tr>
+              );
+            })}
+            {customers.length === 0 && (
+              <tr><Td colSpan={7} className="text-center text-ink/40">No customer records yet</Td></tr>
+            )}
           </tbody>
         </table>
       </div>
+
+      {managed && (
+        <Modal title={`${managed.contactName} — portal access`} onClose={() => setManageId(null)}>
+          <div className="space-y-5">
+            <div>
+              <p className="text-[13px] font-medium text-ink/75">Enable or reset access</p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <PrimaryBtn
+                  onClick={() => run("Access enabled", { action: "enable", customerId: managed.id, email: managed.email ?? `${managed.contactName.split(" ")[0].toLowerCase()}@wazambigps.com`, password: "", vehicles: [] })}
+                >
+                  Enable access
+                </PrimaryBtn>
+                <GhostBtn onClick={() => setShowResetId(managed.id)}>Reset password</GhostBtn>
+              </div>
+              <div className="mt-2">
+                <PrimaryBtn
+                  onClick={() => run("Access disabled", { action: "disable", customerId: managed.id })}
+                  className="border border-red-200 bg-red-50 !text-red-700 hover:!bg-red-100 hover:!text-red-800"
+                >
+                  Disable access
+                </PrimaryBtn>
+              </div>
+              <p className="mt-2 text-[11px] text-ink/50">
+                Enabling generates a temporary password (shown above) and signs the customer out everywhere.
+                {!managed.email && " This customer has no email on file yet — add one in your account flow or set it during enable."}
+              </p>
+            </div>
+
+            <div className="border-t border-navy/10 pt-4">
+              <p className="text-[13px] font-medium text-ink/75">Vehicles ({managedVehicles.length})</p>
+              {managedVehicles.length === 0 ? (
+                <p className="mt-1 text-[12px] text-ink/50">No vehicles linked yet.</p>
+              ) : (
+                <ul className="mt-2 space-y-1.5">
+                  {managedVehicles.map((v) => (
+                    <li key={v.id} className="flex items-center justify-between gap-3 rounded-lg bg-paper px-3 py-2 text-[13px]">
+                      <span>
+                        <strong className="text-navy">{v.name}</strong>
+                        {v.plate && <span className="ml-2 text-electric-blue">{v.plate}</span>}
+                        {v.vehicleType && <span className="ml-2 text-ink/50">{v.vehicleType}</span>}
+                      </span>
+                      <button
+                        className="text-[12px] font-medium text-red-600 hover:underline"
+                        onClick={() => run("Vehicle removed", { action: "removeVehicle", vehicleId: v.id })}
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <AddVehicleForm onAdd={(vehicle) => run("Vehicle added", { action: "addVehicle", customerId: managed.id, ...vehicle })} />
+            </div>
+          </div>
+        </Modal>
+      )}
+      {showResetId != null && managed && (
+        <ResetPasswordModal customerId={managed.id} onClose={() => setShowResetId(null)} onReset={(password) => run("Password reset", { action: "setPassword", customerId: managed.id, password })} />
+      )}
+      {showNew && <NewCustomerModal onClose={() => setShowNew(false)} onCreate={(payload) => run("Customer created", payload)} />}
     </div>
+  );
+}
+
+function AddVehicleForm({ onAdd }: { onAdd: (v: { name: string; plate?: string; vehicleType?: string }) => void }) {
+  const [name, setName] = useState("");
+  const [plate, setPlate] = useState("");
+  const [type, setType] = useState("");
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    onAdd({ name: name.trim(), plate: plate.trim() || undefined, vehicleType: type.trim() || undefined });
+    setName("");
+    setPlate("");
+    setType("");
+  };
+  return (
+    <form onSubmit={submit} className="mt-3 grid gap-2 rounded-xl border border-navy/10 p-3 sm:grid-cols-[1fr_1fr_1fr_auto]">
+      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Vehicle name (e.g. Scania Truck 01)" className="rounded-lg border border-navy/15 px-3 py-2 text-[13px] outline-none focus:border-electric-blue" required />
+      <input value={plate} onChange={(e) => setPlate(e.target.value)} placeholder="Plate (optional)" className="rounded-lg border border-navy/15 px-3 py-2 text-[13px] outline-none focus:border-electric-blue" />
+      <input value={type} onChange={(e) => setType(e.target.value)} placeholder="Type (optional)" className="rounded-lg border border-navy/15 px-3 py-2 text-[13px] outline-none focus:border-electric-blue" />
+      <PrimaryBtn type="submit">Add</PrimaryBtn>
+    </form>
+  );
+}
+
+function ResetPasswordModal({ customerId, onClose, onReset }: { customerId: number; onClose: () => void; onReset: (password: string) => void }) {
+  const [password, setPassword] = useState("");
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password.length < 8) return;
+    onReset(password);
+    onClose();
+  };
+  return (
+    <Modal title="Reset customer password" onClose={onClose}>
+      <form onSubmit={submit} className="space-y-4">
+        <label className="block text-[13px] font-medium text-ink/75">
+          New password (min 8 characters)
+          <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1.5 block w-full rounded-lg border border-navy/15 px-4 py-3 text-[14px] outline-none focus:border-electric-blue" required minLength={8} />
+        </label>
+        <PrimaryBtn type="submit" className="w-full">Set password</PrimaryBtn>
+      </form>
+    </Modal>
+  );
+}
+
+function NewCustomerModal({ onClose, onCreate }: { onClose: () => void; onCreate: (p: any) => void }) {
+  const [form, setForm] = useState({ contactName: "", company: "", phone: "", email: "" });
+  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement>) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.contactName.trim()) return;
+    onCreate({ ...form, vehicles: [] });
+    onClose();
+  };
+  return (
+    <Modal title="New customer" onClose={onClose}>
+      <form onSubmit={submit} className="space-y-4">
+        <label className="block text-[13px] font-medium text-ink/75">
+          Contact name
+          <input value={form.contactName} onChange={set("contactName")} className="mt-1.5 block w-full rounded-lg border border-navy/15 px-4 py-3 text-[14px] outline-none focus:border-electric-blue" required />
+        </label>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="block text-[13px] font-medium text-ink/75">
+            Company
+            <input value={form.company} onChange={set("company")} className="mt-1.5 block w-full rounded-lg border border-navy/15 px-4 py-3 text-[14px] outline-none focus:border-electric-blue" />
+          </label>
+          <label className="block text-[13px] font-medium text-ink/75">
+            Phone
+            <input value={form.phone} onChange={set("phone")} className="mt-1.5 block w-full rounded-lg border border-navy/15 px-4 py-3 text-[14px] outline-none focus:border-electric-blue" />
+          </label>
+        </div>
+        <label className="block text-[13px] font-medium text-ink/75">
+          Email (portal login)
+          <input type="email" value={form.email} onChange={set("email")} className="mt-1.5 block w-full rounded-lg border border-navy/15 px-4 py-3 text-[14px] outline-none focus:border-electric-blue" />
+        </label>
+        <p className="text-[12px] text-ink/50">Password is generated automatically and shown once — share it with the customer.</p>
+        <PrimaryBtn type="submit" className="w-full">Create customer</PrimaryBtn>
+      </form>
+    </Modal>
   );
 }
 
