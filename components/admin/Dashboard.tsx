@@ -30,6 +30,23 @@ const navItems = [
   { key: "settings", label: "Settings", icon: "⚙" },
 ];
 
+const roleNav: Record<string, string[]> = {
+  dashboard: ["owner", "admin", "sales_manager", "salesperson", "content_manager"],
+  leads: ["owner", "admin", "sales_manager", "salesperson"],
+  fleet: ["owner", "admin", "sales_manager", "salesperson"],
+  fuel: ["owner", "admin", "sales_manager", "salesperson"],
+  registrations: ["owner", "admin", "sales_manager", "salesperson"],
+  quotations: ["owner", "admin", "sales_manager", "salesperson"],
+  contacts: ["owner", "admin", "sales_manager", "salesperson"],
+  customers: ["owner", "admin", "sales_manager", "salesperson"],
+  followups: ["owner", "admin", "sales_manager", "salesperson"],
+  salespeople: ["owner", "admin"],
+  emails: ["owner", "admin", "sales_manager", "salesperson"],
+  content: ["owner", "admin", "content_manager"],
+  reports: ["owner", "admin", "sales_manager"],
+  settings: ["owner", "admin"],
+};
+
 const leadStatuses = [
   "new", "contacted", "potential", "serious", "follow_up", "assessment_booked",
   "demonstration_booked", "quotation_requested", "quotation_sent", "deposit_paid",
@@ -126,7 +143,9 @@ export default function Dashboard() {
           </button>
         </div>
         <nav className="overflow-y-auto px-3 py-4" style={{ maxHeight: "calc(100vh - 80px)" }}>
-          {navItems.map((item) => (
+          {navItems
+            .filter((item) => (roleNav[item.key] ?? []).includes(me.role))
+            .map((item) => (
             <button
               key={item.key}
               onClick={() => {
