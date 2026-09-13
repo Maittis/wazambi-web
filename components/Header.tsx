@@ -269,7 +269,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
             Get a Free Assessment
           </Link>
           <div className="flex gap-3">
-            <Link href="/contact" className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
+            <Link href="/customer-admin" onClick={onClose} className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
               Client Login
             </Link>
             <Link href="/agents" className="btn-outline flex-1 border-white/40 text-white hover:bg-white hover:text-navy">
