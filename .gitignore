@@ -3,6 +3,7 @@ node_modules
 out
 build
 next-env.d.ts
+*.tsbuildinfo
 *.log
 .DS_Store
 
