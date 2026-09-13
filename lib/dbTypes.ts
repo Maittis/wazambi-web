@@ -162,6 +162,37 @@ export type VehiclePosition = {
   createdAt: string;
 };
 
+export type Geofence = {
+  id: number;
+  customerId?: number | null;
+  name: string;
+  latitude: string;
+  longitude: string;
+  radiusKm: number;
+  enabled: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GeofenceState = {
+  id: number;
+  geofenceId: number;
+  vehicleId: number;
+  inside: boolean;
+  updatedAt: string;
+};
+
+export type AlertRow = {
+  id: number;
+  vehicleId?: number | null;
+  customerId?: number | null;
+  alertType: "geofence_enter" | "geofence_exit" | "overspeed" | "ignition_on" | "ignition_off" | "low_fuel";
+  message: string;
+  status: "open" | "resolved";
+  createdAt: string;
+  resolvedAt?: string;
+};
+
 export type DbRow = { id: number };
 
 export type SessionRow = DbRow & {
@@ -197,6 +228,9 @@ export type CollectionName =
   | "customers"
   | "vehicles"
   | "vehiclePositions"
+  | "geofences"
+  | "geofenceStates"
+  | "alerts"
   | "pageViews"
   | "events"
   | "sessions";
@@ -214,6 +248,9 @@ export type DbShape = {
   customers: Customer[];
   vehicles: Vehicle[];
   vehiclePositions: VehiclePosition[];
+  geofences: Geofence[];
+  geofenceStates: GeofenceState[];
+  alerts: AlertRow[];
   pageViews: Array<{ id: number; path: string; createdAt: string }>;
   events: Array<{ id: number; eventType: string; leadId?: number; meta: Record<string, unknown>; createdAt: string }>;
   sessions: Array<{ tokenHash: string; staffId?: number | null; customerId?: number | null; expiresAt: string; createdAt: string }>;

@@ -3,6 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 
+function esc(s: string): string {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 export type MapPoint = {
   id: number;
   lat: number;
@@ -28,22 +36,34 @@ function pinHtml(color: string): string {
   return `<div style="width:16px;height:16px;border-radius:50%;border:2.5px solid #fff;background:${color};box-shadow:0 1px 4px rgba(0,0,0,.45)"></div>`;
 }
 
+export type GeoCircle = {
+  id: number;
+  name: string;
+  lat: number;
+  lng: number;
+  radiusKm: number;
+  enabled?: boolean;
+};
+
 export default function VehicleMap({
   points,
   track,
   center,
   zoom = 13,
+  geofences,
 }: {
   points: MapPoint[];
   track?: Array<{ lat: number; lng: number }>;
   center?: { lat: number; lng: number };
   zoom?: number;
+  geofences?: GeoCircle[];
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<any>(null);
   const libRef = useRef<any>(null);
   const markersRef = useRef<any>(null);
   const trackRef = useRef<any>(null);
+  const geofencesRef = useRef<any>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -64,6 +84,7 @@ export default function VehicleMap({
         .addTo(map);
       markersRef.current = lib.layerGroup().addTo(map);
       trackRef.current = lib.layerGroup().addTo(map);
+      geofencesRef.current = lib.layerGroup().addTo(map);
       mapRef.current = map;
       setReady(true);
     });
@@ -75,6 +96,7 @@ export default function VehicleMap({
         libRef.current = null;
         markersRef.current = null;
         trackRef.current = null;
+        geofencesRef.current = null;
         setReady(false);
       }
     };
@@ -119,6 +141,24 @@ export default function VehicleMap({
       }
     }
 
+    if (geofencesRef.current) {
+      geofencesRef.current.clearLayers();
+      for (const g of geofences ?? []) {
+        if (!Number.isFinite(g.lat) || !Number.isFinite(g.lng) || !Number.isFinite(g.radiusKm)) continue;
+        const circle = lib
+          .circle([g.lat, g.lng], {
+            radius: g.radiusKm * 1000,
+            color: g.enabled === false ? "#94a3b8" : "#ea580c",
+            weight: 1.5,
+            fillColor: g.enabled === false ? "#cbd5e1" : "#fdba74",
+            fillOpacity: 0.15,
+            dashArray: g.enabled !== false ? "6 4" : undefined,
+          })
+          .addTo(geofencesRef.current);
+        circle.bindPopup(`<strong>${esc(g.name)}</strong><br/><span style="color:#6b7280">radius ${g.radiusKm} km${g.enabled === false ? " (disabled)" : ""}</span>`);
+      }
+    }
+
     const bounds = lib.latLngBounds([]);
     points
       .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng))
@@ -126,8 +166,11 @@ export default function VehicleMap({
     (track ?? [])
       .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng))
       .forEach((p) => bounds.extend([p.lat, p.lng]));
+    (geofences ?? [])
+      .filter((g) => Number.isFinite(g.lat) && Number.isFinite(g.lng))
+      .forEach((g) => bounds.extend([g.lat, g.lng]));
     if (bounds.isValid()) map.fitBounds(bounds, { padding: [30, 30] });
-  }, [points, track, ready]);
+  }, [points, track, geofences, ready]);
 
   return <div ref={containerRef} className="h-full w-full" style={{ minHeight: 320 }} />;
 }

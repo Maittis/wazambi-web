@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { insert, nowIso, readTable, update } from "@/lib/db";
 import type { Vehicle, VehiclePosition } from "@/lib/db";
+import { detectAlerts } from "@/lib/tracking";
 
 function asNum(v: unknown): number | undefined {
   if (v === undefined || v === null || v === "") return undefined;
@@ -74,6 +75,8 @@ export async function POST(req: NextRequest) {
       recordedAt,
       createdAt: nowIso(),
     });
+
+    await detectAlerts({ vehicle, lat, lng, speed, fuel, ignition });
 
     return NextResponse.json({ ok: true, vehicleId: vehicle.id, status });
   } catch (err) {

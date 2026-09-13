@@ -195,6 +195,41 @@ CREATE TABLE IF NOT EXISTS vehicle_positions (
 );
 CREATE INDEX IF NOT EXISTS idx_vehicle_positions_vehicle ON vehicle_positions(vehicle_id, recorded_at);
 
+CREATE TABLE IF NOT EXISTS geofences (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  customer_id BIGINT REFERENCES customers(id) ON DELETE SET NULL,
+  name TEXT NOT NULL,
+  latitude TEXT NOT NULL,
+  longitude TEXT NOT NULL,
+  radius_km DOUBLE PRECISION NOT NULL DEFAULT 1,
+  enabled BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS geofence_states (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  geofence_id BIGINT NOT NULL REFERENCES geofences(id) ON DELETE CASCADE,
+  vehicle_id BIGINT NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
+  inside BOOLEAN NOT NULL DEFAULT FALSE,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (geofence_id, vehicle_id)
+);
+
+CREATE TABLE IF NOT EXISTS alerts (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  vehicle_id BIGINT REFERENCES vehicles(id) ON DELETE SET NULL,
+  customer_id BIGINT REFERENCES customers(id) ON DELETE SET NULL,
+  alert_type TEXT NOT NULL
+    CHECK (alert_type IN ('geofence_enter','geofence_exit','overspeed','ignition_on','ignition_off','low_fuel')),
+  message TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open','resolved')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  resolved_at TIMESTAMPTZ
+);
+CREATE INDEX IF NOT EXISTS idx_alerts_status ON alerts(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_alerts_vehicle ON alerts(vehicle_id);
+
 -- ---------- UPGRADES (idempotent — safe to re-run on an existing database) ----------
 ALTER TABLE sessions ADD COLUMN IF NOT EXISTS customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE;
 ALTER TABLE sessions ALTER COLUMN staff_id DROP NOT NULL;

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Badge, Modal, Select, StatCard, Td, Th, PrimaryBtn, GhostBtn } from "@/components/admin/ui";
 import Tracking from "@/components/admin/Tracking";
+import Alerts from "@/components/admin/Alerts";
 
 type Staff = {
   id: number;
@@ -24,6 +25,7 @@ const navItems = [
   { key: "contacts", label: "Contact Messages", icon: "✉" },
   { key: "customers", label: "Customers", icon: "★" },
   { key: "tracking", label: "Live Tracking", icon: "◎" },
+  { key: "alerts", label: "Alerts", icon: "!" },
   { key: "followups", label: "Follow-ups", icon: "→" },
   { key: "salespeople", label: "Salespeople", icon: "●" },
   { key: "emails", label: "Email Delivery", icon: "✉" },
@@ -42,6 +44,7 @@ const roleNav: Record<string, string[]> = {
   contacts: ["owner", "admin", "sales_manager", "salesperson"],
   customers: ["owner", "admin", "sales_manager", "salesperson"],
   tracking: ["owner", "admin", "sales_manager", "salesperson"],
+  alerts: ["owner", "admin", "sales_manager", "salesperson"],
   followups: ["owner", "admin", "sales_manager", "salesperson"],
   salespeople: ["owner", "admin"],
   emails: ["owner", "admin", "sales_manager", "salesperson"],
@@ -110,6 +113,7 @@ export default function Dashboard() {
       contacts: ["contactMessages", "leads"],
       customers: ["customers", "leads", "vehicles"],
       tracking: ["vehicles", "customers", "vehiclePositions"],
+      alerts: ["alerts", "vehicles", "customers"],
       followups: ["followUps", "leads", "staff"],
       salespeople: ["staff"],
       emails: ["emailDeliveries", "leads"],
@@ -206,6 +210,7 @@ export default function Dashboard() {
           {section === "contacts" && <Contacts data={data} />}
           {section === "customers" && <Customers data={data} />}
           {section === "tracking" && <Tracking data={data} />}
+          {section === "alerts" && <Alerts data={data} />}
           {section === "followups" && <FollowUps data={data} />}
           {section === "salespeople" && <Salespeople data={data} />}
           {section === "emails" && <Emails data={data} />}

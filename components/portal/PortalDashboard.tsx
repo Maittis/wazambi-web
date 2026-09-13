@@ -28,6 +28,26 @@ export default function PortalDashboard() {
   const [loaded, setLoaded] = useState(false);
   const [mapVehicle, setMapVehicle] = useState<Vehicle | null>(null);
   const [track, setTrack] = useState<Array<{ lat: number; lng: number; speedKph?: number }>>([]);
+  const [alerts, setAlerts] = useState<Array<{ id: number; alertType: string; message: string; status: string; createdAt: string }>>([]);
+
+  useEffect(() => {
+    if (!loaded) return;
+    let cancelled = false;
+    const load = () =>
+      fetch("/api/customer/alerts")
+        .then((r) => r.json())
+        .then((d) => {
+          if (cancelled || !d.ok) return;
+          setAlerts(d.data ?? []);
+        })
+        .catch(() => undefined);
+    load();
+    const timer = setInterval(load, 15000);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, [loaded]);
 
   useEffect(() => {
     let cancelled = false;
@@ -93,6 +113,16 @@ export default function PortalDashboard() {
     window.location.assign("/");
   };
 
+  const openAlerts = alerts.filter((a) => a.status === "open");
+  const alertChip: Record<string, string> = {
+    overspeed: "bg-red-100 text-red-700",
+    geofence_exit: "bg-amber-100 text-amber-800",
+    geofence_enter: "bg-blue-100 text-blue-800",
+    low_fuel: "bg-amber-100 text-amber-800",
+    ignition_on: "bg-emerald-100 text-emerald-700",
+    ignition_off: "bg-navy/10 text-ink/70",
+  };
+
   if (!me) {
     return <div className="min-h-screen bg-[#F5F7FA]" />;
   }
@@ -109,6 +139,14 @@ export default function PortalDashboard() {
             <span className="rounded-[100px] border border-white/30 px-4 py-1.5 text-[13px] font-medium">
               {vehicles.length} vehicle{vehicles.length === 1 ? "" : "s"}
             </span>
+            {openAlerts.length > 0 && (
+              <Link
+                href="#alerts"
+                className="relative rounded-[100px] border border-red-400/60 bg-red-500/20 px-4 py-1.5 text-[13px] font-semibold text-red-100"
+              >
+                {openAlerts.length} alert{openAlerts.length === 1 ? "" : "s"}
+              </Link>
+            )}
             <Link
               href="/portal/account"
               className="hidden rounded-[100px] border-2 border-white/40 px-4 py-1.5 text-[13px] font-semibold transition-colors hover:bg-white hover:text-navy sm:inline-block"
@@ -221,6 +259,39 @@ export default function PortalDashboard() {
             ))}
           </div>
         )}
+
+        <section id="alerts" className="mt-10">
+          <h2 className="text-[20px] font-bold text-navy">Alerts</h2>
+          <p className="mt-1 text-[14px] font-light text-ink/60">
+            Automatic alerts for your vehicles — overspeeding, low fuel, ignition changes and geofence crossings.
+          </p>
+          {alerts.length === 0 ? (
+            <div className="mt-4 rounded-2xl bg-white p-8 text-center text-[13px] font-light text-ink/60">
+              No alerts yet. Your vehicles are running clean.
+            </div>
+          ) : (
+            <ul className="mt-4 space-y-2">
+              {alerts.slice(0, 25).map((a) => (
+                <li
+                  key={a.id}
+                  className={`flex items-start justify-between gap-3 rounded-2xl bg-white p-4 shadow-sm ${a.status === "resolved" ? "opacity-60" : ""}`}
+                >
+                  <div>
+                    <p className="text-[14px] font-medium text-navy">{a.message}</p>
+                    <p className="mt-0.5 text-[12px] font-light text-ink/50">
+                      {new Date(a.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                  <span
+                    className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-semibold capitalize ${alertChip[a.alertType] ?? "bg-navy/10 text-ink/70"}`}
+                  >
+                    {a.alertType.replace(/_/g, " ")}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </main>
 
       {mapVehicle && (
