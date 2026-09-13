@@ -230,6 +230,15 @@ CREATE TABLE IF NOT EXISTS alerts (
 CREATE INDEX IF NOT EXISTS idx_alerts_status ON alerts(status, created_at);
 CREATE INDEX IF NOT EXISTS idx_alerts_vehicle ON alerts(vehicle_id);
 
+CREATE TABLE IF NOT EXISTS password_resets (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  email TEXT NOT NULL,
+  token_hash TEXT NOT NULL,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_password_resets_token ON password_resets(token_hash);
+
 -- ---------- UPGRADES (idempotent — safe to re-run on an existing database) ----------
 ALTER TABLE sessions ADD COLUMN IF NOT EXISTS customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE;
 ALTER TABLE sessions ALTER COLUMN staff_id DROP NOT NULL;

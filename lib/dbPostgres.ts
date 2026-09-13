@@ -3,7 +3,7 @@ import type { CollectionName, DbRow, DbShape, SessionRow } from "./dbTypes";
 import { emptyShape } from "./seed";
 
 type FieldDef = { k: string; col: string; t: FieldType };
-type FieldType = "text" | "int" | "bool" | "ts" | "jsonb";
+type FieldType = "text" | "int" | "float8" | "bool" | "ts" | "jsonb";
 
 type TableDef = { t: string; fields: FieldDef[] };
 
@@ -225,6 +225,15 @@ const TABLES: Record<CollectionName, TableDef> = {
       { k: "resolvedAt", col: "resolved_at", t: "ts" },
     ],
   },
+  passwordResets: {
+    t: "password_resets",
+    fields: [
+      { k: "email", col: "email", t: "text" },
+      { k: "tokenHash", col: "token_hash", t: "text" },
+      { k: "expiresAt", col: "expires_at", t: "ts" },
+      { k: "createdAt", col: "created_at", t: "ts" },
+    ],
+  },
   pageViews: {
     t: "page_views",
     fields: [
@@ -269,6 +278,7 @@ const SELECT_COLS: Record<CollectionName, string> = {
   geofences: `id::int AS "id", customer_id::int AS "customerId", name, latitude, longitude, radius_km::float8 AS "radiusKm", enabled, ${tsSql("created_at")} AS "createdAt", ${tsSql("updated_at")} AS "updatedAt"`,
   geofenceStates: `id::int AS "id", geofence_id::int AS "geofenceId", vehicle_id::int AS "vehicleId", inside, ${tsSql("updated_at")} AS "updatedAt"`,
   alerts: `id::int AS "id", vehicle_id::int AS "vehicleId", customer_id::int AS "customerId", alert_type AS "alertType", message, status, ${tsSql("created_at")} AS "createdAt", ${tsSql("resolved_at")} AS "resolvedAt"`,
+  passwordResets: `id::int AS "id", email, token_hash AS "tokenHash", ${tsSql("expires_at")} AS "expiresAt", ${tsSql("created_at")} AS "createdAt"`,
   pageViews: `id::int AS "id", path, ${tsSql("created_at")} AS "createdAt"`,
   events: `id::int AS "id", event_type AS "eventType", lead_id::int AS "leadId", meta, ${tsSql("created_at")} AS "createdAt"`,
   sessions: `id::int AS "id", token_hash AS "tokenHash", staff_id::int AS "staffId", customer_id::int AS "customerId", ${tsSql("expires_at")} AS "expiresAt", ${tsSql("created_at")} AS "createdAt"`,
@@ -351,6 +361,7 @@ async function readAllCollections(): Promise<Omit<DbShape, "settings">> {
     "geofences",
     "geofenceStates",
     "alerts",
+    "passwordResets",
     "pageViews",
     "events",
     "sessions",

@@ -19,6 +19,7 @@ export function emptyShape(): Omit<DbShape, "settings"> & { settings: Record<str
     geofences: [],
     geofenceStates: [],
     alerts: [],
+    passwordResets: [],
     pageViews: [],
     events: [],
     sessions: [],

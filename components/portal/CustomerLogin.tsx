@@ -68,6 +68,10 @@ export default function CustomerLogin({ onSuccess }: Props) {
           <button type="submit" disabled={loading} className="btn-primary w-full disabled:opacity-60">
             {loading ? "Signing in..." : "Sign In"}
           </button>
+          <p className="flex items-center justify-between text-[12px] font-light text-ink/50">
+            <span>Forgot your password?</span>
+            <a href="/portal/forgot" className="font-semibold text-electric-blue">Reset it</a>
+          </p>
         </form>
         <p className="mt-6 text-center text-[12px] font-light text-ink/50">
           Logged in as a customer? Ask Wazambi for your login details.

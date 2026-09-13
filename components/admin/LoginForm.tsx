@@ -67,6 +67,10 @@ export default function LoginForm() {
           <button type="submit" disabled={loading} className="btn-primary w-full disabled:opacity-60">
             {loading ? "Signing in..." : "Sign In"}
           </button>
+          <p className="text-center text-[12px] font-light text-ink/50">
+            Forgot your staff password?{" "}
+            <a href="/portal/forgot" className="font-semibold text-electric-blue">Reset it</a>
+          </p>
         </form>
         <p className="mt-6 text-center text-[12px] font-light text-ink/50">
           Demo staff accounts: owner@wazambigps.com / sales@wazambigps.com / content@wazambigps.com

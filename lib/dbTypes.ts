@@ -195,6 +195,13 @@ export type AlertRow = {
 
 export type DbRow = { id: number };
 
+export type PasswordReset = DbRow & {
+  email: string;
+  tokenHash: string;
+  expiresAt: string;
+  createdAt: string;
+};
+
 export type SessionRow = DbRow & {
   tokenHash: string;
   staffId?: number | null;
@@ -231,6 +238,7 @@ export type CollectionName =
   | "geofences"
   | "geofenceStates"
   | "alerts"
+  | "passwordResets"
   | "pageViews"
   | "events"
   | "sessions";
@@ -251,6 +259,7 @@ export type DbShape = {
   geofences: Geofence[];
   geofenceStates: GeofenceState[];
   alerts: AlertRow[];
+  passwordResets: PasswordReset[];
   pageViews: Array<{ id: number; path: string; createdAt: string }>;
   events: Array<{ id: number; eventType: string; leadId?: number; meta: Record<string, unknown>; createdAt: string }>;
   sessions: Array<{ tokenHash: string; staffId?: number | null; customerId?: number | null; expiresAt: string; createdAt: string }>;
