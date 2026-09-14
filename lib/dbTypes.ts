@@ -193,6 +193,47 @@ export type AlertRow = {
   resolvedAt?: string;
 };
 
+export type QuotationItem = {
+  description: string;
+  qty: number;
+  unitPrice: number;
+};
+
+export type Quotation = DbRow & {
+  customerId?: number | null;
+  number: string;
+  items: QuotationItem[];
+  total: number;
+  currency: string;
+  status: "draft" | "sent" | "accepted" | "declined" | "converted";
+  validUntil?: string | null;
+  notes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Invoice = DbRow & {
+  quotationId?: number | null;
+  customerId?: number | null;
+  number: string;
+  items: QuotationItem[];
+  total: number;
+  amountPaid: number;
+  status: "draft" | "sent" | "partial" | "paid" | "overdue";
+  dueAt?: string | null;
+  paidAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Deposit = DbRow & {
+  invoiceId: number;
+  amount: number;
+  method: string;
+  reference?: string | null;
+  createdAt: string;
+};
+
 export type DbRow = { id: number };
 
 export type PasswordReset = DbRow & {
@@ -239,6 +280,9 @@ export type CollectionName =
   | "geofenceStates"
   | "alerts"
   | "passwordResets"
+  | "quotations"
+  | "invoices"
+  | "deposits"
   | "pageViews"
   | "events"
   | "sessions";
@@ -260,6 +304,9 @@ export type DbShape = {
   geofenceStates: GeofenceState[];
   alerts: AlertRow[];
   passwordResets: PasswordReset[];
+  quotations: Quotation[];
+  invoices: Invoice[];
+  deposits: Deposit[];
   pageViews: Array<{ id: number; path: string; createdAt: string }>;
   events: Array<{ id: number; eventType: string; leadId?: number; meta: Record<string, unknown>; createdAt: string }>;
   sessions: Array<{ tokenHash: string; staffId?: number | null; customerId?: number | null; expiresAt: string; createdAt: string }>;

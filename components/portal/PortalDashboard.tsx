@@ -153,6 +153,12 @@ export default function PortalDashboard() {
             >
               Account
             </Link>
+            <Link
+              href="/portal/invoices"
+              className="hidden rounded-[100px] border-2 border-white/40 px-4 py-1.5 text-[13px] font-semibold transition-colors hover:bg-white hover:text-navy sm:inline-block"
+            >
+              Invoices
+            </Link>
             <button
               type="button"
               onClick={logout}

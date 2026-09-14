@@ -239,6 +239,45 @@ CREATE TABLE IF NOT EXISTS password_resets (
 );
 CREATE INDEX IF NOT EXISTS idx_password_resets_token ON password_resets(token_hash);
 
+CREATE TABLE IF NOT EXISTS quotations (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  customer_id BIGINT REFERENCES customers(id) ON DELETE SET NULL,
+  number TEXT NOT NULL UNIQUE,
+  items JSONB NOT NULL DEFAULT '[]',
+  total DOUBLE PRECISION NOT NULL DEFAULT 0,
+  currency TEXT NOT NULL DEFAULT 'ZMW',
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','sent','accepted','declined','converted')),
+  valid_until TIMESTAMPTZ,
+  notes TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS invoices (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  quotation_id BIGINT REFERENCES quotations(id) ON DELETE SET NULL,
+  customer_id BIGINT REFERENCES customers(id) ON DELETE SET NULL,
+  number TEXT NOT NULL UNIQUE,
+  items JSONB NOT NULL DEFAULT '[]',
+  total DOUBLE PRECISION NOT NULL DEFAULT 0,
+  amount_paid DOUBLE PRECISION NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','sent','partial','paid','overdue')),
+  due_at TIMESTAMPTZ,
+  paid_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS deposits (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  invoice_id BIGINT NOT NULL REFERENCES invoices(id) ON DELETE CASCADE,
+  amount DOUBLE PRECISION NOT NULL DEFAULT 0,
+  method TEXT NOT NULL DEFAULT 'cash',
+  reference TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_deposits_invoice ON deposits(invoice_id);
+
 -- ---------- UPGRADES (idempotent — safe to re-run on an existing database) ----------
 ALTER TABLE sessions ADD COLUMN IF NOT EXISTS customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE;
 ALTER TABLE sessions ALTER COLUMN staff_id DROP NOT NULL;
