@@ -17,15 +17,17 @@ const fleetSizeOptions = ["1-4", "5-10", "11-20", "21-50", "50+"];
 const solutionOptions = ["GPS Tracking", "Fuel Monitoring", "Fleet Management"];
 const helpOption = "I need help choosing";
 const challengeOptions = [
-  "Vehicle theft",
   "Fuel theft or high fuel costs",
   "Unauthorised vehicle use",
-  "Dangerous driving",
+  "Vehicle theft or security",
   "Managing several vehicles",
+  "Driver behaviour",
   "Vehicle maintenance",
   "Unreliable GPS tracking",
-  "Still exploring",
+  "Cross-border visibility",
+  "Reports and accountability",
 ];
+const exploringOption = "I am still exploring";
 
 export default function AssessmentForm({ assessmentType }: Props) {
   const router = useRouter();
@@ -41,7 +43,8 @@ export default function AssessmentForm({ assessmentType }: Props) {
     fleetSize: "",
     serviceInterests: [] as string[],
     needsHelpChoosing: false,
-    mainChallenge: "",
+    mainChallenges: [] as string[],
+    stillExploring: false,
     notes: "",
     consent: true,
   });
@@ -67,9 +70,31 @@ export default function AssessmentForm({ assessmentType }: Props) {
     }));
   };
 
+  const toggleChallenge = (o: string) => {
+    const has = data.mainChallenges.includes(o);
+    setData((prev) => ({
+      ...prev,
+      mainChallenges: has ? prev.mainChallenges.filter((x) => x !== o) : [...prev.mainChallenges, o],
+      stillExploring: false,
+    }));
+  };
+
+  const toggleExploring = () => {
+    const next = !data.stillExploring;
+    setData((prev) => ({
+      ...prev,
+      stillExploring: next,
+      mainChallenges: next ? [] : prev.mainChallenges,
+    }));
+  };
+
   const goNext = () => {
     if (step === 1 && data.serviceInterests.length === 0 && !data.needsHelpChoosing) {
       setError("Please select at least one solution before continuing.");
+      return;
+    }
+    if (step === 2 && data.mainChallenges.length === 0 && !data.stillExploring) {
+      setError("Please select at least one challenge before continuing.");
       return;
     }
     setError("");
@@ -214,16 +239,67 @@ export default function AssessmentForm({ assessmentType }: Props) {
 
         {step === 2 && (
           <div className="space-y-6">
-            <div>
-              <p className="mb-3 text-[15px] font-bold text-navy">What is your biggest challenge? *</p>
-              <div className="grid grid-cols-2 gap-2">
-                {challengeOptions.map((o) => (
-                  <button key={o} type="button" onClick={() => set("mainChallenge", o)} className={`rounded-lg border px-3 py-3 text-[13px] font-medium transition-colors ${data.mainChallenge === o ? "border-electric-blue bg-electric-blue text-white" : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"}`}>
-                    {o}
-                  </button>
-                ))}
+            <fieldset>
+              <legend className="mb-3 text-[15px] font-bold text-navy">
+                What are your biggest challenges? Select all that apply. *
+              </legend>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {challengeOptions.map((o) => {
+                  const selected = data.mainChallenges.includes(o);
+                  return (
+                    <button
+                      key={o}
+                      type="button"
+                      role="checkbox"
+                      aria-checked={selected}
+                      onClick={() => toggleChallenge(o)}
+                      className={`flex items-center justify-between gap-2 rounded-lg border-2 px-4 py-3 text-left text-[14px] font-medium transition-colors ${
+                        selected
+                          ? "border-gold bg-gold/10 text-navy"
+                          : "border-navy/15 bg-white text-ink/70 hover:border-gold"
+                      }`}
+                    >
+                      <span>{o}</span>
+                      <span
+                        aria-hidden="true"
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                          selected ? "border-gold bg-gold text-navy" : "border-navy/20 bg-white text-transparent"
+                        }`}
+                      >
+                        <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span className="sr-only">{selected ? "Selected" : ""}</span>
+                    </button>
+                  );
+                })}
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={data.stillExploring}
+                  onClick={toggleExploring}
+                  className={`flex items-center justify-between gap-2 rounded-lg border-2 px-4 py-3 text-left text-[14px] font-medium transition-colors sm:col-span-2 ${
+                    data.stillExploring
+                      ? "border-gold bg-gold/10 text-navy"
+                      : "border-navy/15 bg-white text-ink/70 hover:border-gold"
+                  }`}
+                >
+                  <span>{exploringOption}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                      data.stillExploring ? "border-gold bg-gold text-navy" : "border-navy/20 bg-white text-transparent"
+                    }`}
+                  >
+                    <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <span className="sr-only">{data.stillExploring ? "Selected" : ""}</span>
+                </button>
               </div>
-            </div>
+            </fieldset>
             <label className="block text-[14px] font-medium text-ink/75">
               Anything else we should know?
               <textarea rows={3} value={data.notes} onChange={(e) => set("notes", e.target.value)} className="mt-1.5 block w-full rounded-lg border border-navy/15 bg-white px-4 py-3 text-[15px] outline-none focus:border-electric-blue" />

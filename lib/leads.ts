@@ -11,6 +11,8 @@ export type LeadInput = {
   position?: string;
   fleetSize?: string;
   mainChallenge?: string;
+  mainChallenges?: string[];
+  stillExploring?: boolean;
   serviceInterest?: string;
   serviceInterests?: string[];
   needsHelpChoosing?: boolean;
@@ -37,7 +39,9 @@ export async function upsertLead(input: LeadInput): Promise<Lead | undefined> {
       company: input.company ?? lead.company,
       position: input.position ?? lead.position,
       fleetSize: input.fleetSize ?? lead.fleetSize,
-      mainChallenge: input.mainChallenge ?? lead.mainChallenge,
+      mainChallenge: joinedMainChallenge(input) ?? lead.mainChallenge,
+      mainChallenges: input.mainChallenges ?? lead.mainChallenges,
+      stillExploring: input.stillExploring ?? lead.stillExploring,
       serviceInterest: joinedServiceInterest(input) ?? lead.serviceInterest,
       serviceInterests: input.serviceInterests ?? lead.serviceInterests,
       needsHelpChoosing: input.needsHelpChoosing ?? lead.needsHelpChoosing,
@@ -69,7 +73,9 @@ export async function upsertLead(input: LeadInput): Promise<Lead | undefined> {
     company: input.company,
     position: input.position,
     fleetSize: input.fleetSize,
-    mainChallenge: input.mainChallenge,
+    mainChallenge: joinedMainChallenge(input),
+    mainChallenges: input.mainChallenges,
+    stillExploring: input.stillExploring,
     serviceInterest: joinedServiceInterest(input),
     serviceInterests: input.serviceInterests,
     needsHelpChoosing: input.needsHelpChoosing,
@@ -89,6 +95,15 @@ export async function upsertLead(input: LeadInput): Promise<Lead | undefined> {
     createdAt: nowIso(),
     updatedAt: nowIso(),
   });
+}
+
+function joinedMainChallenge(input: LeadInput): string | undefined {
+  if (input.mainChallenge) return input.mainChallenge;
+  if (Array.isArray(input.mainChallenges) && input.mainChallenges.length > 0) {
+    return input.mainChallenges.join(", ");
+  }
+  if (input.stillExploring) return "I am still exploring";
+  return undefined;
 }
 
 function joinedServiceInterest(input: LeadInput): string | undefined {

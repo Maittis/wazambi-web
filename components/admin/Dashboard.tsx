@@ -357,6 +357,32 @@ function ServiceChips({ item }: { item: any }) {
   );
 }
 
+function ChallengeChips({ item }: { item: any }) {
+  const list =
+    Array.isArray(item?.mainChallenges) && item.mainChallenges.length > 0
+      ? item.mainChallenges
+      : item?.mainChallenge
+        ? [item.mainChallenge]
+        : [];
+  if (list.length === 0 && !item?.stillExploring) {
+    return <span>—</span>;
+  }
+  return (
+    <span className="flex flex-wrap gap-1">
+      {list.map((s: string) => (
+        <span key={s} className="rounded-full bg-navy/10 px-2 py-0.5 text-[11px] font-semibold text-navy">
+          {s}
+        </span>
+      ))}
+      {item?.stillExploring && (
+        <span className="rounded-full bg-gold/25 px-2 py-0.5 text-[11px] font-semibold text-navy">
+          I am still exploring
+        </span>
+      )}
+    </span>
+  );
+}
+
 function Leads({ data, me }: { data: any; me: Staff }) {
   const [selected, setSelected] = useState<any>(null);
   const [note, setNote] = useState("");
@@ -384,11 +410,13 @@ function Leads({ data, me }: { data: any; me: Staff }) {
             {selected.phone} {selected.email ? `· ${selected.email}` : ""}
           </p>
           <p className="text-[13px] text-ink/60">
-            {selected.company ?? "No company"} · {selected.fleetSize ?? "?"} vehicles ·{" "}
-            {selected.mainChallenge ?? "No challenge"}
+            {selected.company ?? "No company"} · {selected.fleetSize ?? "?"} vehicles
           </p>
           <div className="mt-2 flex flex-wrap gap-1">
             <ServiceChips item={selected} />
+          </div>
+          <div className="mt-1 flex flex-wrap gap-1">
+            <ChallengeChips item={selected} />
           </div>
           <p className="mt-1 text-[12px] text-ink/50">
             Source: {selected.leadSource ?? "direct"} · Registered: {selected.createdAt?.slice(0, 10)}
@@ -568,7 +596,7 @@ function Assessments({ type, data }: { type: "fleet" | "fuel"; data: any }) {
               <Td className="font-semibold text-ink/90">{nameOf(a.leadId)}</Td>
               <Td className="capitalize">{a.assessmentType}</Td>
               <Td>{a.fleetSize ?? "—"}</Td>
-              <Td>{a.mainChallenge ?? "—"}</Td>
+              <Td><ChallengeChips item={a} /></Td>
               <Td><ServiceChips item={a} /></Td>
               <Td className="whitespace-nowrap">{a.createdAt?.slice(0, 10)}</Td>
             </tr>

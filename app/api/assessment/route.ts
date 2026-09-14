@@ -17,6 +17,8 @@ export async function POST(req: NextRequest) {
       serviceInterests,
       needsHelpChoosing,
       mainChallenge,
+      mainChallenges,
+      stillExploring,
       notes,
       consent,
       assessmentType,
@@ -28,6 +30,8 @@ export async function POST(req: NextRequest) {
 
     const selectedServices = Array.isArray(serviceInterests) ? serviceInterests.filter(Boolean) : [];
     const needsHelp = needsHelpChoosing ?? (!selectedServices.length && (serviceInterest ?? "").trim() === "");
+    const selectedChallenges = Array.isArray(mainChallenges) ? mainChallenges.filter(Boolean) : [];
+    const exploring = stillExploring ?? (!selectedChallenges.length && (mainChallenge ?? "").trim() === "");
 
     const lead = await upsertLead({
       firstName,
@@ -37,7 +41,9 @@ export async function POST(req: NextRequest) {
       phoneCountryCode: "+260",
       company,
       fleetSize,
-      mainChallenge,
+      mainChallenge: typeof mainChallenge === "string" ? mainChallenge : undefined,
+      mainChallenges: selectedChallenges,
+      stillExploring: exploring,
       serviceInterest: typeof serviceInterest === "string" ? serviceInterest : undefined,
       serviceInterests: selectedServices,
       needsHelpChoosing: needsHelp,
@@ -53,7 +59,9 @@ export async function POST(req: NextRequest) {
       leadId: lead.id,
       assessmentType,
       fleetSize,
-      mainChallenge,
+      mainChallenge: typeof mainChallenge === "string" ? mainChallenge : undefined,
+      mainChallenges: selectedChallenges,
+      stillExploring: exploring,
       serviceInterest: typeof serviceInterest === "string" ? serviceInterest : undefined,
       serviceInterests: selectedServices,
       needsHelpChoosing: needsHelp,
@@ -72,7 +80,7 @@ export async function POST(req: NextRequest) {
     await insert<WzEvent>("events", {
       eventType: "assessment_submitted",
       leadId: lead.id,
-      meta: { assessmentType, serviceInterest, serviceInterests: selectedServices, needsHelpChoosing: needsHelp, fleetSize },
+      meta: { assessmentType, serviceInterest, serviceInterests: selectedServices, needsHelpChoosing: needsHelp, mainChallenge, mainChallenges: selectedChallenges, stillExploring: exploring, fleetSize },
       createdAt: nowIso(),
     });
 

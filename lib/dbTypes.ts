@@ -20,6 +20,8 @@ export type Lead = {
   position?: string;
   fleetSize?: string;
   mainChallenge?: string;
+  mainChallenges?: string[];
+  stillExploring?: boolean;
   serviceInterest?: string;
   serviceInterests?: string[];
   needsHelpChoosing?: boolean;
@@ -57,6 +59,8 @@ export type Assessment = {
   assessmentType: "fleet" | "fuel";
   fleetSize?: string;
   mainChallenge?: string;
+  mainChallenges?: string[];
+  stillExploring?: boolean;
   serviceInterest?: string;
   serviceInterests?: string[];
   needsHelpChoosing?: boolean;
