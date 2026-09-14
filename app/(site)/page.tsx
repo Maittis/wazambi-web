@@ -42,35 +42,69 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="bg-white">
-      <div className="grid items-stretch lg:grid-cols-2">
-        <div className="flex items-center">
-          <div className="mx-auto w-full max-w-[1170px] px-6 py-12 md:px-8 md:py-16 lg:py-24 lg:pr-10 xl:pr-14">
-            <Reveal>
-              <p className="eyebrow text-[12px] md:text-[13px]">{hero.eyebrow}</p>
-              <h1 className="mt-4 headline text-[34px] leading-[1.05] sm:text-[44px] md:text-[52px] lg:text-[58px] xl:text-[66px]">
+    <section className="bg-paper">
+      <div className="w-full pl-0 pr-0 md:flex md:flex-row md:items-end md:justify-between">
+        <div className="hidden w-full md:block md:w-[19%]">
+          <Reveal direction="left">
+            <div className="relative w-full" style={{ aspectRatio: "1080 / 1623" }}>
+              <img
+                src="/images/hero/left-fleet.jpg"
+                alt="Wazambi GPS vehicle tracking"
+                className="absolute inset-0 h-full w-full object-contain"
+                loading="eager"
+              />
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="w-full px-[15px] pt-[40px] pb-[20px] md:w-[62%] md:self-center md:p-[70px]">
+          <Reveal direction="down">
+            <div className="mx-auto flex max-w-[810px] flex-col gap-6">
+              <h1 className="headline text-center text-[34px] sm:text-[44px] md:text-[40px] lg:text-[50px] xl:text-[58px] 2xl:text-[66px]">
                 {hero.headline}
               </h1>
-              <p className="mt-6 max-w-[540px] text-[15px] font-light leading-[1.75] text-ink/75 md:text-[17px]">
+              <h2 className="mx-auto text-center text-[18px] font-normal leading-[1.3] text-ink/80 md:max-w-[600px] md:text-[19px]">
                 {hero.subline}
-              </p>
+              </h2>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="mt-5 w-full md:mx-auto md:max-w-[420px]">
               <Link
                 href={hero.primaryCta.href}
-                className="btn-primary mt-8 inline-block min-w-[280px] text-center text-[15px]"
+                className="block w-full rounded-[100px] border-[2.5px] border-gold bg-gold px-[10px] py-[16px] text-center font-bold leading-none text-navy transition-all duration-300 hover:bg-white"
               >
                 {hero.primaryCta.label}
               </Link>
-            </Reveal>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="hidden w-full md:block md:w-[18%]">
+          <Reveal direction="right">
+            <div className="relative w-full" style={{ aspectRatio: "1080 / 1620" }}>
+              <img
+                src="/images/hero/right-app.jpg"
+                alt="Wazambi GPS mobile app"
+                className="absolute inset-0 h-full w-full object-contain"
+                loading="eager"
+              />
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="w-full md:hidden">
+        <Reveal>
+          <div className="relative w-full" style={{ aspectRatio: "1080 / 720" }}>
+            <img
+              src="/images/hero/mobile-banner.jpg"
+              alt="Wazambi GPS fleet tracking"
+              className="absolute inset-0 h-full w-full object-contain"
+              loading="eager"
+            />
           </div>
-        </div>
-        <div className="relative h-[300px] sm:h-[400px] lg:h-auto">
-          <img
-            src="/images/about/team.jpg"
-            alt="The Wazambi GPS team"
-            className="absolute inset-0 h-full w-full object-cover object-[center_25%]"
-            loading="eager"
-          />
-        </div>
+        </Reveal>
       </div>
     </section>
   );
