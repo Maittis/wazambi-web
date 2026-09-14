@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { site } from "@/lib/content";
+import { site, solutions } from "@/lib/content";
 import { useContent } from "@/components/content/useContent";
 import { useSession, dashboardHref } from "@/components/content/useSession";
 import type { SessionUser } from "@/components/content/useSession";
@@ -45,7 +45,6 @@ const menuGroups = [
 ];
 
 const desktopNav = [
-  { label: "Solutions", href: "/#solutions" },
   { label: "Free Courses", href: "/academy" },
   { label: "Become an Agent", href: "/agents" },
   { label: "Contact Us", href: "/contact" },
@@ -100,6 +99,43 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
             </Link>
 
             <nav className="hidden lg:flex items-center gap-7" aria-label="Main navigation">
+              <div className="relative group">
+                <button
+                  type="button"
+                  className="flex items-center gap-1.5 text-[15px] font-medium text-white transition-colors hover:text-gold"
+                >
+                  Solutions
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 absolute top-full left-1/2 -translate-x-1/2 pt-3">
+                  <div className="bg-white rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.15)] w-[740px] p-8">
+                    <h3 className="text-[20px] font-extrabold uppercase text-navy">Wazambi Solutions</h3>
+                    <p className="mt-1 text-[15px] font-normal leading-[1.3] text-ink/70">
+                      Three Ways to Take Control of Your Vehicles.
+                    </p>
+                    <p className="mt-0.5 text-[14px] text-ink/50">
+                      Choose the problem you want Wazambi to help you solve.
+                    </p>
+                    <div className="mt-6 grid grid-cols-3 gap-4">
+                      {solutions.map((sol) => (
+                        <Link
+                          key={sol.slug}
+                          href={`/${sol.slug}`}
+                          className="block rounded-xl p-5 bg-[#f5f5f3] hover:bg-paper transition-colors"
+                        >
+                          <h4 className="text-[15px] font-extrabold uppercase text-navy">{sol.title}</h4>
+                          <p className="mt-2 text-[13px] leading-[1.55] text-ink/65">{sol.shortHeadline}</p>
+                          <span className="mt-3 block text-[12px] font-bold uppercase tracking-wide text-electric-blue">
+                            Explore {sol.title} →
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
               {desktopNav.map((link) => (
                 <Link
                   key={link.label}

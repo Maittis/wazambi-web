@@ -8,7 +8,6 @@ import { useContent } from "@/components/content/useContent";
 import {
   hero,
   stats,
-  solutions,
   howItWorks,
   site,
   courses,
@@ -23,7 +22,6 @@ export default function HomePage() {
       <Hero />
       <Stats />
       <Offer />
-      <Solutions />
       <Demo />
       <Academy />
       <CustomerResult />
@@ -177,54 +175,7 @@ function Offer() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Three solutions — Acquisition.com product card style              */
-/* ------------------------------------------------------------------ */
 
-function Solutions() {
-  return (
-    <section id="solutions" className="bg-white py-14 md:py-20">
-      <div className="container-wz">
-        <div className="mx-auto max-w-[680px] text-center">
-          <p className="eyebrow">Wazambi Solutions</p>
-          <h2 className="mt-3 headline text-[28px] leading-[1.12] md:text-[38px]">
-            Three Ways to Take Control of Your Vehicles.
-          </h2>
-          <p className="mt-3 text-[15px] font-light leading-[1.7] text-ink/65 md:text-[17px]">
-            Choose the problem you want Wazambi to help you solve.
-          </p>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {solutions.map((sol, i) => (
-            <Reveal key={sol.slug} delay={i * 80}>
-              <Link href={`/${sol.slug}`} className="group block overflow-hidden rounded-[16px] bg-white shadow-card transition-shadow hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
-                <div className="relative overflow-hidden">
-                  <img
-                    src={sol.image}
-                    alt={sol.title}
-                    className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="p-5 md:p-6">
-                  <h3 className="text-[18px] font-extrabold uppercase text-navy md:text-[20px]">
-                    {sol.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] font-light leading-[1.65] text-ink/70">
-                    {sol.shortHeadline}
-                  </p>
-                  <span className="mt-4 inline-block text-[13px] font-bold uppercase tracking-wide text-electric-blue">
-                    Explore {sol.title} →
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /*  Product demonstration — dark navy video                           */
