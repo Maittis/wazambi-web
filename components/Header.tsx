@@ -139,12 +139,6 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
               ) : (
                 <>
                   <Link
-                    href="/portal"
-                    className="hidden lg:inline-block rounded-[100px] border-2 border-white/40 px-5 py-2.5 text-center font-poppins text-[14px] font-bold leading-none text-white transition-all duration-300 hover:bg-white hover:text-navy"
-                  >
-                    Client Login
-                  </Link>
-                  <Link
                     href="/fleet-assessment"
                     className="hidden lg:inline-block btn-primary text-[14px]"
                   >
