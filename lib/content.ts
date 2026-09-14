@@ -97,13 +97,11 @@ export const mobileNav: NavLink[] = [
 ];
 
 export const hero = {
-  eyebrow: "Real-Time Vehicle and Fleet Control",
+  eyebrow: "Live GPS Tracking • Fuel Control • Fleet Management",
   headline: "Do You Know What Your Vehicles Are Doing Right Now?",
   subline:
-    "Track every vehicle live, control fuel misuse, monitor drivers and manage your fleet—all from your phone.",
-  primaryCta: { label: "Get a Free Fleet Assessment", href: "/fleet-assessment" },
-  secondaryCta: { label: "View Our Solutions", href: "#solutions" },
-  imageLeft: "/images/hero/left-fleet.jpg",
+    "See every vehicle live, uncover fuel losses, control unauthorised trips and manage your entire fleet from your phone.",
+  primaryCta: { label: "I'm Ready to Take Control", href: "/fleet-assessment" },
   imageRight: "/images/hero/right-app.jpg",
   imageMobile: "/images/hero/mobile-banner.jpg",
 };
@@ -143,55 +141,31 @@ export const solutions: Solution[] = [
   {
     slug: "gps-tracking",
     title: "GPS Tracking",
-    shortHeadline: "Monitor live location, routes, trip history, ignition status, speeding and important vehicle alerts.",
+    shortHeadline: "Know where every vehicle is — without calling the driver.",
     fullHeadline: "Know Where Every Vehicle Is—Without Calling the Driver.",
     description:
-      "See exactly where your vehicles are, where they have been and what is happening right now — without relying on phone calls or driver explanations.",
-    features: [
-      "Live location",
-      "Route playback",
-      "Trip history",
-      "Geofences",
-      "Ignition status",
-      "Speeding alerts",
-      "Remote immobilisation",
-      "Local and cross-border tracking",
-    ],
+      "See live location, route playback, trip history, geofences, ignition information and vehicle alerts — all in real time.",
+    features: ["Live map", "Route playback", "Trip history", "Geofences", "Ignition status", "Vehicle alerts"],
     image: "/images/solutions/gps.jpg",
   },
   {
     slug: "fuel-monitoring",
     title: "Fuel Monitoring",
-    shortHeadline: "Monitor fuel levels, refuelling, consumption and suspicious fuel drops.",
+    shortHeadline: "See where your fuel goes before it becomes another unexplained cost.",
     fullHeadline: "Control Fuel With Records—Not Driver Explanations.",
     description:
-      "Know every litre. Monitor fuel levels, refuelling events and consumption with records that cannot be argued with.",
-    features: [
-      "Fuel-level monitoring",
-      "Refuelling records",
-      "Suspicious fuel-drop alerts",
-      "Fuel-consumption reports",
-      "Vehicle comparisons",
-      "Fuel investigation records",
-    ],
+      "Real fuel graphs, filling events, fuel drops, consumption reports and fuel-loss alerts for every vehicle.",
+    features: ["Fuel graphs", "Filling events", "Fuel drops", "Consumption reports", "Fuel-loss alerts"],
     image: "/images/solutions/fuel.jpg",
   },
   {
     slug: "fleet-management",
     title: "Fleet Management",
-    shortHeadline: "Organise vehicles and drivers, manage maintenance, monitor performance and use reports to make better decisions.",
+    shortHeadline: "Manage vehicles, drivers, maintenance and reports from one organised system.",
     fullHeadline: "Bring Your Vehicles, Drivers, Fuel and Reports Into One System.",
     description:
-      "One platform for your whole operation: vehicles, drivers, fuel, maintenance and reporting — so you decide with facts, not guesswork.",
-    features: [
-      "Vehicle management",
-      "Driver management",
-      "Unauthorised-trip monitoring",
-      "Maintenance scheduling",
-      "Driver behaviour",
-      "Fleet reports",
-      "Local and cross-border management",
-    ],
+      "Vehicle lists, driver records, maintenance reminders, fleet reports and performance information in one system.",
+    features: ["Vehicle list", "Driver records", "Maintenance reminders", "Fleet reports", "Performance information"],
     image: "/images/solutions/fleet.jpg",
   },
 ];
@@ -199,27 +173,19 @@ export const solutions: Solution[] = [
 export const howItWorks = [
   {
     title: "Tell Us About Your Vehicles",
-    text: "The customer tells Wazambi about their vehicles and how they operate.",
+    text: "Answer a few questions about your vehicles and how they operate.",
   },
   {
-    title: "We Identify Your Challenges",
-    text: "Wazambi identifies their biggest challenges and risks.",
+    title: "We Recommend the Right Solution",
+    text: "Wazambi reviews your operation and recommends the right solution.",
   },
   {
-    title: "We Recommend The Solution",
-    text: "Wazambi recommends the correct solution for their operation.",
+    title: "Wazambi Technicians Install It",
+    text: "Trained technicians install the equipment quickly and cleanly.",
   },
   {
-    title: "We Install The Equipment",
-    text: "Technicians install the equipment on the vehicles.",
-  },
-  {
-    title: "You Monitor Everything",
-    text: "The customer monitors everything through their phone or computer.",
-  },
-  {
-    title: "We Keep Supporting You",
-    text: "Wazambi provides continued technical support.",
+    title: "You Monitor Everything From Your Phone",
+    text: "Live tracking, fuel and reports — all visible from your phone.",
   },
 ];
 
@@ -318,7 +284,7 @@ export const courses: Course[] = [
     title: "GPS Tracking Course",
     headline: "Do you really know where your vehicles go after they leave?",
     description:
-      "Learn how live tracking, geofences, trip history and alerts protect every vehicle in your fleet.",
+      "Learn how live tracking, geofences, trip history and alerts protect your vehicles.",
     image: "/images/courses/gps.jpg",
     whatYouLearn: [
       "How live GPS tracking works",
@@ -337,7 +303,7 @@ export const courses: Course[] = [
     title: "Fuel Monitoring Course",
     headline: "How much money could your business be losing through fuel?",
     description:
-      "Monitor fuel levels, refuelling events and suspicious drops with records — not driver explanations.",
+      "Learn how to identify suspicious fuel activity and understand fuel reports.",
     image: "/images/courses/fuel.jpg",
     whatYouLearn: [
       "How fuel-level monitoring works",
@@ -356,7 +322,7 @@ export const courses: Course[] = [
     title: "Fleet Management Course",
     headline: "Your fleet cannot improve if you cannot see what is happening.",
     description:
-      "Organise vehicles, drivers, maintenance and reporting in one clear system.",
+      "Learn how to organise vehicles, drivers, maintenance and operating records.",
     image: "/images/courses/fleet.jpg",
     whatYouLearn: [
       "How to organise vehicles and drivers",
@@ -374,72 +340,62 @@ export const faqs: Faq[] = [
   {
     question: "What is Wazambi GPS?",
     answer:
-      "Wazambi GPS provides GPS tracking, fuel monitoring and fleet-management systems that help vehicle owners and businesses monitor, protect and control their vehicles — live, from a phone or computer.",
+      "Wazambi GPS is a Zambian company that installs live GPS tracking, fuel monitoring and fleet-management systems on vehicles — so owners can see what is happening without relying on phone calls or driver explanations.",
   },
   {
-    question: "How does GPS tracking work?",
+    question: "Can I track my vehicles from my phone?",
     answer:
-      "A tracking device is installed in the vehicle and sends its live location, movement and ignition status to the Wazambi platform, which you can view from your phone or computer at any time.",
+      "Yes. After installation you can see every vehicle live, check trips and receive alerts from your phone or computer, anywhere.",
   },
   {
-    question: "Can I monitor vehicles from my phone?",
+    question: "Can I see where a vehicle travelled previously?",
     answer:
-      "Yes. The Wazambi platform works on smartphones and computers, so you can see live locations, alerts and reports anywhere.",
+      "Yes. Every trip is stored with route playback, so you can review exactly where a vehicle went, when it stopped and how long it stayed.",
   },
   {
-    question: "Does Wazambi work outside Zambia?",
+    question: "Can Wazambi detect unauthorised vehicle use?",
     answer:
-      "Yes. Wazambi supports local and cross-border tracking, so vehicles can be monitored while travelling within Zambia and beyond its borders.",
+      "Yes. You can set geofences and after-hours rules, and Wazambi alerts you when a vehicle is used outside approved times or areas.",
   },
   {
-    question: "Can Wazambi monitor cross-border vehicles?",
+    question: "How does fuel monitoring work?",
     answer:
-      "Yes. Cross-border fleets can be tracked across borders, giving owners visibility of vehicles wherever they travel.",
-  },
-  {
-    question: "Can I view completed journeys?",
-    answer:
-      "Yes. Every trip is recorded with route playback and trip history, so you can review exactly where a vehicle went and when it stopped.",
-  },
-  {
-    question: "How do geofences work?",
-    answer:
-      "A geofence is a virtual border you set around an area. When a vehicle enters or leaves the area, you receive an alert immediately.",
-  },
-  {
-    question: "Can Wazambi monitor fuel?",
-    answer:
-      "Yes. Wazambi monitors fuel levels, records refuelling events and alerts you to suspicious fuel drops, with consumption reports for every vehicle.",
-  },
-  {
-    question: "How does remote immobilisation work?",
-    answer:
-      "Remote immobilisation lets an authorised operator stop a vehicle from starting. It is used in emergencies, such as when a vehicle is stolen or used without approval.",
+      "A fuel sensor records levels, refuelling events and sudden drops. You get consumption reports per vehicle and alerts for suspicious losses.",
   },
   {
     question: "How long does installation take?",
     answer:
-      "Most installations are completed in around an hour per vehicle by our trained technicians, with minimal disruption to your operation.",
+      "Most vehicles are installed in around an hour by our trained technicians, with minimal disruption to your operation.",
   },
   {
-    question: "Does Wazambi provide technical support?",
+    question: "Does Wazambi work on cross-border vehicles?",
     answer:
-      "Yes. Wazambi provides continued technical support after installation to keep your system working correctly.",
+      "Yes. Vehicles can be tracked while travelling within Zambia and beyond its borders.",
   },
   {
-    question: "How do I request a quotation?",
+    question: "Can I use Wazambi for one vehicle?",
     answer:
-      "Complete the free Fleet Assessment form and the Wazambi team will recommend the right solution and send you a quotation based on your vehicles and challenges.",
+      "Yes. Wazambi works for individual vehicle owners as well as businesses running large fleets.",
   },
   {
-    question: "How do I access the Fleet Academy?",
+    question: "Can Wazambi manage a large fleet?",
     answer:
-      "Visit the Fleet Academy page, choose a free course, watch the lesson and request a free guide — it is sent straight to your email.",
+      "Yes. The platform manages vehicles, drivers, fuel, maintenance and reporting — whether you run five vehicles or five hundred.",
   },
   {
-    question: "How do I become an agent?",
+    question: "Can the system immobilise a vehicle?",
     answer:
-      "Visit the Become an Agent page, confirm you meet the requirements and apply. Only 100 agents are selected for the training on 1–2 October 2026.",
+      "Yes. Remote immobilisation lets an authorised operator stop a vehicle from starting in an emergency, such as theft or unauthorised use.",
+  },
+  {
+    question: "What happens if the network disappears?",
+    answer:
+      "The device keeps recording movements and delivers the records when the signal returns, so you still have a full history.",
+  },
+  {
+    question: "How do I receive a quotation?",
+    answer:
+      "Complete the free Fleet Assessment and the Wazambi team will recommend the right solution and send you a clear quotation.",
   },
 ];
 
