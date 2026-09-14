@@ -50,7 +50,7 @@ export default function Reveal({
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : transforms[direction],
-        transition: `opacity 0.7s ease-in-out ${delay}ms, transform 0.7s ease-in-out ${delay}ms`,
+        transition: `opacity 0.4s ease-in-out ${delay}ms, transform 0.4s ease-in-out ${delay}ms`,
       }}
     >
       {children}

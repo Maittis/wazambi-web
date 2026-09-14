@@ -111,7 +111,7 @@ export default function SolutionPage({ solution }: SolutionPageProps) {
           />
           <div className="mx-auto mt-12 grid max-w-[1000px] gap-6 md:grid-cols-2">
             {solution.features.map((f, i) => (
-              <Reveal key={f} delay={i * 60}>
+              <Reveal key={f} delay={i * 25}>
                 <div className="flex items-start gap-4 rounded-[10px] bg-paper p-5">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-electric-blue text-[16px] font-black text-white">
                     {i + 1}
@@ -136,7 +136,7 @@ export default function SolutionPage({ solution }: SolutionPageProps) {
           />
           <div className="mx-auto mt-10 grid max-w-[800px] gap-3 sm:grid-cols-2">
             {benefits.map((b, i) => (
-              <Reveal key={i} delay={i * 60}>
+              <Reveal key={i} delay={i * 25}>
                 <div className="flex items-start gap-3">
                   <svg className="mt-1 h-5 w-5 shrink-0 text-electric-blue" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -175,7 +175,7 @@ export default function SolutionPage({ solution }: SolutionPageProps) {
           />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {relatedIndustries.map((item, i) => (
-              <Reveal key={i} delay={i * 60}>
+              <Reveal key={i} delay={i * 25}>
                 <div className="rounded-[10px] bg-white p-5">
                   <p className="text-[14px] font-bold uppercase text-navy">{item.title}</p>
                   <p className="mt-1 text-[13px] font-light text-ink/60">{item.problem}</p>

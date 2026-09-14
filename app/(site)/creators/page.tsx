@@ -137,7 +137,7 @@ export default function CreatorsPage() {
           />
           <div className="mt-14 grid gap-6 md:grid-cols-4">
             {contentTypes.map((c, i) => (
-              <Reveal key={c.number} delay={i * 80}>
+              <Reveal key={c.number} delay={i * 30}>
                 <div className="h-full rounded-[14px] bg-white p-6 shadow-card">
                   <span className="font-poppins text-[40px] font-black text-electric-blue">{c.number}</span>
                   <h3 className="mt-2 text-[16px] font-bold uppercase text-navy">{c.title}</h3>
@@ -159,7 +159,7 @@ export default function CreatorsPage() {
           />
           <div className="mt-14 grid gap-6 md:grid-cols-4">
             {earnSteps.map((s, i) => (
-              <Reveal key={i} delay={i * 80}>
+              <Reveal key={i} delay={i * 30}>
                 <div className="relative h-full rounded-[14px] bg-paper p-6">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-electric-blue text-[18px] font-black text-white">
                     {i + 1}
@@ -182,7 +182,7 @@ export default function CreatorsPage() {
           />
           <div className="mx-auto mt-12 grid max-w-[800px] gap-3 sm:grid-cols-2">
             {kit.map((item, i) => (
-              <Reveal key={i} delay={i * 40}>
+              <Reveal key={i} delay={i * 15}>
                 <div className="flex items-start gap-3">
                   <svg className="mt-1 h-5 w-5 shrink-0 text-electric-blue" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

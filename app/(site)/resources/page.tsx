@@ -46,7 +46,7 @@ export default function ResourcesPage() {
         <div className="container-wz">
           <div className="grid gap-8 md:grid-cols-3">
             {resources.map((item, i) => (
-              <Reveal key={item.title} delay={i * 100}>
+              <Reveal key={item.title} delay={i * 15}>
                 <Link href={item.href} className="group block">
                   <div className="rounded-[14px] bg-paper p-7 transition-shadow group-hover:shadow-card">
                     <div className="relative mb-5 w-full" style={{ aspectRatio: "520/460" }}>

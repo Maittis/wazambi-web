@@ -26,7 +26,7 @@ export default function AcademyPage() {
         <div className="container-wz">
           <div className="grid gap-8 md:grid-cols-3">
             {courses.map((course, i) => (
-              <Reveal key={course.code} delay={i * 100}>
+              <Reveal key={course.code} delay={i * 15}>
                 <div className="flex h-full flex-col rounded-[14px] bg-paper p-7">
                   <div className="relative mb-5 w-full" style={{ aspectRatio: "520/460" }}>
                     <Image

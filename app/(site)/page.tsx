@@ -118,7 +118,7 @@ function Stats() {
       <div className="container-wz">
         <div className="grid grid-cols-2 gap-x-4 gap-y-5 md:grid-cols-4 md:gap-0">
           {active.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 60} className="text-center md:border-r md:border-white/10 md:last:border-r-0 md:px-4">
+            <Reveal key={stat.label} delay={i * 25} className="text-center md:border-r md:border-white/10 md:last:border-r-0 md:px-4">
               <p className="font-poppins text-[28px] font-extrabold text-gold md:text-[36px]">
                 {stat.value}
               </p>
@@ -304,7 +304,7 @@ function HowItWorks() {
         </div>
         <div className="mt-12 grid gap-5 md:grid-cols-4">
           {howItWorks.map((step, i) => (
-            <Reveal key={step.title} delay={i * 80}>
+            <Reveal key={step.title} delay={i * 30}>
               <div className="rounded-[14px] bg-navy-light p-5 shadow-card md:h-full">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-electric-blue text-[15px] font-black text-white">
                   {i + 1}
