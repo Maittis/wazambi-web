@@ -331,6 +331,32 @@ function ChartsGrid({ charts }: { charts: any }) {
 
 /* ------------------------------------------------------------------ */
 
+function ServiceChips({ item }: { item: any }) {
+  const list =
+    Array.isArray(item?.serviceInterests) && item.serviceInterests.length > 0
+      ? item.serviceInterests
+      : item?.serviceInterest
+        ? [item.serviceInterest]
+        : [];
+  if (list.length === 0 && !item?.needsHelpChoosing) {
+    return <span>—</span>;
+  }
+  return (
+    <span className="flex flex-wrap gap-1">
+      {list.map((s: string) => (
+        <span key={s} className="rounded-full bg-electric-blue/10 px-2 py-0.5 text-[11px] font-semibold text-electric-blue">
+          {s}
+        </span>
+      ))}
+      {item?.needsHelpChoosing && (
+        <span className="rounded-full bg-gold/25 px-2 py-0.5 text-[11px] font-semibold text-navy">
+          I need help choosing
+        </span>
+      )}
+    </span>
+  );
+}
+
 function Leads({ data, me }: { data: any; me: Staff }) {
   const [selected, setSelected] = useState<any>(null);
   const [note, setNote] = useState("");
@@ -361,6 +387,9 @@ function Leads({ data, me }: { data: any; me: Staff }) {
             {selected.company ?? "No company"} · {selected.fleetSize ?? "?"} vehicles ·{" "}
             {selected.mainChallenge ?? "No challenge"}
           </p>
+          <div className="mt-2 flex flex-wrap gap-1">
+            <ServiceChips item={selected} />
+          </div>
           <p className="mt-1 text-[12px] text-ink/50">
             Source: {selected.leadSource ?? "direct"} · Registered: {selected.createdAt?.slice(0, 10)}
           </p>
@@ -485,7 +514,7 @@ function Leads({ data, me }: { data: any; me: Staff }) {
                   </button>
                 </Td>
                 <Td>{l.phone}</Td>
-                <Td>{l.serviceInterest ?? "—"}</Td>
+                <Td><ServiceChips item={l} /></Td>
                 <Td>{l.fleetSize ?? "—"}</Td>
                 <Td className="capitalize">{(l.leadSource ?? "direct").replace(/_/g, " ")}</Td>
                 <Td><Badge status={l.status} /></Td>
@@ -540,7 +569,7 @@ function Assessments({ type, data }: { type: "fleet" | "fuel"; data: any }) {
               <Td className="capitalize">{a.assessmentType}</Td>
               <Td>{a.fleetSize ?? "—"}</Td>
               <Td>{a.mainChallenge ?? "—"}</Td>
-              <Td>{a.serviceInterest ?? "—"}</Td>
+              <Td><ServiceChips item={a} /></Td>
               <Td className="whitespace-nowrap">{a.createdAt?.slice(0, 10)}</Td>
             </tr>
           ))}

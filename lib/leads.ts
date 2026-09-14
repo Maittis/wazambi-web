@@ -12,6 +12,8 @@ export type LeadInput = {
   fleetSize?: string;
   mainChallenge?: string;
   serviceInterest?: string;
+  serviceInterests?: string[];
+  needsHelpChoosing?: boolean;
   leadSource?: string;
   campaign?: string;
   landingPage?: string;
@@ -36,7 +38,9 @@ export async function upsertLead(input: LeadInput): Promise<Lead | undefined> {
       position: input.position ?? lead.position,
       fleetSize: input.fleetSize ?? lead.fleetSize,
       mainChallenge: input.mainChallenge ?? lead.mainChallenge,
-      serviceInterest: input.serviceInterest ?? lead.serviceInterest,
+      serviceInterest: joinedServiceInterest(input) ?? lead.serviceInterest,
+      serviceInterests: input.serviceInterests ?? lead.serviceInterests,
+      needsHelpChoosing: input.needsHelpChoosing ?? lead.needsHelpChoosing,
       lastActivityAt: nowIso(),
       updatedAt: nowIso(),
     };
@@ -66,7 +70,9 @@ export async function upsertLead(input: LeadInput): Promise<Lead | undefined> {
     position: input.position,
     fleetSize: input.fleetSize,
     mainChallenge: input.mainChallenge,
-    serviceInterest: input.serviceInterest,
+    serviceInterest: joinedServiceInterest(input),
+    serviceInterests: input.serviceInterests,
+    needsHelpChoosing: input.needsHelpChoosing,
     leadSource: input.leadSource,
     campaign: input.campaign,
     landingPage: input.landingPage,
@@ -83,6 +89,15 @@ export async function upsertLead(input: LeadInput): Promise<Lead | undefined> {
     createdAt: nowIso(),
     updatedAt: nowIso(),
   });
+}
+
+function joinedServiceInterest(input: LeadInput): string | undefined {
+  if (input.serviceInterest) return input.serviceInterest;
+  if (Array.isArray(input.serviceInterests) && input.serviceInterests.length > 0) {
+    return input.serviceInterests.join(", ");
+  }
+  if (input.needsHelpChoosing) return "I need help choosing";
+  return undefined;
 }
 
 export async function addLeadEvent(

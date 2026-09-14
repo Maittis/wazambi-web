@@ -14,7 +14,8 @@ const steps = [
 ];
 
 const fleetSizeOptions = ["1-4", "5-10", "11-20", "21-50", "50+"];
-const serviceOptions = ["GPS Tracking", "Fuel Monitoring", "Fleet Management", "Not sure yet"];
+const solutionOptions = ["GPS Tracking", "Fuel Monitoring", "Fleet Management"];
+const helpOption = "I need help choosing";
 const challengeOptions = [
   "Vehicle theft",
   "Fuel theft or high fuel costs",
@@ -38,7 +39,8 @@ export default function AssessmentForm({ assessmentType }: Props) {
     phone: "+260",
     company: "",
     fleetSize: "",
-    serviceInterest: "",
+    serviceInterests: [] as string[],
+    needsHelpChoosing: false,
     mainChallenge: "",
     notes: "",
     consent: true,
@@ -46,6 +48,34 @@ export default function AssessmentForm({ assessmentType }: Props) {
 
   const set = (field: string, value: string | boolean) =>
     setData((prev) => ({ ...prev, [field]: value }));
+
+  const toggleSolution = (o: string) => {
+    const has = data.serviceInterests.includes(o);
+    setData((prev) => ({
+      ...prev,
+      serviceInterests: has ? prev.serviceInterests.filter((x) => x !== o) : [...prev.serviceInterests, o],
+      needsHelpChoosing: false,
+    }));
+  };
+
+  const toggleHelp = () => {
+    const next = !data.needsHelpChoosing;
+    setData((prev) => ({
+      ...prev,
+      needsHelpChoosing: next,
+      serviceInterests: next ? [] : prev.serviceInterests,
+    }));
+  };
+
+  const goNext = () => {
+    if (step === 1 && data.serviceInterests.length === 0 && !data.needsHelpChoosing) {
+      setError("Please select at least one solution before continuing.");
+      return;
+    }
+    setError("");
+    setStep(step + 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const progress = Math.round(((step + 1) / steps.length) * 100);
 
@@ -118,16 +148,67 @@ export default function AssessmentForm({ assessmentType }: Props) {
                 ))}
               </div>
             </div>
-            <div>
-              <p className="mb-3 text-[15px] font-bold text-navy">Which solution interests you? *</p>
-              <div className="grid grid-cols-2 gap-2">
-                {serviceOptions.map((o) => (
-                  <button key={o} type="button" onClick={() => set("serviceInterest", o)} className={`rounded-lg border px-4 py-3 text-[14px] font-medium transition-colors ${data.serviceInterest === o ? "border-electric-blue bg-electric-blue text-white" : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"}`}>
-                    {o}
-                  </button>
-                ))}
+            <fieldset>
+              <legend className="mb-3 text-[15px] font-bold text-navy">
+                Which solutions are you interested in? Select all that apply. *
+              </legend>
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {solutionOptions.map((o) => {
+                  const selected = data.serviceInterests.includes(o);
+                  return (
+                    <button
+                      key={o}
+                      type="button"
+                      role="checkbox"
+                      aria-checked={selected}
+                      onClick={() => toggleSolution(o)}
+                      className={`flex items-center justify-between gap-2 rounded-lg border-2 px-4 py-3 text-left text-[14px] font-medium transition-colors ${
+                        selected
+                          ? "border-gold bg-gold/10 text-navy"
+                          : "border-navy/15 bg-white text-ink/70 hover:border-gold"
+                      }`}
+                    >
+                      <span>{o}</span>
+                      <span
+                        aria-hidden="true"
+                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                          selected ? "border-gold bg-gold text-navy" : "border-navy/20 bg-white text-transparent"
+                        }`}
+                      >
+                        <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      <span className="sr-only">{selected ? "Selected" : ""}</span>
+                    </button>
+                  );
+                })}
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={data.needsHelpChoosing}
+                  onClick={toggleHelp}
+                  className={`flex items-center justify-between gap-2 rounded-lg border-2 px-4 py-3 text-left text-[14px] font-medium transition-colors sm:col-span-2 ${
+                    data.needsHelpChoosing
+                      ? "border-gold bg-gold/10 text-navy"
+                      : "border-navy/15 bg-white text-ink/70 hover:border-gold"
+                  }`}
+                >
+                  <span>{helpOption}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                      data.needsHelpChoosing ? "border-gold bg-gold text-navy" : "border-navy/20 bg-white text-transparent"
+                    }`}
+                  >
+                    <svg className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </span>
+                  <span className="sr-only">{data.needsHelpChoosing ? "Selected" : ""}</span>
+                </button>
               </div>
-            </div>
+            </fieldset>
           </div>
         )}
 
@@ -155,7 +236,9 @@ export default function AssessmentForm({ assessmentType }: Props) {
         )}
       </div>
 
-      {error && <p className="mb-4 text-[13px] text-alert">{error}</p>}
+      {error && (
+        <p role="alert" className="mb-4 text-[13px] text-alert">{error}</p>
+      )}
 
       <div className="flex gap-3">
         {step > 0 && (
@@ -164,7 +247,7 @@ export default function AssessmentForm({ assessmentType }: Props) {
           </button>
         )}
         {step < steps.length - 1 ? (
-          <button type="button" onClick={() => setStep(step + 1)} className="btn-primary flex-1 text-[14px]">
+          <button type="button" onClick={goNext} className="btn-primary flex-1 text-[14px]">
             Continue →
           </button>
         ) : (

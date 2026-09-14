@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS leads (
   fleet_size TEXT,
   main_challenge TEXT,
   service_interest TEXT,
+  service_interests JSONB DEFAULT '[]'::jsonb,
+  needs_help_choosing BOOLEAN DEFAULT FALSE,
   lead_source TEXT,
   campaign TEXT,
   utm_source TEXT,
@@ -92,6 +94,8 @@ CREATE TABLE IF NOT EXISTS assessments (
   fleet_size TEXT,
   main_challenge TEXT,
   service_interest TEXT,
+  service_interests JSONB DEFAULT '[]'::jsonb,
+  needs_help_choosing BOOLEAN DEFAULT FALSE,
   details JSONB DEFAULT '{}',
   submission_path TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

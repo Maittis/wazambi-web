@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
       company,
       fleetSize,
       serviceInterest,
+      serviceInterests,
+      needsHelpChoosing,
       mainChallenge,
       notes,
       consent,
@@ -24,6 +26,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Please provide your first name, last name and phone number." }, { status: 400 });
     }
 
+    const selectedServices = Array.isArray(serviceInterests) ? serviceInterests.filter(Boolean) : [];
+    const needsHelp = needsHelpChoosing ?? (!selectedServices.length && (serviceInterest ?? "").trim() === "");
+
     const lead = await upsertLead({
       firstName,
       lastName,
@@ -33,7 +38,9 @@ export async function POST(req: NextRequest) {
       company,
       fleetSize,
       mainChallenge,
-      serviceInterest,
+      serviceInterest: typeof serviceInterest === "string" ? serviceInterest : undefined,
+      serviceInterests: selectedServices,
+      needsHelpChoosing: needsHelp,
       leadSource: "website_assessment",
       landingPage: assessmentType === "fuel" ? "/fuel-assessment" : "/fleet-assessment",
       consent,
@@ -47,7 +54,9 @@ export async function POST(req: NextRequest) {
       assessmentType,
       fleetSize,
       mainChallenge,
-      serviceInterest,
+      serviceInterest: typeof serviceInterest === "string" ? serviceInterest : undefined,
+      serviceInterests: selectedServices,
+      needsHelpChoosing: needsHelp,
       details: { notes: notes ?? "", company: company ?? "" },
       submissionPath: assessmentType === "fuel" ? "/fuel-assessment" : "/fleet-assessment",
       createdAt: nowIso(),
@@ -63,7 +72,7 @@ export async function POST(req: NextRequest) {
     await insert<WzEvent>("events", {
       eventType: "assessment_submitted",
       leadId: lead.id,
-      meta: { assessmentType, serviceInterest, fleetSize },
+      meta: { assessmentType, serviceInterest, serviceInterests: selectedServices, needsHelpChoosing: needsHelp, fleetSize },
       createdAt: nowIso(),
     });
 

@@ -31,7 +31,14 @@ export async function GET() {
     };
 
     const leadsBySource = count(leads, (l) => l.leadSource ?? "direct");
-    const leadsByService = countNullable(leads, (l) => l.serviceInterest);
+    const leadsByService = countValues(leads, (l) => [
+      ...(Array.isArray(l.serviceInterests) && l.serviceInterests.length
+        ? l.serviceInterests
+        : l.serviceInterest
+          ? [l.serviceInterest]
+          : []),
+      ...(l.needsHelpChoosing ? ["I need help choosing"] : []),
+    ]);
     const leadsByFleetSize = countNullable(leads, (l) => l.fleetSize);
     const leadsBySalesperson = db.staff
       .filter((s) => ["sales_manager", "salesperson"].includes(s.role))
@@ -73,6 +80,16 @@ function count(items: unknown[], keyFn: (i: any) => string): { label: string; co
   for (const item of items) {
     const k = keyFn(item);
     map.set(k, (map.get(k) ?? 0) + 1);
+  }
+  return [...map.entries()].map(([label, count]) => ({ label, count })).sort((a, b) => b.count - a.count);
+}
+
+function countValues(items: unknown[], arrFn: (i: any) => string[]): { label: string; count: number }[] {
+  const map = new Map<string, number>();
+  for (const item of items) {
+    for (const k of arrFn(item)) {
+      map.set(k, (map.get(k) ?? 0) + 1);
+    }
   }
   return [...map.entries()].map(([label, count]) => ({ label, count })).sort((a, b) => b.count - a.count);
 }

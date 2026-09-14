@@ -21,6 +21,8 @@ export type Lead = {
   fleetSize?: string;
   mainChallenge?: string;
   serviceInterest?: string;
+  serviceInterests?: string[];
+  needsHelpChoosing?: boolean;
   leadSource?: string;
   campaign?: string;
   utmSource?: string;
@@ -56,6 +58,8 @@ export type Assessment = {
   fleetSize?: string;
   mainChallenge?: string;
   serviceInterest?: string;
+  serviceInterests?: string[];
+  needsHelpChoosing?: boolean;
   details: Record<string, unknown>;
   submissionPath: string;
   createdAt: string;
