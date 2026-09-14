@@ -10,7 +10,6 @@ import {
   stats,
   howItWorks,
   site,
-  courses,
   results,
   faqs,
 } from "@/lib/content";
@@ -23,7 +22,6 @@ export default function HomePage() {
       <Stats />
       <Offer />
       <Demo />
-      <Academy />
       <CustomerResult />
       <HowItWorks />
       <FaqSection />
@@ -223,62 +221,6 @@ function Demo() {
             Book My Free Demonstration
           </Link>
         </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Free Fleet Academy — Acquisition.com product card style           */
-/* ------------------------------------------------------------------ */
-
-function Academy() {
-  return (
-    <section className="bg-paper py-14 md:py-20">
-      <div className="container-wz">
-        <div className="mx-auto max-w-[680px] text-center">
-          <p className="eyebrow">Free Fleet Academy</p>
-          <h2 className="mt-3 headline text-[28px] leading-[1.12] md:text-[38px]">
-            Free Fleet Control Training.
-          </h2>
-          <p className="mt-3 text-[15px] font-light leading-[1.7] text-ink/65 md:text-[17px]">
-            Videos, guides and practical lessons to help you protect your vehicles,
-            reduce losses and manage your operation better.
-          </p>
-        </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {courses.map((course, i) => (
-            <Reveal key={course.slug} delay={i * 80}>
-              <Link
-                href={`/academy/${course.slug}`}
-                className="group block overflow-hidden rounded-[16px] bg-white shadow-card transition-shadow hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)]"
-              >
-                <div className="relative overflow-hidden bg-navy">
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    loading="lazy"
-                  />
-                  <span className="absolute left-3 top-3 rounded-full bg-gold px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-navy">
-                    {course.badge}
-                  </span>
-                </div>
-                <div className="p-5 md:p-6">
-                  <h3 className="text-[18px] font-extrabold uppercase text-navy md:text-[20px]">
-                    {course.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] font-light leading-[1.65] text-ink/65">
-                    {course.description}
-                  </p>
-                  <span className="mt-4 inline-block text-[13px] font-bold uppercase tracking-wide text-electric-blue">
-                    Take This Course →
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
       </div>
     </section>
   );
