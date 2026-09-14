@@ -6,14 +6,17 @@ type FaqAccordionProps = {
   items: { question: string; answer: string }[];
   section?: string;
   defaultOpen?: boolean;
+  tone?: "light" | "dark";
 };
 
 export default function FaqAccordion({
   items,
   section = "faq",
   defaultOpen = false,
+  tone = "light",
 }: FaqAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(defaultOpen ? 0 : null);
+  const dark = tone === "dark";
 
   return (
     <div className="mx-auto max-w-[900px]">
@@ -21,7 +24,7 @@ export default function FaqAccordion({
         const isOpen = openIndex === i;
         const id = `${section}-${i}`;
         return (
-          <div key={id} className="border-b border-dashed border-ink/20">
+          <div key={id} className={`border-b border-dashed ${dark ? "border-white/15" : "border-ink/20"}`}>
             <p
               role="button"
               tabIndex={0}
@@ -35,7 +38,9 @@ export default function FaqAccordion({
                   setOpenIndex(isOpen ? null : i);
                 }
               }}
-              className="flex cursor-pointer items-center justify-between py-5 pr-6 text-[18px] font-bold text-navy md:text-[22px]"
+              className={`flex cursor-pointer items-center justify-between py-5 pr-6 text-[18px] font-bold md:text-[22px] ${
+                dark ? "text-white hover:text-gold" : "text-navy"
+              }`}
             >
               {item.question}
               <svg
@@ -57,7 +62,9 @@ export default function FaqAccordion({
               className="overflow-hidden transition-all duration-300 ease-in-out"
               style={{ maxHeight: isOpen ? "600px" : "0px" }}
             >
-              <p className="pb-6 pr-12 text-[15px] font-normal leading-[1.65] text-ink/80 md:text-[17px]">
+              <p className={`pb-6 pr-12 text-[15px] font-normal leading-[1.65] md:text-[17px] ${
+                dark ? "text-white/75" : "text-ink/80"
+              }`}>
                 {item.answer}
               </p>
             </div>

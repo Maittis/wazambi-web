@@ -38,7 +38,7 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="bg-paper">
+    <section className="bg-navy">
       <div className="w-full pl-0 pr-0 md:flex md:flex-row md:items-end md:justify-between">
         <div className="hidden w-full md:block md:w-[19%]">
           <Reveal direction="left">
@@ -56,10 +56,10 @@ function Hero() {
         <div className="w-full px-[15px] pt-[40px] pb-[20px] md:w-[62%] md:self-center md:p-[70px]">
           <Reveal direction="down">
             <div className="mx-auto flex max-w-[810px] flex-col gap-6">
-              <h1 className="headline text-center text-[34px] sm:text-[44px] md:text-[40px] lg:text-[50px] xl:text-[58px] 2xl:text-[66px]">
+              <h1 className="headline text-center text-white text-[34px] sm:text-[44px] md:text-[40px] lg:text-[50px] xl:text-[58px] 2xl:text-[66px]">
                 {hero.headline}
               </h1>
-              <h2 className="mx-auto text-center text-[18px] font-normal leading-[1.3] text-ink/80 md:max-w-[600px] md:text-[19px]">
+              <h2 className="mx-auto text-center text-[18px] font-normal leading-[1.3] text-white/80 md:max-w-[600px] md:text-[19px]">
                 {hero.subline}
               </h2>
             </div>
@@ -114,15 +114,15 @@ function Stats() {
   const c = useContent();
   const active = c.stats ?? stats;
   return (
-    <section className="border-t border-navy/10 py-6 md:py-8" aria-label="Wazambi results">
+    <section className="border-t border-white/10 bg-navy-dark py-6 md:py-8" aria-label="Wazambi results">
       <div className="container-wz">
         <div className="grid grid-cols-2 gap-x-4 gap-y-5 md:grid-cols-4 md:gap-0">
           {active.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 60} className="text-center md:border-r md:last:border-r-0 md:px-4">
-              <p className="font-poppins text-[28px] font-extrabold text-navy md:text-[36px]">
+            <Reveal key={stat.label} delay={i * 60} className="text-center md:border-r md:border-white/10 md:last:border-r-0 md:px-4">
+              <p className="font-poppins text-[28px] font-extrabold text-gold md:text-[36px]">
                 {stat.value}
               </p>
-              <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-ink/55 md:text-[12px]">
+              <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-white/60 md:text-[12px]">
                 {stat.label}
               </p>
             </Reveal>
@@ -139,9 +139,9 @@ function Stats() {
 
 function Offer() {
   return (
-    <section className="bg-paper py-14 md:py-20">
+    <section className="bg-navy-dark py-14 md:py-20">
       <div className="container-wz">
-        <div className="overflow-hidden rounded-[20px] bg-navy">
+        <div className="overflow-hidden rounded-[20px] bg-navy-light">
           <div className="grid items-center md:grid-cols-[1fr_1fr]">
             <div className="p-7 md:p-12">
               <span className="inline-block rounded-full bg-gold px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-navy">
@@ -158,7 +158,7 @@ function Offer() {
                 Get My Free Fleet Assessment
               </Link>
             </div>
-            <div className="relative hidden bg-navy-light md:block">
+            <div className="relative hidden md:block">
               <img
                 src="/images/solutions/gps.jpg"
                 alt="Wazambi GPS live tracking platform"
@@ -232,16 +232,16 @@ function Demo() {
 
 function CustomerResult() {
   return (
-    <section className="bg-white py-14 md:py-20">
+    <section className="bg-navy-light py-14 md:py-20">
       <div className="container-wz">
         <div className="mx-auto max-w-[680px] text-center">
-          <p className="eyebrow">Customer Results</p>
-          <h2 className="mt-3 headline text-[28px] leading-[1.12] md:text-[38px]">
+          <p className="eyebrow text-gold">Customer Results</p>
+          <h2 className="mt-3 headline text-[28px] leading-[1.12] text-white md:text-[38px]">
             What Changes When You Can Finally See Your Fleet?
           </h2>
         </div>
         <Reveal className="mt-10 mx-auto max-w-[860px]">
-          <article className="overflow-hidden rounded-[18px] bg-paper shadow-card">
+          <article className="overflow-hidden rounded-[18px] bg-navy shadow-card">
             <div className="grid md:grid-cols-[1fr_1.2fr]">
               <div className="relative">
                 <img
@@ -252,31 +252,31 @@ function CustomerResult() {
                 />
               </div>
               <div className="p-6 md:p-8">
-                <p className="text-[12px] font-semibold uppercase tracking-wide text-electric-blue">
+                <p className="text-[12px] font-semibold uppercase tracking-wide text-gold">
                   {results[0].industry}
                 </p>
-                <h3 className="mt-2 text-[20px] font-extrabold text-navy md:text-[22px]">
+                <h3 className="mt-2 text-[20px] font-extrabold text-white md:text-[22px]">
                   {results[0].company}
                 </h3>
                 <div className="mt-5 space-y-4">
-                  <div className="rounded-xl bg-white p-4">
+                  <div className="rounded-xl bg-navy-dark p-4">
                     <p className="text-[11px] font-bold uppercase tracking-wide text-alert">
                       Before Wazambi
                     </p>
-                    <p className="mt-1.5 text-[14px] font-light leading-[1.6] text-ink/75">
+                    <p className="mt-1.5 text-[14px] font-light leading-[1.6] text-white/75">
                       {results[0].problem}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-navy p-4 text-white">
-                    <p className="text-[11px] font-bold uppercase tracking-wide text-gold">
+                  <div className="rounded-xl bg-gold p-4 text-navy">
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-navy/70">
                       After Wazambi
                     </p>
-                    <p className="mt-1.5 text-[14px] font-light leading-[1.6] text-white/85">
+                    <p className="mt-1.5 text-[14px] font-light leading-[1.6] text-navy/90">
                       {results[0].result}
                     </p>
                   </div>
                 </div>
-                <Link href="/customer-results" className="btn-outline mt-6 w-full text-center">
+                <Link href="/customer-results" className="btn-outline mt-6 w-full border-white/40 text-white hover:bg-white hover:text-navy">
                   See Customer Results
                 </Link>
               </div>
@@ -294,25 +294,25 @@ function CustomerResult() {
 
 function HowItWorks() {
   return (
-    <section className="bg-paper py-14 md:py-20">
+    <section className="bg-navy py-14 md:py-20">
       <div className="container-wz">
         <div className="mx-auto max-w-[680px] text-center">
-          <p className="eyebrow">How It Works</p>
-          <h2 className="mt-3 headline text-[28px] leading-[1.12] md:text-[38px]">
+          <p className="eyebrow text-gold">How It Works</p>
+          <h2 className="mt-3 headline text-[28px] leading-[1.12] text-white md:text-[38px]">
             From Your First Call to Complete Vehicle Visibility.
           </h2>
         </div>
         <div className="mt-12 grid gap-5 md:grid-cols-4">
           {howItWorks.map((step, i) => (
             <Reveal key={step.title} delay={i * 80}>
-              <div className="rounded-[14px] bg-white p-5 shadow-card md:h-full">
+              <div className="rounded-[14px] bg-navy-light p-5 shadow-card md:h-full">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-electric-blue text-[15px] font-black text-white">
                   {i + 1}
                 </span>
-                <h4 className="mt-4 text-[15px] font-extrabold uppercase leading-tight text-navy">
+                <h4 className="mt-4 text-[15px] font-extrabold uppercase leading-tight text-white">
                   {step.title}
                 </h4>
-                <p className="mt-2 text-[13px] font-light leading-[1.6] text-ink/65">
+                <p className="mt-2 text-[13px] font-light leading-[1.6] text-white/70">
                   {step.text}
                 </p>
               </div>
@@ -320,7 +320,7 @@ function HowItWorks() {
           ))}
         </div>
         <Reveal className="mt-8 text-center">
-          <p className="text-[14px] font-light text-ink/60">
+          <p className="text-[14px] font-light text-white/60">
             Continued support is available after installation.
           </p>
           <Link href="/fleet-assessment" className="btn-primary mt-5 inline-block">
@@ -340,16 +340,16 @@ function FaqSection() {
   const c = useContent();
   const activeFaqs = c.faqs ?? faqs;
   return (
-    <section id="faq" className="bg-white py-14 md:py-20">
+    <section id="faq" className="bg-navy-light py-14 md:py-20">
       <div className="container-wz">
         <div className="mx-auto max-w-[680px] text-center">
-          <p className="eyebrow">Questions</p>
-          <h2 className="mt-3 headline text-[28px] leading-[1.12] md:text-[38px]">
+          <p className="eyebrow text-gold">Questions</p>
+          <h2 className="mt-3 headline text-[28px] leading-[1.12] text-white md:text-[38px]">
             Frequently Asked Questions.
           </h2>
         </div>
         <div className="mt-10">
-          <FaqAccordion items={activeFaqs} section="homepage-faq" />
+          <FaqAccordion items={activeFaqs} section="homepage-faq" tone="dark" />
         </div>
       </div>
     </section>
@@ -362,17 +362,17 @@ function FaqSection() {
 
 function About() {
   return (
-    <section id="about" className="bg-paper py-14 md:py-24">
+    <section id="about" className="bg-navy py-14 md:py-24">
       <div className="container-wz">
         <div className="mx-auto max-w-[680px] text-center">
-          <p className="eyebrow">Our Company</p>
-          <h2 className="mt-3 headline text-[28px] leading-[1.12] md:text-[38px]">
+          <p className="eyebrow text-gold">Our Company</p>
+          <h2 className="mt-3 headline text-[28px] leading-[1.12] text-white md:text-[38px]">
             About Wazambi.
           </h2>
         </div>
         <div className="mt-12 grid items-start gap-10 md:grid-cols-[1fr_1.3fr]">
           <Reveal direction="left">
-            <div className="relative mx-auto w-full max-w-[460px] overflow-hidden rounded-[18px] bg-navy">
+            <div className="relative mx-auto w-full max-w-[460px] overflow-hidden rounded-[18px] bg-navy-light">
               <img
                 src="/images/about/team.jpg"
                 alt="The Wazambi GPS team"
@@ -382,7 +382,7 @@ function About() {
             </div>
           </Reveal>
           <Reveal direction="right">
-            <div className="space-y-4 text-[15px] font-light leading-[1.8] text-ink/80 md:text-[16px]">
+            <div className="space-y-4 text-[15px] font-light leading-[1.8] text-white/80 md:text-[16px]">
               <p>
                 Wazambi GPS was built to help vehicle owners and businesses stop depending on
                 phone calls, driver explanations and guesswork. We give customers the visibility
@@ -411,11 +411,11 @@ function About() {
 
 function Opportunities() {
   return (
-    <section className="bg-white py-14 md:py-20">
+    <section className="bg-navy-light py-14 md:py-20">
       <div className="container-wz">
         <div className="mx-auto max-w-[680px] text-center">
-          <p className="eyebrow">Opportunities</p>
-          <h2 className="mt-3 headline text-[28px] leading-[1.12] md:text-[38px]">
+          <p className="eyebrow text-gold">Opportunities</p>
+          <h2 className="mt-3 headline text-[28px] leading-[1.12] text-white md:text-[38px]">
             Grow With Wazambi.
           </h2>
         </div>
@@ -435,11 +435,11 @@ function Opportunities() {
             </div>
           </Reveal>
           <Reveal>
-            <div className="flex h-full flex-col rounded-[18px] bg-paper p-6 md:p-8">
-              <h3 className="text-[20px] font-extrabold uppercase text-electric-blue">
+            <div className="flex h-full flex-col rounded-[18px] bg-electric-blue p-6 text-white md:p-8">
+              <h3 className="text-[20px] font-extrabold uppercase text-white">
                 Create Content for Wazambi
               </h3>
-              <p className="mt-3 flex-1 text-[14px] font-light leading-[1.7] text-ink/70">
+              <p className="mt-3 flex-1 text-[14px] font-light leading-[1.7] text-white/90">
                 Create TikTok, Instagram and Facebook videos about Wazambi GPS and earn
                 according to the approved performance of your content.
               </p>
@@ -460,7 +460,7 @@ function Opportunities() {
 
 function FinalCta() {
   return (
-    <section className="bg-navy py-14 md:py-24">
+    <section className="bg-navy-dark py-14 md:py-24">
       <div className="container-wz text-center">
         <Reveal>
           <h2 className="headline text-[30px] leading-[1.12] text-white md:text-[44px]">
