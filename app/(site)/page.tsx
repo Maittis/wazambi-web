@@ -43,29 +43,34 @@ export default function HomePage() {
 function Hero() {
   return (
     <section className="bg-white">
-      <div className="container-wz grid items-center gap-6 pt-8 pb-6 md:grid-cols-2 md:gap-10 md:pt-14 md:pb-10">
-        <Reveal>
-          <p className="eyebrow text-[12px] md:text-[13px]">{hero.eyebrow}</p>
-          <h1 className="mt-3 headline text-[36px] leading-[1.06] md:text-[52px] lg:text-[62px]">
-            {hero.headline}
-          </h1>
-          <p className="mt-5 max-w-[520px] text-[15px] font-light leading-[1.75] text-ink/75 md:text-[17px]">
-            {hero.subline}
-          </p>
-          <Link href={hero.primaryCta.href} className="btn-primary mt-7 inline-block">
-            {hero.primaryCta.label}
-          </Link>
-        </Reveal>
-        <Reveal delay={120}>
-          <div className="relative mx-auto w-full max-w-[480px] overflow-hidden rounded-[18px] bg-paper">
-            <img
-              src="/images/about/team.jpg"
-              alt="The Wazambi GPS team"
-              className="aspect-[4/3] w-full object-cover"
-              loading="eager"
-            />
+      <div className="grid items-stretch lg:grid-cols-2">
+        <div className="flex items-center">
+          <div className="mx-auto w-full max-w-[1170px] px-6 py-12 md:px-8 md:py-16 lg:py-24 lg:pr-10 xl:pr-14">
+            <Reveal>
+              <p className="eyebrow text-[12px] md:text-[13px]">{hero.eyebrow}</p>
+              <h1 className="mt-4 headline text-[34px] leading-[1.05] sm:text-[44px] md:text-[52px] lg:text-[58px] xl:text-[66px]">
+                {hero.headline}
+              </h1>
+              <p className="mt-6 max-w-[540px] text-[15px] font-light leading-[1.75] text-ink/75 md:text-[17px]">
+                {hero.subline}
+              </p>
+              <Link
+                href={hero.primaryCta.href}
+                className="btn-primary mt-8 inline-block min-w-[280px] text-center text-[15px]"
+              >
+                {hero.primaryCta.label}
+              </Link>
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
+        <div className="relative h-[300px] sm:h-[400px] lg:h-auto">
+          <img
+            src="/images/about/team.jpg"
+            alt="The Wazambi GPS team"
+            className="absolute inset-0 h-full w-full object-cover object-[center_25%]"
+            loading="eager"
+          />
+        </div>
       </div>
     </section>
   );
