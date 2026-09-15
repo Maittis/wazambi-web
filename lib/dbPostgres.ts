@@ -365,7 +365,7 @@ type PgClient = { query: (text: string, values?: unknown[]) => Promise<{ rows: u
 
 let poolPromise: Promise<PgClient> | null = null;
 
-async function getPool(): Promise<PgClient> {
+export async function getPool(): Promise<PgClient> {
   if (!poolPromise) {
     poolPromise = (async () => {
       const { Pool } = await import("pg");

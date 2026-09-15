@@ -79,6 +79,8 @@ export default function Dashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [data, setData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(false);
+  const [repairing, setRepairing] = useState(false);
+  const [repairMsg, setRepairMsg] = useState<string | null>(null);
 
   const fetchData = useCallback(async (resources: string[]) => {
     setLoading(true);
@@ -144,6 +146,22 @@ export default function Dashboard() {
     router.replace("/");
   };
 
+  const repairDb = async () => {
+    if (!window.confirm("Run the database schema repair? This adds any missing columns/tables — it is safe and idempotent.")) return;
+    setRepairing(true);
+    setRepairMsg(null);
+    try {
+      const res = await fetch("/api/db/repair", { method: "POST" });
+      const j = await res.json();
+      if (!res.ok) throw new Error(j.error || "Repair failed");
+      setRepairMsg(`Done — ${j.executed} schema statements applied.`);
+    } catch (err) {
+      setRepairMsg(err instanceof Error ? err.message : "Repair failed");
+    } finally {
+      setRepairing(false);
+    }
+  };
+
   if (!me) return <div className="min-h-screen bg-navy" />;
 
   return (
@@ -204,9 +222,28 @@ export default function Dashboard() {
               {navItems.find((n) => n.key === section)?.label}
             </h1>
           </div>
-          <div className="text-right">
-            <p className="text-[13px] font-semibold text-navy">{me.fullName}</p>
-            <p className="text-[11px] uppercase tracking-wide text-ink/50">{me.role}</p>
+          <div className="flex items-center gap-4">
+            {me?.role === "owner" && (
+              <div className="text-right">
+                <button
+                  onClick={repairDb}
+                  disabled={repairing}
+                  className="rounded-lg border border-navy/15 bg-paper px-3 py-1.5 text-[12px] font-semibold text-navy transition-colors hover:border-electric-blue hover:text-electric-blue disabled:opacity-50"
+                  title="Add missing database columns/tables on the Postgres backend"
+                >
+                  {repairing ? "Repairing…" : "Repair Database"}
+                </button>
+                {repairMsg && (
+                  <p className={`mt-1 max-w-[260px] text-right text-[11px] ${repairMsg.startsWith("Done") ? "text-green-700" : "text-red-700"}`}>
+                    {repairMsg}
+                  </p>
+                )}
+              </div>
+            )}
+            <div className="text-right">
+              <p className="text-[13px] font-semibold text-navy">{me.fullName}</p>
+              <p className="text-[11px] uppercase tracking-wide text-ink/50">{me.role}</p>
+            </div>
           </div>
         </header>
 
