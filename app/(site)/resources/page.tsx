@@ -54,7 +54,7 @@ export default function ResourcesPage() {
                     </div>
                     <h2 className="text-[18px] font-bold uppercase text-navy">{item.title}</h2>
                     <p className="mt-2 text-[14px] font-light text-ink/65">{item.description}</p>
-                    <span className="mt-4 inline-block text-[13px] font-bold uppercase text-electric-blue group-hover:underline">
+                    <span className="mt-4 inline-block text-[13px] font-bold uppercase text-wazambi-gold-deep group-hover:underline">
                       Get the free guide →
                     </span>
                   </div>

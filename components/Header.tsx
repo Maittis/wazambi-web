@@ -126,7 +126,7 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
                         >
                           <h4 className="text-[15px] font-extrabold uppercase text-navy">{sol.title}</h4>
                           <p className="mt-2 text-[13px] leading-[1.55] text-ink/65">{sol.shortHeadline}</p>
-                          <span className="mt-3 block text-[12px] font-bold uppercase tracking-wide text-electric-blue">
+                          <span className="mt-3 block text-[12px] font-bold uppercase tracking-wide text-wazambi-gold-deep">
                             Explore {sol.title} →
                           </span>
                         </Link>
@@ -167,7 +167,7 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
                           </span>
                           <h4 className="mt-2 text-[15px] font-extrabold uppercase text-navy">{course.title}</h4>
                           <p className="mt-2 text-[13px] leading-[1.55] text-ink/65">{course.description}</p>
-                          <span className="mt-3 block text-[12px] font-bold uppercase tracking-wide text-electric-blue">
+                          <span className="mt-3 block text-[12px] font-bold uppercase tracking-wide text-wazambi-gold-deep">
                             Take This Course →
                           </span>
                         </Link>

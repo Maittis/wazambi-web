@@ -90,7 +90,7 @@ export default function CoursePage({ course }: { course: Course }) {
             {course.whatYouLearn.map((item, i) => (
               <Reveal key={i} delay={i * 25}>
                 <div className="flex items-start gap-3 rounded-[10px] bg-white p-5">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-electric-blue text-[14px] font-bold text-white">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-wazambi-gold text-[14px] font-bold text-navy">
                     {i + 1}
                   </span>
                   <span className="mt-1 text-[15px] font-medium text-navy">{item}</span>

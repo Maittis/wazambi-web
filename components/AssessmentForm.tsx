@@ -318,7 +318,7 @@ export default function AssessmentForm({ assessmentType }: Props) {
 
       <div className="flex gap-3">
         {step > 0 && (
-          <button type="button" onClick={() => setStep(step - 1)} className="btn-outline flex-1 text-[14px]">
+          <button type="button" onClick={() => setStep(step - 1)} className="btn-secondary flex-1 text-[14px]">
             ← Back
           </button>
         )}

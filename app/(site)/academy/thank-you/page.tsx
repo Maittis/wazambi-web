@@ -34,7 +34,7 @@ function ThankYouContent() {
             <Link href="/fleet-assessment" className="btn-primary w-full sm:w-auto">
               Get a Free Fleet Assessment
             </Link>
-            <Link href="/academy" className="btn-outline w-full sm:w-auto">
+            <Link href="/academy" className="btn-secondary w-full sm:w-auto">
               Explore More Courses
             </Link>
           </div>

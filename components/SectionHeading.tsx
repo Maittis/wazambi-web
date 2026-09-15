@@ -28,7 +28,7 @@ export default function SectionHeading({
           {highlight ? (
             <>
               {title.replace(highlight, "")}
-              <span className={isLight ? "text-electric-blue" : "text-gold"}>
+              <span className={isLight ? "text-wazambi-gold-deep" : "text-wazambi-gold"}>
                 {highlight}
               </span>
               {title.slice(title.indexOf(highlight) + highlight.length)}

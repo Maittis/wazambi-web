@@ -139,7 +139,7 @@ export default function CreatorsPage() {
             {contentTypes.map((c, i) => (
               <Reveal key={c.number} delay={i * 30}>
                 <div className="h-full rounded-[14px] bg-white p-6 shadow-card">
-                  <span className="font-poppins text-[40px] font-black text-electric-blue">{c.number}</span>
+                  <span className="font-poppins text-[40px] font-black text-wazambi-gold-deep">{c.number}</span>
                   <h3 className="mt-2 text-[16px] font-bold uppercase text-navy">{c.title}</h3>
                   <p className="mt-2 text-[14px] font-light text-ink/65">{c.text}</p>
                 </div>
@@ -161,7 +161,7 @@ export default function CreatorsPage() {
             {earnSteps.map((s, i) => (
               <Reveal key={i} delay={i * 30}>
                 <div className="relative h-full rounded-[14px] bg-paper p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-electric-blue text-[18px] font-black text-white">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-wazambi-gold text-[18px] font-black text-navy">
                     {i + 1}
                   </div>
                   <h3 className="text-[15px] font-bold uppercase text-navy">{s.title}</h3>
@@ -184,7 +184,7 @@ export default function CreatorsPage() {
             {kit.map((item, i) => (
               <Reveal key={i} delay={i * 15}>
                 <div className="flex items-start gap-3">
-                  <svg className="mt-1 h-5 w-5 shrink-0 text-electric-blue" viewBox="0 0 20 20" fill="currentColor">
+                  <svg className="mt-1 h-5 w-5 shrink-0 text-wazambi-gold-deep" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
                   <span className="text-[15px] text-ink/75">{item}</span>
@@ -204,7 +204,7 @@ export default function CreatorsPage() {
               <ul className="mt-5 space-y-3">
                 {forYou.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-[15px] text-ink/75">
-                    <span className="mt-1 font-bold text-electric-blue">✓</span>
+                    <span className="mt-1 font-bold text-wazambi-gold-deep">✓</span>
                     {item}
                   </li>
                 ))}
@@ -262,7 +262,7 @@ export default function CreatorsPage() {
                   href="https://www.facebook.com/wazambigps"
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-outline"
+                  className="btn-secondary"
                 >
                   Apply on Facebook
                 </a>

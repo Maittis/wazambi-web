@@ -306,7 +306,7 @@ function HowItWorks() {
           {howItWorks.map((step, i) => (
             <Reveal key={step.title} delay={i * 30}>
               <div className="rounded-[14px] bg-navy-light p-5 shadow-card md:h-full">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-electric-blue text-[15px] font-black text-white">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-wazambi-gold text-[15px] font-black text-navy">
                   {i + 1}
                 </span>
                 <h4 className="mt-4 text-[15px] font-extrabold uppercase leading-tight text-white">

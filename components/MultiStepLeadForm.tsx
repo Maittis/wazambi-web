@@ -202,7 +202,7 @@ export default function MultiStepLeadForm({ courseCode, guideName, courseUrl }: 
 
       <div className="flex gap-3">
         {step > 0 && (
-          <button type="button" onClick={back} className="btn-outline flex-1 text-[14px]">
+          <button type="button" onClick={back} className="btn-secondary flex-1 text-[14px]">
             ← Back
           </button>
         )}

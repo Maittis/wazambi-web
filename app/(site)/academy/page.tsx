@@ -50,7 +50,7 @@ export default function AcademyPage() {
                       </li>
                     ))}
                   </ul>
-                  <h3 className="mt-6 text-[12px] font-semibold uppercase tracking-wide text-electric-blue">
+                  <h3 className="mt-6 text-[12px] font-semibold uppercase tracking-wide text-wazambi-gold-deep">
                     You will learn
                   </h3>
                   <Link href={`/academy/${course.slug}`} className="btn-primary mt-4 w-full text-center">

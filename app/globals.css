@@ -12,7 +12,7 @@
   }
 
   ::selection {
-    @apply bg-gold text-navy;
+    @apply bg-wazambi-gold text-navy;
   }
 }
 
@@ -22,7 +22,7 @@
   }
 
   .eyebrow {
-    @apply text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.14em] text-electric-blue;
+    @apply text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.14em] text-wazambi-gold-deep;
   }
 
   .headline {
@@ -36,7 +36,11 @@
   }
 
   .btn-primary {
-    @apply btn-pill bg-gold border-gold text-navy hover:bg-gold-dark hover:border-gold-dark active:translate-y-px active:bg-gold-dark active:border-gold-dark;
+    @apply btn-pill bg-wazambi-gold border-wazambi-gold text-navy hover:bg-wazambi-gold-dark hover:border-wazambi-gold-dark active:translate-y-px active:bg-wazambi-gold-dark active:border-wazambi-gold-dark;
+  }
+
+  .btn-secondary {
+    @apply btn-pill bg-navy border-navy text-white hover:bg-navy-light hover:border-navy-light active:translate-y-px active:bg-navy-light active:border-navy-light;
   }
 
   .btn-outline {

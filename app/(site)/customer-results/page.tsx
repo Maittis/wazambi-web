@@ -32,7 +32,7 @@ export default function CustomerResultsPage() {
                     <Image src={r.image} alt={r.customer} fill className="object-contain" sizes="300px" />
                   </div>
                   <div className="p-8 md:p-10">
-                    <p className="text-[12px] font-semibold uppercase tracking-wide text-electric-blue">
+                    <p className="text-[12px] font-semibold uppercase tracking-wide text-wazambi-gold-deep">
                       {r.industry}
                     </p>
                     <h2 className="mt-1 text-[22px] font-bold text-navy">{r.company}</h2>

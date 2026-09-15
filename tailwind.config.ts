@@ -1,5 +1,13 @@
 import type { Config } from "tailwindcss";
 
+// Wazambi Gold — the official brand token, using the exact gold from the Wazambi logo (#FFC400)
+const brandGold = {
+  DEFAULT: "#FFC400",
+  dark: "#E6A900",
+  // Readable gold for text/icons on light backgrounds (exact #FFC400 fails contrast on white)
+  deep: "#B8860B",
+};
+
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -22,11 +30,8 @@ const config: Config = {
           blue: "#1E5EFF",
           dark: "#1440B8",
         },
-        // Wazambi Gold — exact gold from the Wazambi logo (#FFC400)
-        gold: {
-          DEFAULT: "#FFC400",
-          dark: "#E6A900",
-        },
+        gold: brandGold,
+        "wazambi-gold": brandGold,
         flame: {
           DEFAULT: "#FF7A00",
           dark: "#E05E00",
