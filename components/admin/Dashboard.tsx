@@ -736,6 +736,10 @@ function CreatorApplications({ data }: { data: any }) {
   const apps: any[] = (data.leads ?? []).filter((l: any) => l.leadSource === "creator_application");
   const events: any[] = data.leadEvents ?? [];
   const [busy, setBusy] = useState<number | null>(null);
+  const [viewing, setViewing] = useState<any | null>(null);
+  const [noteText, setNoteText] = useState("");
+  const [noteBusy, setNoteBusy] = useState(false);
+  const [noteError, setNoteError] = useState("");
 
   const metaFor = (leadId: number) => {
     const ev = events
@@ -743,6 +747,16 @@ function CreatorApplications({ data }: { data: any }) {
       .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))[0];
     return ev?.meta ?? {};
   };
+
+  const decisionFor = (leadId: number) =>
+    events
+      .filter((e) => e.leadId === leadId && (e.eventType === "creator_approved" || e.eventType === "creator_rejected"))
+      .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))[0];
+
+  const notesFor = (leadId: number) =>
+    events
+      .filter((e) => e.leadId === leadId && e.eventType === "creator_note")
+      .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
 
   const act = async (lead: any, action: "approve" | "reject") => {
     if (!window.confirm(action === "approve" ? `Approve ${lead.firstName} ${lead.lastName} as a creator?` : `Reject ${lead.firstName} ${lead.lastName}'s application?`)) return;
@@ -769,68 +783,212 @@ function CreatorApplications({ data }: { data: any }) {
     }
   };
 
+  const addNote = async (leadId: number) => {
+    if (!noteText.trim()) {
+      setNoteError("Enter a note first.");
+      return;
+    }
+    setNoteBusy(true);
+    setNoteError("");
+    try {
+      const res = await fetch("/api/creator-application/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, note: noteText }),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        alert(j.error || "Could not save note");
+      } else {
+        setNoteText("");
+        window.location.reload();
+      }
+    } catch {
+      alert("Could not save note");
+    } finally {
+      setNoteBusy(false);
+    }
+  };
+
   return (
-    <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
-      <table className="w-full min-w-[980px]">
-        <thead className="bg-paper">
-          <tr>
-            <Th>Creator</Th>
-            <Th>Phone</Th>
-            <Th>Email</Th>
-            <Th>Platforms</Th>
-            <Th>Content Page</Th>
-            <Th>Status</Th>
-            <Th>Creator Code</Th>
-            <Th>Applied</Th>
-            <Th>Action</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {apps.slice().reverse().map((a) => {
-            const meta = metaFor(a.id);
-            const platforms = meta.mainPlatform || (Array.isArray(meta.platforms) ? meta.platforms.join(", ") : meta.platforms) || "—";
-            const contentUrl = meta.mainContentUrl || "—";
-            return (
-              <tr key={a.id} className="border-t border-navy/5">
-                <Td className="font-semibold text-ink/90">
-                  {a.firstName} {a.lastName}
-                </Td>
-                <Td className="whitespace-nowrap">{a.phone}</Td>
-                <Td>{a.email}</Td>
-                <Td className="text-[12px]">{platforms}</Td>
-                <Td className="max-w-[220px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px]">
-                  {contentUrl !== "—" ? (
-                    <a href={contentUrl} target="_blank" rel="noreferrer" className="text-electric-blue underline">
-                      {contentUrl}
-                    </a>
-                  ) : (
-                    "—"
-                  )}
-                </Td>
-                <Td><Badge status={a.status} /></Td>
-                <Td className="font-mono text-[12px] font-semibold text-navy">{a.agentCode ?? "—"}</Td>
-                <Td className="whitespace-nowrap">{a.createdAt?.slice(0, 10)}</Td>
-                <Td>
-                  {a.status === "pending" ? (
-                    <div className="flex gap-2">
-                      <button onClick={() => act(a, "approve")} disabled={busy === a.id} className="rounded-lg bg-green-600 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-green-700 disabled:opacity-50">
-                        Approve
-                      </button>
-                      <button onClick={() => act(a, "reject")} disabled={busy === a.id} className="rounded-lg bg-alert px-3 py-1.5 text-[12px] font-semibold text-white hover:opacity-90 disabled:opacity-50">
-                        Reject
-                      </button>
+    <>
+      <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
+        <table className="w-full min-w-[1040px]">
+          <thead className="bg-paper">
+            <tr>
+              <Th>Creator</Th>
+              <Th>Phone</Th>
+              <Th>Email</Th>
+              <Th>Platform</Th>
+              <Th>Content Page</Th>
+              <Th>Status</Th>
+              <Th>Creator Code</Th>
+              <Th>Applied</Th>
+              <Th>Action</Th>
+            </tr>
+          </thead>
+          <tbody>
+            {apps.slice().reverse().map((a) => {
+              const meta = metaFor(a.id);
+              const platforms = meta.mainPlatform || (Array.isArray(meta.platforms) ? meta.platforms.join(", ") : meta.platforms) || "—";
+              const contentUrl = meta.mainContentUrl || "—";
+              return (
+                <tr key={a.id} className="border-t border-navy/5">
+                  <Td className="font-semibold text-ink/90">
+                    {a.firstName} {a.lastName}
+                  </Td>
+                  <Td className="whitespace-nowrap">{a.phone}</Td>
+                  <Td>{a.email}</Td>
+                  <Td className="text-[12px]">{platforms}</Td>
+                  <Td className="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px]">
+                    {contentUrl !== "—" ? (
+                      <a href={contentUrl} target="_blank" rel="noreferrer" className="text-electric-blue underline">
+                        {contentUrl}
+                      </a>
+                    ) : (
+                      "—"
+                    )}
+                  </Td>
+                  <Td><Badge status={a.status} /></Td>
+                  <Td className="font-mono text-[12px] font-semibold text-navy">{a.agentCode ?? "—"}</Td>
+                  <Td className="whitespace-nowrap">{a.createdAt?.slice(0, 10)}</Td>
+                  <Td>
+                    <div className="flex flex-wrap gap-2">
+                      <GhostBtn onClick={() => setViewing(a)}>View</GhostBtn>
+                      {a.status === "pending" && (
+                        <>
+                          <button onClick={() => act(a, "approve")} disabled={busy === a.id} className="rounded-lg bg-green-600 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-green-700 disabled:opacity-50">
+                            Approve
+                          </button>
+                          <button onClick={() => act(a, "reject")} disabled={busy === a.id} className="rounded-lg bg-alert px-3 py-1.5 text-[12px] font-semibold text-white hover:opacity-90 disabled:opacity-50">
+                            Reject
+                          </button>
+                        </>
+                      )}
                     </div>
-                  ) : (
-                    <span className="text-[12px] text-ink/45">—</span>
-                  )}
-                </Td>
-              </tr>
-            );
-          })}
-          {apps.length === 0 && <tr><Td colSpan={9} className="text-center text-ink/40">No creator applications yet</Td></tr>}
-        </tbody>
-      </table>
-      <p className="p-3 text-[12px] text-ink/40">Approving issues a unique Wazambi Creator Code and emails it to the applicant. The code is never shown on the public application form.</p>
+                  </Td>
+                </tr>
+              );
+            })}
+            {apps.length === 0 && <tr><Td colSpan={9} className="text-center text-ink/40">No creator applications yet</Td></tr>}
+          </tbody>
+        </table>
+        <p className="p-3 text-[12px] text-ink/40">Approving issues a unique Wazambi Creator Code and emails it to the applicant. The code is never shown on the public application form.</p>
+      </div>
+
+      {viewing && (() => {
+        const meta = metaFor(viewing.id);
+        const decision = decisionFor(viewing.id);
+        const notes = notesFor(viewing.id);
+        const contentUrl = meta.mainContentUrl || "";
+        return (
+          <Modal title="Creator Application" onClose={() => setViewing(null)}>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-[16px] font-bold text-navy">{viewing.firstName} {viewing.lastName}</p>
+                  <p className="text-[12px] text-ink/50">{viewing.phone} &middot; {viewing.email}</p>
+                </div>
+                <Badge status={viewing.status} />
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[13px]">
+                <Detail label="City / town" value={meta.town || "—"} />
+                <Detail label="Main platform" value={meta.mainPlatform || "—"} />
+                <Detail label="Content experience" value={meta.contentDuration || "—"} />
+                <Detail label="Record & edit videos" value={meta.canRecordEdit || "—"} />
+                <Detail label="Submitted" value={viewing.createdAt?.replace("T", " ").slice(0, 16)} />
+                <Detail label="Consent" value={meta.consent ? "Yes" : "No"} />
+                <Detail label="Accepted terms" value={meta.acceptTerms ? "Yes" : "No"} />
+              </div>
+
+              <div>
+                <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink/50">Why create for Wazambi</p>
+                <p className="rounded-lg bg-paper p-3 text-[13px] text-ink/80">{meta.whyYou || "—"}</p>
+              </div>
+
+              <div>
+                <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink/50">Content page</p>
+                {contentUrl ? (
+                  <a href={contentUrl} target="_blank" rel="noreferrer" className="inline-block break-all text-[13px] text-electric-blue underline">
+                    {contentUrl}
+                  </a>
+                ) : (
+                  <p className="text-[13px] text-ink/50">—</p>
+                )}
+              </div>
+
+              <div className="rounded-lg border border-navy/10 p-3 text-[13px]">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/50">Decision</p>
+                {decision ? (
+                  <>
+                    <p className="mt-1 text-ink/80">
+                      {decision.description}
+                    </p>
+                    <p className="mt-0.5 text-[12px] text-ink/50">
+                      {decision.createdAt?.replace("T", " ").slice(0, 16)}
+                    </p>
+                  </>
+                ) : (
+                  <p className="mt-1 text-ink/45">Not decided yet</p>
+                )}
+              </div>
+
+              <div>
+                <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink/50">Internal notes</p>
+                <div className="max-h-[160px] space-y-2 overflow-y-auto">
+                  {notes.length === 0 && <p className="text-[13px] text-ink/45">No internal notes yet.</p>}
+                  {notes.map((n) => (
+                    <div key={n.id} className="rounded-lg bg-paper p-3">
+                      <p className="text-[13px] text-ink/80">{n.meta?.note}</p>
+                      <p className="mt-1 text-[11px] text-ink/45">
+                        {n.meta?.staffName || "Wazambi"} &middot; {n.createdAt?.replace("T", " ").slice(0, 16)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                {viewing.status === "pending" && (
+                  <div className="mt-3">
+                    <textarea
+                      value={noteText}
+                      onChange={(e) => setNoteText(e.target.value)}
+                      rows={2}
+                      placeholder="Add an internal note…"
+                      className="w-full rounded-lg border border-navy/15 bg-white px-3 py-2 text-[13px] outline-none focus:border-electric-blue"
+                    />
+                    {noteError && <p className="mt-1 text-[12px] text-alert">{noteError}</p>}
+                    <div className="mt-2">
+                      <PrimaryBtn onClick={() => addNote(viewing.id)} disabled={noteBusy}>
+                        {noteBusy ? "Saving…" : "Save Note"}
+                      </PrimaryBtn>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {viewing.status === "pending" && (
+                <div className="flex gap-2 border-t border-navy/10 pt-4">
+                  <button onClick={() => act(viewing, "approve")} disabled={busy === viewing.id} className="flex-1 rounded-lg bg-green-600 px-3 py-2 text-[13px] font-semibold text-white hover:bg-green-700 disabled:opacity-50">
+                    Approve Applicant
+                  </button>
+                  <button onClick={() => act(viewing, "reject")} disabled={busy === viewing.id} className="flex-1 rounded-lg bg-alert px-3 py-2 text-[13px] font-semibold text-white hover:opacity-90 disabled:opacity-50">
+                    Reject Applicant
+                  </button>
+                </div>
+              )}
+            </div>
+          </Modal>
+        );
+      })()}
+    </>
+  );
+}
+
+function Detail({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/50">{label}</p>
+      <p className="text-[13px] text-ink/80">{value}</p>
     </div>
   );
 }

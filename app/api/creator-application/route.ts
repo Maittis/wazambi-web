@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { upsertLead, addLeadEvent } from "@/lib/leads";
 import { dedupeKeyFor, insert, nowIso, readTable, update } from "@/lib/db";
-import type { EmailDelivery, Lead, WzEvent } from "@/lib/db";
+import type { EmailDelivery, Lead, LeadEvent, WzEvent } from "@/lib/db";
 import {
   sendCreatorApplicationAdminNotification,
   sendCreatorApplicationConfirmation,
 } from "@/lib/email";
+
+function normalizeUrl(url: string): string {
+  return String(url ?? "").trim().toLowerCase().replace(/\/+$/, "");
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -43,6 +47,24 @@ export async function POST(req: NextRequest) {
     if (existing) {
       return NextResponse.json(
         { error: "This phone number or email address has already been used for a creator application." },
+        { status: 409 }
+      );
+    }
+
+    const normalizedUrl = normalizeUrl(contentUrl);
+    const creatorLeadIds = new Set(
+      leads.filter((l) => l.leadSource === "creator_application").map((l) => l.id)
+    );
+    const leadEvents = await readTable<LeadEvent>("leadEvents");
+    const urlDuplicate = leadEvents.some(
+      (ev) =>
+        ev.eventType === "creator_application" &&
+        creatorLeadIds.has(ev.leadId) &&
+        normalizeUrl(String(ev.meta?.mainContentUrl ?? "")) === normalizedUrl
+    );
+    if (urlDuplicate) {
+      return NextResponse.json(
+        { error: "This content-page link has already been used for a creator application." },
         { status: 409 }
       );
     }
