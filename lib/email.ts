@@ -136,6 +136,66 @@ export async function sendAgentApprovalEmail(input: {
   return sendHtml(input.to, subject, html);
 }
 
+export async function sendCreatorApplicationConfirmation(input: {
+  to: string;
+  firstName: string;
+  submittedAt: string;
+}): Promise<SendResult> {
+  const subject = `We received your Wazambi Creator application, ${input.firstName}`;
+  const html = wrapHtml(`
+    <h2 style="color:#0A1633; margin-bottom: 8px;">Hi ${input.firstName},</h2>
+    <p>Thank you for applying to the <strong>Wazambi Creator Program</strong>. Your application was received successfully.</p>
+    <p style="margin: 18px 0;">What happens next:</p>
+    <ul style="padding-left: 18px; line-height: 1.8; color:#344054;">
+      <li>Our team reviews your content quality, experience and suitability.</li>
+      <li>If you are approved, we will contact you with onboarding details.</li>
+      <li>Approved creators publish Wazambi content and submit it for review.</li>
+    </ul>
+    <p><strong>Important:</strong> this is an independent, performance-based content opportunity. Earnings depend on approved content performance and views. It is not salaried employment.</p>
+    <p style="margin-top: 24px;">Questions? Contact us and we will help.</p>`);
+  return sendHtml(input.to, subject, html);
+}
+
+export async function sendCreatorApplicationAdminNotification(input: {
+  creatorName: string;
+  email?: string;
+  phone?: string;
+  town?: string;
+  platforms?: string;
+  submittedAt: string;
+}): Promise<SendResult> {
+  const to = process.env.CREATOR_APPLICATIONS_TO || "hello@wazambigps.com";
+  const subject = `New Creator application: ${input.creatorName}`;
+  const html = wrapHtml(`
+    <h2 style="color:#0A1633; margin-bottom: 8px;">New Wazambi Creator Program application</h2>
+    <table style="border-collapse:collapse; font-size:14px; color:#101828; margin-top:12px;">
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Name</td><td style="padding:6px 0;"><strong>${input.creatorName}</strong></td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Email</td><td style="padding:6px 0;">${input.email || "—"}</td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Phone</td><td style="padding:6px 0;">${input.phone || "—"}</td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Town</td><td style="padding:6px 0;">${input.town || "—"}</td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Platforms</td><td style="padding:6px 0;">${input.platforms || "—"}</td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Submitted</td><td style="padding:6px 0;">${input.submittedAt}</td></tr>
+    </table>
+    <p style="margin-top:20px;">Review the full application in the Creator Applications section of the admin dashboard.</p>`);
+  return sendHtml(to, subject, html);
+}
+
+export async function sendCreatorApprovalEmail(input: {
+  to: string;
+  firstName: string;
+  creatorCode: string;
+}): Promise<SendResult> {
+  const subject = `Approved! Your Wazambi Creator Code is ${input.creatorCode}`;
+  const html = wrapHtml(`
+    <h2 style="color:#0A1633; margin-bottom: 8px;">Congratulations ${input.firstName},</h2>
+    <p>Your application to the <strong>Wazambi Creator Program</strong> has been approved.</p>
+    <p style="margin: 20px 0 6px;">Your unique Wazambi Creator Code is:</p>
+    <div style="background:#FFC400; color:#0A1633; font-weight:800; letter-spacing:2px; font-size:22px; text-align:center; padding:16px; border-radius:10px; margin:12px 0 22px;">${input.creatorCode}</div>
+    <p>Use this code when submitting your published content so your earnings are tracked to you. Approved topics, brand guidelines and submission details will follow.</p>
+    <p style="margin-top: 22px;">Welcome to the Wazambi Creator team.</p>`);
+  return sendHtml(input.to, subject, html);
+}
+
 type SendParams = {
   to: string;
   firstName: string;

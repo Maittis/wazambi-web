@@ -30,6 +30,7 @@ const navItems = [
   { key: "alerts", label: "Alerts", icon: "!" },
   { key: "followups", label: "Follow-ups", icon: "→" },
   { key: "agentApplications", label: "Agent Applications", icon: "★" },
+  { key: "creatorApplications", label: "Creator Applications", icon: "★" },
   { key: "salespeople", label: "Salespeople", icon: "●" },
   { key: "emails", label: "Email Delivery", icon: "✉" },
   { key: "content", label: "Website Content", icon: "✎" },
@@ -51,6 +52,7 @@ const roleNav: Record<string, string[]> = {
   alerts: ["owner", "admin", "sales_manager", "salesperson"],
   followups: ["owner", "admin", "sales_manager", "salesperson"],
   agentApplications: ["owner", "admin"],
+  creatorApplications: ["owner", "admin"],
   salespeople: ["owner", "admin"],
   emails: ["owner", "admin", "sales_manager", "salesperson"],
   content: ["owner", "admin", "content_manager"],
@@ -122,6 +124,7 @@ export default function Dashboard() {
       alerts: ["alerts", "vehicles", "customers"],
       followups: ["followUps", "leads", "staff"],
       agentApplications: ["leads"],
+      creatorApplications: ["leads", "leadEvents"],
       salespeople: ["staff"],
       emails: ["emailDeliveries", "leads"],
       content: [],
@@ -221,6 +224,7 @@ export default function Dashboard() {
           {section === "alerts" && <Alerts data={data} />}
           {section === "followups" && <FollowUps data={data} />}
           {section === "agentApplications" && <AgentApplications data={data} />}
+          {section === "creatorApplications" && <CreatorApplications data={data} />}
           {section === "salespeople" && <Salespeople data={data} />}
           {section === "emails" && <Emails data={data} />}
           {section === "content" && <ContentManager />}
@@ -724,6 +728,109 @@ function AgentApplications({ data }: { data: any }) {
         </tbody>
       </table>
       <p className="p-3 text-[12px] text-ink/40">Approving issues a unique Wazambi Agent Code and emails it to the applicant. The code is never shown on the public application form.</p>
+    </div>
+  );
+}
+
+function CreatorApplications({ data }: { data: any }) {
+  const apps: any[] = (data.leads ?? []).filter((l: any) => l.leadSource === "creator_application");
+  const events: any[] = data.leadEvents ?? [];
+  const [busy, setBusy] = useState<number | null>(null);
+
+  const metaFor = (leadId: number) => {
+    const ev = events
+      .filter((e) => e.leadId === leadId && e.eventType === "creator_application")
+      .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))[0];
+    return ev?.meta ?? {};
+  };
+
+  const act = async (lead: any, action: "approve" | "reject") => {
+    if (!window.confirm(action === "approve" ? `Approve ${lead.firstName} ${lead.lastName} as a creator?` : `Reject ${lead.firstName} ${lead.lastName}'s application?`)) return;
+    setBusy(lead.id);
+    try {
+      const res = await fetch("/api/creator-application/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId: lead.id, action }),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        alert(j.error || "Action failed");
+      } else {
+        const j = await res.json();
+        if (j.ok && j.creatorCode) alert(`Approved. Creator code: ${j.creatorCode}`);
+        else if (j.ok) alert(`Application ${action === "approve" ? "approved" : "rejected"}.`);
+      }
+    } catch {
+      alert("Action failed");
+    } finally {
+      setBusy(null);
+      window.location.reload();
+    }
+  };
+
+  return (
+    <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
+      <table className="w-full min-w-[980px]">
+        <thead className="bg-paper">
+          <tr>
+            <Th>Creator</Th>
+            <Th>Phone</Th>
+            <Th>Email</Th>
+            <Th>Platforms</Th>
+            <Th>Content Page</Th>
+            <Th>Status</Th>
+            <Th>Creator Code</Th>
+            <Th>Applied</Th>
+            <Th>Action</Th>
+          </tr>
+        </thead>
+        <tbody>
+          {apps.slice().reverse().map((a) => {
+            const meta = metaFor(a.id);
+            const platforms = Array.isArray(meta.platforms) ? meta.platforms.join(", ") : (meta.platforms || "—");
+            const contentUrl = meta.mainContentUrl || "—";
+            return (
+              <tr key={a.id} className="border-t border-navy/5">
+                <Td className="font-semibold text-ink/90">
+                  {a.firstName} {a.lastName}
+                </Td>
+                <Td className="whitespace-nowrap">{a.phone}</Td>
+                <Td>{a.email}</Td>
+                <Td className="text-[12px]">{platforms}</Td>
+                <Td className="max-w-[220px] overflow-hidden text-ellipsis whitespace-nowrap text-[12px]">
+                  {contentUrl !== "—" ? (
+                    <a href={contentUrl} target="_blank" rel="noreferrer" className="text-electric-blue underline">
+                      {contentUrl}
+                    </a>
+                  ) : (
+                    "—"
+                  )}
+                </Td>
+                <Td><Badge status={a.status} /></Td>
+                <Td className="font-mono text-[12px] font-semibold text-navy">{a.agentCode ?? "—"}</Td>
+                <Td className="whitespace-nowrap">{a.createdAt?.slice(0, 10)}</Td>
+                <Td>
+                  {a.status === "pending" ? (
+                    <div className="flex gap-2">
+                      <button onClick={() => act(a, "approve")} disabled={busy === a.id} className="rounded-lg bg-green-600 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-green-700 disabled:opacity-50">
+                        Approve
+                      </button>
+                      <button onClick={() => act(a, "reject")} disabled={busy === a.id} className="rounded-lg bg-alert px-3 py-1.5 text-[12px] font-semibold text-white hover:opacity-90 disabled:opacity-50">
+                        Reject
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-[12px] text-ink/45">—</span>
+                  )}
+                </Td>
+              </tr>
+            );
+          })}
+          {apps.length === 0 && <tr><Td colSpan={9} className="text-center text-ink/40">No creator applications yet</Td></tr>}
+        </tbody>
+      </table>
+      <p className="p-3 text-[12px] text-ink/40">Approving issues a unique Wazambi Creator Code and emails it to the applicant. The code is never shown on the public application form.</p>
     </div>
   );
 }

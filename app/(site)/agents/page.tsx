@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
 import SectionHeading from "@/components/SectionHeading";
 import FaqAccordion from "@/components/FaqAccordion";
 import AgentApplicationForm from "@/components/AgentApplicationForm";
+import FounderVideo from "@/components/FounderVideo";
 import { site } from "@/lib/content";
 
 const explainers = [
@@ -81,40 +81,6 @@ const agentFaqs = [
   { question: "Do I need to pay to apply?", answer: "No. Applying to become a Wazambi GPS Agent is free." },
 ];
 
-function FounderVideo() {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-  return (
-    <div className="relative w-full overflow-hidden rounded-[20px] bg-black shadow-2xl ring-1 ring-gold/40">
-      <video
-        ref={ref}
-        src={site.agentsVideo.url}
-        poster={site.agentsVideo.poster}
-        controls
-        playsInline
-        preload="none"
-        className="aspect-video w-full object-cover"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-      />
-      {!playing && (
-        <button
-          type="button"
-          aria-label="Play the founder welcome video"
-          onClick={() => ref.current?.play()}
-          className="pointer-events-none absolute inset-0 flex items-center justify-center bg-navy/30"
-        >
-          <span className="pointer-events-auto flex h-20 w-20 items-center justify-center rounded-full bg-gold text-navy shadow-xl transition-transform hover:scale-105 md:h-24 md:w-24">
-            <svg className="ml-1 h-8 w-8 md:h-9 md:w-9" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M6.3 2.84A1.5 1.5 0 008.3 4.1l10 5.9a1.5 1.5 0 010 2.6l-10 5.9a1.5 1.5 0 01-2.3-1.3V3.74a1.5 1.5 0 01.3-.9z" />
-            </svg>
-          </span>
-        </button>
-      )}
-    </div>
-  );
-}
-
 export default function AgentsPage() {
   return (
     <>
@@ -176,7 +142,7 @@ export default function AgentsPage() {
       <section id="watch" className="scroll-mt-24 bg-navy pb-20 md:pb-24">
         <div className="container-wz">
           <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-            <FounderVideo />
+            <FounderVideo url={site.agentsVideo.url} poster={site.agentsVideo.poster} />
             <div>
               <p className="eyebrow text-wazambi-gold">A Message from the Founder</p>
               <h2 className="mt-3 headline text-[24px] text-white md:text-[34px]">

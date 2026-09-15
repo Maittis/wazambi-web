@@ -74,6 +74,10 @@ export const site = {
     url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     poster: "/images/agents/agents.jpg",
   },
+  creatorsVideo: {
+    url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    poster: "/images/about/team.jpg",
+  },
   whatsapp: {
     number: "260000000000",
     message:

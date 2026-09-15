@@ -1,71 +1,42 @@
 "use client";
 
 import Image from "next/image";
-import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import FaqAccordion from "@/components/FaqAccordion";
+import CreatorApplicationForm from "@/components/CreatorApplicationForm";
+import FounderVideo from "@/components/FounderVideo";
+import { site } from "@/lib/content";
 
-const contentTypes = [
+const steps = [
   {
-    number: "01",
-    title: "TikTok",
-    text: "Create short, engaging videos that show how Wazambi GPS helps vehicle owners protect and control their fleet.",
-    icon: "TikTok",
+    title: "Apply",
+    text: "Submit your application and your main content page for review.",
   },
   {
-    number: "02",
-    title: "Instagram",
-    text: "Reels and Stories that demonstrate live tracking, fuel monitoring and real-world Wazambi results.",
-    icon: "Instagram",
+    title: "Get Approved",
+    text: "Wazambi reviews your content quality, experience and suitability for the program.",
   },
   {
-    number: "03",
-    title: "Facebook",
-    text: "Post educational videos and customer stories to vehicle owners, drivers and fleet managers.",
-    icon: "Facebook",
+    title: "Create Wazambi Content",
+    text: "Produce TikTok, Instagram or Facebook videos related to Wazambi GPS products and services.",
   },
   {
-    number: "04",
-    title: "WhatsApp Status",
-    text: "Share approved Wazambi content with your audience through WhatsApp Status and groups.",
-    icon: "WhatsApp",
+    title: "Submit for Review",
+    text: "Submit your video so Wazambi can approve it or request changes.",
   },
 ];
 
-const earnSteps = [
-  { title: "Apply to the program", text: "Submit your application and links to content you have already created." },
-  { title: "Get approved", text: "The Wazambi team reviews your content quality and approves your participation." },
-  { title: "Create and publish", text: "Create videos about Wazambi GPS using approved topics, scripts and brand rules." },
-  { title: "Submit and earn", text: "Submit your published content. Earnings are paid according to approved performance." },
-];
-
-const kit = [
-  "Approved content topics and scripts",
-  "Wazambi GPS brand and usage guidelines",
-  "Access to real Wazambi photos and videos",
-  "Product training on tracking and fuel monitoring",
-  "A unique Creator Code for tracking your content",
-  "Performance tracking on the Wazambi Creator Platform",
-  "Payment and earnings tracking",
-  "Continued support from the Wazambi team",
-];
-
-const forYou = [
-  "You create short videos on TikTok, Instagram or Facebook",
-  "You have an engaged audience or are building one",
-  "You can tell a simple, honest story in a short video",
-  "You use a smartphone to create and publish content",
-  "You are serious about consistent, quality content",
-  "You are ready to follow Wazambi's brand and content rules",
-];
-
-const notForYou = [
-  "You are not creating content regularly",
-  "You only want access without publishing approved content",
-  "You are not willing to follow the brand guidelines",
-  "You expect payment without approving and publishing content",
-  "You are not ready to submit your content for review",
-  "You are applying to get a code but do not plan to create",
+const videoExplains = [
+  "What Wazambi GPS is",
+  "Why Wazambi is looking for creators",
+  "Who the opportunity is for",
+  "The type of GPS-related content creators will make",
+  "Supported platforms: TikTok, Instagram and Facebook",
+  "That creators publish approved Wazambi content",
+  "That this is performance-based and not a salary",
+  "That earnings depend on approved views and content performance",
+  "How Wazambi reviews applicants and what happens after selection",
+  "How approved creators submit videos for review",
 ];
 
 const creatorFaqs = [
@@ -82,193 +53,129 @@ export default function CreatorsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-paper pt-[120px] pb-16 md:pt-[140px] md:pb-24">
-        <div className="container-wz">
-          <Reveal className="mx-auto max-w-[820px] text-center">
-            <p className="eyebrow">Wazambi Creator Program · Video Content · Commission</p>
-            <h1 className="mt-4 headline text-[30px] md:text-[44px]">
-              Your phone and your content could earn you money.
+      <section className="relative overflow-hidden bg-navy pt-[110px] pb-16 md:pt-[130px] md:pb-20">
+        <div className="pointer-events-none absolute -right-32 top-0 h-[420px] w-[420px] rounded-full bg-wazambi-gold/15 blur-[120px]" />
+        <div className="container-wz grid items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <p className="eyebrow text-wazambi-gold">
+              <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-wazambi-gold align-middle" />
+              Wazambi Creator Program · Video Content · Performance-Based
+            </p>
+            <h1 className="mt-5 headline text-[30px] leading-[1.15] text-white md:text-[46px]">
+              Your phone and your content could{" "}
+              <span className="text-wazambi-gold">earn you money</span>.
             </h1>
-            <p className="mx-auto mt-5 max-w-[620px] text-[16px] font-light text-ink/70 md:text-[18px]">
+            <p className="mt-5 max-w-[560px] text-[16px] font-light text-white/75 md:text-[18px]">
               Create TikTok, Instagram and Facebook videos about Wazambi GPS and earn according to
               the approved performance of your content.
             </p>
-            <div className="mt-8">
-              <a href="#apply" className="btn-primary">See if I Qualify →</a>
+            <div className="mt-9">
+              <a href="#watch" className="btn-primary">
+                See if I Qualify →
+              </a>
             </div>
-            <p className="mx-auto mt-6 max-w-[520px] text-[12px] font-light text-ink/55">
-              This is an independent, performance-based content opportunity — not employment.
-              Earnings depend on approved, published content and are not guaranteed.
+            <p className="mt-6 max-w-[560px] text-[12px] font-light text-white/55">
+              This is an independent, performance-based content opportunity. It is not salaried
+              employment.
             </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Opportunity */}
-      <section className="bg-navy py-20 md:py-24">
-        <div className="container-wz grid items-center gap-12 md:grid-cols-2">
-          <Reveal direction="left">
-            <p className="eyebrow text-gold">The Opportunity</p>
-            <h2 className="mt-3 headline text-[26px] text-white md:text-[36px]">
-              People search for answers on social media. You can be the one providing them.
-            </h2>
-            <p className="mt-5 text-[15px] font-light leading-relaxed text-white/75 md:text-[17px]">
-              Vehicle owners lose money through theft, fuel misuse and unauthorised trips. Wazambi
-              GPS helps them protect and control their vehicles. You create the content that shows
-              them how. Publish approved videos, and earn according to their performance.
-            </p>
-            <a href="#apply" className="btn-primary mt-8 inline-block">Apply to Become a Creator →</a>
-          </Reveal>
-          <Reveal direction="right" delay={150}>
-            <div className="relative w-full" style={{ aspectRatio: "1200/700" }}>
-              <Image src="/images/about/team.jpg" alt="Wazambi content creators" fill className="object-cover" />
+          </div>
+          <div className="relative mt-6 md:mt-0">
+            <div className="overflow-hidden rounded-[18px] ring-1 ring-wazambi-gold/50">
+              <Image
+                src="/images/about/team.jpg"
+                alt="Wazambi content creators"
+                width={900}
+                height={560}
+                className="h-auto w-full object-cover"
+              />
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Content types */}
-      <section className="bg-paper py-20 md:py-24">
-        <div className="container-wz">
-          <SectionHeading
-            eyebrow="Where You Create"
-            title="Four platforms. One clear message."
-            subline="Create content for the platforms you already use every day."
-          />
-          <div className="mt-14 grid gap-6 md:grid-cols-4">
-            {contentTypes.map((c, i) => (
-              <Reveal key={c.number} delay={i * 30}>
-                <div className="h-full rounded-[14px] bg-white p-6 shadow-card">
-                  <span className="font-poppins text-[40px] font-black text-wazambi-gold-deep">{c.number}</span>
-                  <h3 className="mt-2 text-[16px] font-bold uppercase text-navy">{c.title}</h3>
-                  <p className="mt-2 text-[14px] font-light text-ink/65">{c.text}</p>
-                </div>
-              </Reveal>
-            ))}
+            <div className="absolute -bottom-4 left-5 rounded-full bg-wazambi-gold px-5 py-2 text-[12px] font-bold uppercase tracking-wide text-navy shadow-lg">
+              Content + Performance-Based
+            </div>
+            <div className="absolute right-4 top-4 rounded-full border border-white/20 bg-navy/60 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur">
+              TikTok · Instagram · Facebook
+            </div>
           </div>
         </div>
       </section>
 
-      {/* How you earn */}
-      <section className="bg-white py-20 md:py-24">
+      {/* Founder welcome video */}
+      <section id="watch" className="scroll-mt-24 bg-navy pb-20 md:pb-24">
         <div className="container-wz">
           <SectionHeading
-            eyebrow="How You Earn"
-            title="Create. Publish. Submit. Earn."
-            subline="A clear process from application to approved content and earnings."
+            eyebrow="A Message from the Founder"
+            title="Watch this before you apply."
+            tone="dark"
           />
-          <div className="mt-14 grid gap-6 md:grid-cols-4">
-            {earnSteps.map((s, i) => (
-              <Reveal key={i} delay={i * 30}>
-                <div className="relative h-full rounded-[14px] bg-paper p-6">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-wazambi-gold text-[18px] font-black text-navy">
-                    {i + 1}
-                  </div>
-                  <h3 className="text-[15px] font-bold uppercase text-navy">{s.title}</h3>
-                  <p className="mt-2 text-[14px] font-light text-ink/65">{s.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Creator kit */}
-      <section className="bg-paper py-20 md:py-24">
-        <div className="container-wz">
-          <SectionHeading
-            eyebrow="Your Kit"
-            title="What approved creators receive."
-          />
-          <div className="mx-auto mt-12 grid max-w-[800px] gap-3 sm:grid-cols-2">
-            {kit.map((item, i) => (
-              <Reveal key={i} delay={i * 15}>
-                <div className="flex items-start gap-3">
-                  <svg className="mt-1 h-5 w-5 shrink-0 text-wazambi-gold-deep" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <span className="text-[15px] text-ink/75">{item}</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Who this is for */}
-      <section className="bg-white py-20 md:py-24">
-        <div className="container-wz grid gap-10 md:grid-cols-2">
-          <Reveal>
-            <div className="rounded-[14px] bg-paper p-8">
-              <h3 className="text-[20px] font-extrabold uppercase text-navy">This is for you if:</h3>
-              <ul className="mt-5 space-y-3">
-                {forYou.map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-[15px] text-ink/75">
-                    <span className="mt-1 font-bold text-wazambi-gold-deep">✓</span>
+          <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <FounderVideo url={site.creatorsVideo.url} poster={site.creatorsVideo.poster} />
+            <div>
+              <p className="text-[14px] font-semibold uppercase tracking-wide text-wazambi-gold">
+                This video explains
+              </p>
+              <ul className="mt-4 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
+                {videoExplains.map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-[13px] font-light text-white/75">
+                    <span className="mt-0.5 text-wazambi-gold">✓</span>
                     {item}
                   </li>
                 ))}
               </ul>
+              <a href="#apply" className="btn-primary mt-8 inline-block">
+                Start My Creator Application →
+              </a>
             </div>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="rounded-[14px] bg-navy p-8 text-white">
-              <h3 className="text-[20px] font-extrabold uppercase text-gold">This is not for you if:</h3>
-              <ul className="mt-5 space-y-3">
-                {notForYou.map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-[15px] text-white/80">
-                    <span className="mt-1 font-bold text-alert">✕</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* How the creator program works */}
+      <section className="bg-white py-20 md:py-24">
+        <div className="container-wz">
+          <SectionHeading
+            eyebrow="How the Creator Program Works"
+            title="Four simple steps."
+            highlight="Content. Performance. Earnings."
+            subline="A clear path from application to publishing approved Wazambi content."
+          />
+          <div className="mt-14 grid gap-5 md:grid-cols-4">
+            {steps.map((s, i) => (
+              <div key={s.title} className="relative h-full rounded-[16px] border border-navy/10 bg-paper p-6">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-wazambi-gold font-poppins text-[18px] font-black text-navy">
+                  {i + 1}
+                </div>
+                <h3 className="text-[15px] font-bold uppercase tracking-wide text-navy">{s.title}</h3>
+                <p className="mt-2 text-[14px] font-light leading-relaxed text-ink/70">{s.text}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mx-auto mt-10 max-w-[720px] rounded-[14px] border border-wazambi-gold/40 bg-wazambi-gold/10 p-6 text-center">
+            <p className="text-[14px] font-light leading-relaxed text-ink/75">
+              Approved creators <strong className="font-semibold text-navy">earn according to the approved performance and views</strong>{" "}
+              of their content. This is not salaried employment, and earnings are not guaranteed.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Application */}
-      <section id="apply" className="bg-paper py-20 md:py-24">
+      <section id="apply" className="scroll-mt-24 bg-paper py-20 md:py-24">
         <div className="container-wz">
           <SectionHeading
             eyebrow="Application"
             title="See if you qualify."
-            subline="Complete the application so the Wazambi team can review your content and audience."
+            subline="Complete the application so the Wazambi team can review your content quality, experience and suitability."
           />
-          <div className="mx-auto mt-10 max-w-[640px] rounded-lg bg-white p-5 text-center">
+          <div className="mx-auto mt-10 max-w-[640px] rounded-lg border border-alert/20 bg-alert/5 p-5 text-center">
             <p className="text-[13px] font-light text-ink/70">
               <strong className="font-semibold text-alert">We are not accepting everyone.</strong>{" "}
-              Only creators whose content quality and consistency meet the program's standards will
-              be approved.
+              Only creators whose content quality and consistency meet the program&apos;s standards
+              will be approved.
             </p>
           </div>
-          <Reveal className="mt-12" delay={100}>
-            <div className="mx-auto max-w-[640px] rounded-lg bg-white p-8 text-center shadow-card">
-              <h3 className="text-[18px] font-extrabold uppercase text-navy">Apply to the Wazambi Creator Program</h3>
-              <p className="mt-3 text-[14px] font-light text-ink/65">
-                Send a direct message from Wazambi GPS on Facebook or WhatsApp with your name, the
-                platform you create on and links to your recent content.
-              </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-                <a
-                  href="https://wa.me/260000000000"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-primary"
-                >
-                  Apply on WhatsApp
-                </a>
-                <a
-                  href="https://www.facebook.com/wazambigps"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-secondary"
-                >
-                  Apply on Facebook
-                </a>
-              </div>
-            </div>
-          </Reveal>
+          <div className="mt-12">
+            <CreatorApplicationForm />
+          </div>
         </div>
       </section>
 
@@ -284,13 +191,16 @@ export default function CreatorsPage() {
 
       {/* Final CTA */}
       <section className="bg-navy py-16 md:py-20">
-        <div className="container-wz text-center max-w-[600px]">
-          <Reveal>
-            <h2 className="headline text-[26px] text-white md:text-[36px]">
-              Start building a content income stream with Wazambi.
-            </h2>
-            <a href="#apply" className="btn-primary mt-8 inline-block">Apply to Become a Creator →</a>
-          </Reveal>
+        <div className="container-wz mx-auto max-w-[620px] text-center">
+          <h2 className="headline text-[26px] text-white md:text-[36px]">
+            Start building a content income with Wazambi.
+          </h2>
+          <p className="mt-4 text-[15px] font-light text-white/70">
+            Your Wazambi Creator Code is issued only after your application is approved.
+          </p>
+          <a href="#apply" className="btn-primary mt-8 inline-block">
+            See if I Qualify →
+          </a>
         </div>
       </section>
     </>
