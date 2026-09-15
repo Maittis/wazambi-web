@@ -152,7 +152,14 @@ export default function CreatorSubmitVideoPage() {
               <Field label="Registered phone number *">
                 <input type="tel" value={phoneIn} onChange={(e) => setPhoneIn(e.target.value)} className={inputCls} placeholder="+260…" />
               </Field>
-              {checkError && <p className="text-[13px] text-alert">{checkError}</p>}
+              {checkError && (
+                <div className="flex items-start gap-2.5 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-[13px] text-red-800">
+                  <svg className="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 001.5 0v-4.5a.75.75 0 00-1.5 0v4.5zM10 7a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                  </svg>
+                  {checkError}
+                </div>
+              )}
               <button type="button" onClick={verify} disabled={checking} className="btn-primary w-full text-[14px] disabled:opacity-60">
                 {checking ? "Checking…" : "Continue to the Form"}
               </button>
@@ -173,7 +180,7 @@ export default function CreatorSubmitVideoPage() {
                 <p className="mb-2 text-[15px] font-medium text-ink/80">Platform *</p>
                 <div className="flex flex-wrap gap-2">
                   {platformOptions.map((p) => (
-                    <button key={p} type="button" onClick={() => setPlatform(p)} className={`rounded-lg border px-5 py-2.5 text-[13px] font-medium transition-colors ${platform === p ? "border-wazambi-gold bg-wazambi-gold text-navy" : "border-navy/15 bg-white text-ink/70"}`}>
+                    <button key={p} type="button" onClick={() => setPlatform(p)} aria-pressed={platform === p} className={`rounded-lg border px-5 py-2.5 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wazambi-gold focus-visible:ring-offset-2 ${platform === p ? "border-wazambi-gold bg-wazambi-gold text-navy shadow-md" : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"}`}>
                       {p}
                     </button>
                   ))}
@@ -221,7 +228,14 @@ export default function CreatorSubmitVideoPage() {
                 <textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} className={inputCls} placeholder="Anything the review team should know" />
               </Field>
 
-              {error && <p className="text-[13px] text-alert">{error}</p>}
+              {error && (
+                <div className="flex items-start gap-2.5 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-[13px] text-red-800">
+                  <svg className="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 001.5 0v-4.5a.75.75 0 00-1.5 0v4.5zM10 7a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                  </svg>
+                  {error}
+                </div>
+              )}
 
               <button type="button" onClick={handleSubmit} disabled={sending} className="btn-primary w-full text-[13px] uppercase tracking-wide disabled:opacity-60">
                 {sending ? "Submitting…" : "Submit Video for Review"}

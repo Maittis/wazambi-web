@@ -90,12 +90,60 @@ export default function AgentApplicationForm() {
     }));
 
   const doneSteps = step === steps.length - 1;
-  const subSteps = [2, 3, 4, 5, 6];
-  const maxProgress = 100;
 
   const progress = doneSteps ? 100 : Math.round(((step + 1) / steps.length) * 100);
 
+  const validateStep = (): string => {
+    if (step === 0) {
+      if (!data.fullName.trim()) return "Please enter your full name.";
+      if (!data.phone.trim()) return "Please enter your WhatsApp number.";
+      if (!data.email.trim()) return "Please enter your email address.";
+      if (!data.town.trim()) return "Please enter your town and province.";
+      if (!data.over18) return "Please answer whether you are 18 years or older.";
+      if (!data.hasSmartphone) return "Please answer whether you own a smartphone with internet access.";
+      return "";
+    }
+    if (step === 1) {
+      if (!data.salesExperience) return "Please answer whether you have sales or marketing experience.";
+      if (!data.vehicleConnections) return "Please answer whether you know individuals or businesses that own vehicles.";
+      if (!data.experience.trim()) return "Please briefly explain your experience.";
+      return "";
+    }
+    if (step === 2) {
+      if (data.methods.length === 0) return "Select at least one sales method you will use.";
+      return "";
+    }
+    if (step === 3) {
+      if (!data.attend) return "Please answer whether you can attend both training days.";
+      if (!data.travel) return "Please answer whether you can travel to the venue at your own cost.";
+      if (!data.understandCommission) return "Please confirm you understand this is commission-based and not salaried employment.";
+      if (!data.accept) return "Please confirm that the information you provide is true and that you can attend both training days.";
+      return "";
+    }
+    return "";
+  };
+
+  const goNext = () => {
+    const msg = validateStep();
+    if (msg) {
+      setError(msg);
+      return;
+    }
+    setError("");
+    setStep(step + 1);
+  };
+
+  const goBack = () => {
+    setError("");
+    setStep(step - 1);
+  };
+
   const handleSubmit = async () => {
+    const msg = validateStep();
+    if (msg) {
+      setError(msg);
+      return;
+    }
     setSending(true);
     setError("");
     try {
@@ -145,7 +193,7 @@ export default function AgentApplicationForm() {
         {steps[step]} · {progress}% complete
       </p>
       <div className="mb-8 mt-3 h-2 w-full rounded-full bg-navy/10">
-        <div className="h-2 rounded-full bg-gold transition-all duration-300" style={{ width: `${progress}%` }} />
+        <div className="h-2 rounded-full bg-wazambi-gold transition-all duration-300" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="min-h-[340px]">
@@ -173,7 +221,7 @@ export default function AgentApplicationForm() {
             <p className="text-[15px] font-bold text-navy">Which sales methods will you use? Select all that apply.</p>
             <div className="grid grid-cols-2 gap-2">
               {methodOptions.map((m) => (
-                <button key={m} type="button" onClick={() => toggleMethod(m)} className={`rounded-lg border px-3 py-3 text-[13px] font-medium transition-colors ${data.methods.includes(m) ? "border-gold bg-gold text-navy" : "border-navy/15 bg-white text-ink/70"}`}>
+                <button key={m} type="button" onClick={() => toggleMethod(m)} aria-pressed={data.methods.includes(m)} className={`rounded-lg border px-3 py-3 text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wazambi-gold focus-visible:ring-offset-2 ${data.methods.includes(m) ? "border-wazambi-gold bg-wazambi-gold text-navy shadow-md" : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"}`}>
                   {m}
                 </button>
               ))}
@@ -200,21 +248,25 @@ export default function AgentApplicationForm() {
         )}
       </div>
 
-      {error && <p className="mt-3 text-[13px] text-alert">{error}</p>}
+      {error && (
+        <div className="mt-4 flex items-start gap-2.5 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-[13px] text-red-800">
+          <svg className="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 001.5 0v-4.5a.75.75 0 00-1.5 0v4.5zM10 7a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+          </svg>
+          {error}
+        </div>
+      )}
 
       <div className="mt-6 flex gap-3">
         {step > 0 && (
-          <button type="button" onClick={() => setStep(step - 1)} className="btn-secondary flex-1 text-[14px]">
+          <button type="button" onClick={goBack} className="btn-secondary flex-1 text-[14px]">
             ← Back
           </button>
         )}
         {step < steps.length - 1 ? (
           <button
             type="button"
-            onClick={() => {
-              if (subSteps.includes(step) && data.accept) return;
-              setStep(step + 1);
-            }}
+            onClick={goNext}
             className="btn-primary flex-1 text-[14px]"
           >
             Continue →
@@ -253,15 +305,16 @@ function YesNo({
   return (
     <div>
       <p className="mb-2 text-[15px] font-medium text-ink/80">{label}</p>
-      <div className="flex gap-2">
+      <div className="flex gap-2" role="radiogroup" aria-label={label}>
         {["Yes", "No"].map((o) => (
           <button
             key={o}
             type="button"
+            aria-pressed={value === o}
             onClick={() => onSelect(o)}
-            className={`rounded-lg border px-6 py-2.5 text-[14px] font-medium transition-colors ${
+            className={`rounded-lg border px-6 py-2.5 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wazambi-gold focus-visible:ring-offset-2 ${
               value === o
-                ? "border-gold bg-gold text-navy"
+                ? "border-wazambi-gold bg-wazambi-gold text-navy shadow-md"
                 : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"
             }`}
           >

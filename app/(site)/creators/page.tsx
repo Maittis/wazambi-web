@@ -86,6 +86,7 @@ export default function CreatorsPage() {
                 alt="Wazambi content creators"
                 width={900}
                 height={560}
+                priority
                 className="h-auto w-full object-cover"
               />
             </div>
@@ -130,7 +131,7 @@ export default function CreatorsPage() {
       </section>
 
       {/* How the creator program works */}
-      <section className="bg-white py-20 md:py-24">
+      <section className="bg-slate-50 py-20 md:py-24">
         <div className="container-wz">
           <SectionHeading
             eyebrow="How the Creator Program Works"
@@ -158,6 +159,33 @@ export default function CreatorsPage() {
         </div>
       </section>
 
+      {/* Image-led strip */}
+      <section className="relative overflow-hidden bg-navy">
+        <div className="relative h-[260px] md:h-[340px]">
+          <Image
+            src="/images/hero/left-fleet.jpg"
+            alt="Fleet vehicles tracked by Wazambi GPS in Zambia"
+            fill
+            className="object-cover"
+            priority={false}
+          />
+          <div className="absolute inset-0 bg-navy/60" />
+          <div className="container-wz relative z-10 flex h-full flex-col justify-center py-12">
+            <p className="eyebrow text-wazambi-gold">What creators earn</p>
+            <h2 className="mt-4 max-w-[600px] headline text-[24px] text-white md:text-[36px]">
+              Create once. <span className="text-wazambi-gold">Get paid for performance.</span>
+            </h2>
+            <p className="mt-4 max-w-[520px] text-[15px] font-light text-white/70">
+              Approved content earns based on views and engagement — not one-off fees. The better
+              your content performs, the more you earn.
+            </p>
+            <a href="#apply" className="btn-primary mt-7 w-fit">
+              Start My Application →
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Application */}
       <section id="apply" className="scroll-mt-24 bg-paper py-20 md:py-24">
         <div className="container-wz">
@@ -180,7 +208,7 @@ export default function CreatorsPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-white py-20 md:py-24">
+      <section className="bg-slate-50 py-20 md:py-24">
         <div className="container-wz">
           <SectionHeading eyebrow="Questions" title="Frequently asked questions." />
           <div className="mt-10">

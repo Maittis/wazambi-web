@@ -125,6 +125,7 @@ export default function AgentsPage() {
                 alt="Wazambi GPS agent program"
                 width={900}
                 height={560}
+                priority
                 className="h-auto w-full object-cover"
               />
             </div>
@@ -165,7 +166,7 @@ export default function AgentsPage() {
       </section>
 
       {/* How the program works */}
-      <section className="bg-white py-20 md:py-24">
+      <section className="bg-slate-50 py-20 md:py-24">
         <div className="container-wz">
           <SectionHeading
             eyebrow="How the Agent Program Works"
@@ -185,6 +186,33 @@ export default function AgentsPage() {
                 <p className="mt-2 text-[14px] font-light leading-relaxed text-ink/70">{e.text}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Image-led strip */}
+      <section className="relative overflow-hidden bg-navy">
+        <div className="relative h-[260px] md:h-[340px]">
+          <Image
+            src="/images/solutions/gps.jpg"
+            alt="Wazambi GPS tracking device installed in a vehicle"
+            fill
+            className="object-cover"
+            priority={false}
+          />
+          <div className="absolute inset-0 bg-navy/60" />
+          <div className="container-wz relative z-10 flex h-full flex-col justify-center py-12">
+            <p className="eyebrow text-wazambi-gold">Why agents succeed with Wazambi</p>
+            <h2 className="mt-4 max-w-[600px] headline text-[24px] text-white md:text-[36px]">
+              We handle the tech. <span className="text-wazambi-gold">You bring the customers.</span>
+            </h2>
+            <p className="mt-4 max-w-[520px] text-[15px] font-light text-white/70">
+              Professional GPS installation, real-time fleet monitoring, fuel reports and 24/7
+              support — your customers get a complete solution.
+            </p>
+            <a href="#apply" className="btn-primary mt-7 w-fit">
+              See if I Qualify →
+            </a>
           </div>
         </div>
       </section>
@@ -211,7 +239,7 @@ export default function AgentsPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-white py-20 md:py-24">
+      <section className="bg-slate-50 py-20 md:py-24">
         <div className="container-wz">
           <SectionHeading eyebrow="Questions" title="Frequently asked questions." />
           <div className="mt-10">
