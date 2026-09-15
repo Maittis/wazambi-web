@@ -78,6 +78,64 @@ export async function sendPasswordResetEmail(to: string, firstName: string, rese
   return sendHtml(to, subject, html);
 }
 
+export async function sendAgentApplicationConfirmation(input: {
+  to: string;
+  firstName: string;
+  submittedAt: string;
+}): Promise<SendResult> {
+  const subject = `We received your Wazambi GPS Agent application, ${input.firstName}`;
+  const html = wrapHtml(`
+    <h2 style="color:#0A1633; margin-bottom: 8px;">Hi ${input.firstName},</h2>
+    <p>Thank you for applying to become a <strong>Wazambi GPS Agent</strong>. Your application was received successfully.</p>
+    <p style="margin: 18px 0;">What happens next:</p>
+    <ul style="padding-left: 18px; line-height: 1.8; color:#344054;">
+      <li>Our team reviews your application.</li>
+      <li>If you are shortlisted, we will contact you with the next steps.</li>
+      <li>Training and onboarding dates are shared only with successful applicants.</li>
+    </ul>
+    <p><strong>Important:</strong> this is an independent, commission-based opportunity. A unique <strong>Wazambi Agent Code</strong> is issued only <strong>after your application is approved</strong>.</p>
+    <p style="margin-top: 24px;">Questions? Contact us and we will help.</p>`);
+  return sendHtml(input.to, subject, html);
+}
+
+export async function sendAgentApplicationAdminNotification(input: {
+  applicantName: string;
+  email?: string;
+  phone?: string;
+  town?: string;
+  submittedAt: string;
+}): Promise<SendResult> {
+  const to = process.env.AGENT_APPLICATIONS_TO || "hello@wazambigps.com";
+  const subject = `New Agent application: ${input.applicantName}`;
+  const html = wrapHtml(`
+    <h2 style="color:#0A1633; margin-bottom: 8px;">New Wazambi GPS Agent application</h2>
+    <table style="border-collapse:collapse; font-size:14px; color:#101828; margin-top:12px;">
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Name</td><td style="padding:6px 0;"><strong>${input.applicantName}</strong></td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Email</td><td style="padding:6px 0;">${input.email || "—"}</td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Phone</td><td style="padding:6px 0;">${input.phone || "—"}</td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Town</td><td style="padding:6px 0;">${input.town || "—"}</td></tr>
+      <tr><td style="padding:6px 12px 6px 0; color:#667085;">Submitted</td><td style="padding:6px 0;">${input.submittedAt}</td></tr>
+    </table>
+    <p style="margin-top:20px;">Review the full application in the Agent Applications section of the admin dashboard.</p>`);
+  return sendHtml(to, subject, html);
+}
+
+export async function sendAgentApprovalEmail(input: {
+  to: string;
+  firstName: string;
+  agentCode: string;
+}): Promise<SendResult> {
+  const subject = `Approved! Your Wazambi GPS Agent Code is ${input.agentCode}`;
+  const html = wrapHtml(`
+    <h2 style="color:#0A1633; margin-bottom: 8px;">Congratulations ${input.firstName},</h2>
+    <p>Your application to become a <strong>Wazambi GPS Agent</strong> has been approved.</p>
+    <p style="margin: 20px 0 6px;">Your unique Wazambi Agent Code is:</p>
+    <div style="background:#FFC400; color:#0A1633; font-weight:800; letter-spacing:2px; font-size:22px; text-align:center; padding:16px; border-radius:10px; margin:12px 0 22px;">${input.agentCode}</div>
+    <p>Use this code when registering customers so your commission is linked to you. Your agent platform access and onboarding details will follow.</p>
+    <p style="margin-top: 22px;">Welcome to the Wazambi team.</p>`);
+  return sendHtml(input.to, subject, html);
+}
+
 type SendParams = {
   to: string;
   firstName: string;

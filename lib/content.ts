@@ -70,6 +70,10 @@ export const site = {
     url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     poster: "/images/media/video-poster.jpg",
   },
+  agentsVideo: {
+    url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    poster: "/images/agents/agents.jpg",
+  },
   whatsapp: {
     number: "260000000000",
     message:

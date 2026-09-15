@@ -1,8 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const steps = ["Personal details", "Experience", "Sales methods", "Commitment"];
+
+const STORAGE_KEY = "wazambiAgentApplication";
+
+const defaultData = {
+  fullName: "",
+  phone: "",
+  email: "",
+  town: "",
+  over18: "",
+  hasSmartphone: "",
+  salesExperience: "",
+  vehicleConnections: "",
+  experience: "",
+  methods: [] as string[],
+  weeklyApproach: "",
+  firstFive: "",
+  whyYou: "",
+  attend: "",
+  travel: "",
+  understandCommission: "",
+  accept: false,
+};
+
+function restoreSaved(): { data: typeof defaultData; step: number } | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    const step =
+      typeof parsed?.step === "number" && parsed.step >= 0 && parsed.step < steps.length
+        ? parsed.step
+        : 0;
+    return { data: { ...defaultData, ...(parsed?.data ?? {}) }, step };
+  } catch {
+    return null;
+  }
+}
 
 const methodOptions = [
   "Door-to-door",
@@ -15,29 +54,31 @@ const methodOptions = [
 ];
 
 export default function AgentApplicationForm() {
+  const router = useRouter();
+  const [restored, setRestored] = useState(false);
   const [step, setStep] = useState(0);
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
-  const [data, setData] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    town: "",
-    over18: "",
-    hasSmartphone: "",
-    salesExperience: "",
-    vehicleConnections: "",
-    experience: "",
-    methods: [] as string[],
-    weeklyApproach: "",
-    firstFive: "",
-    whyYou: "",
-    attend: "",
-    travel: "",
-    understandCommission: "",
-    accept: false,
-  });
+  const [data, setData] = useState<typeof defaultData>(defaultData);
+
+  useEffect(() => {
+    const saved = restoreSaved();
+    if (saved) {
+      setData(saved.data);
+      setStep(saved.step);
+    }
+    setRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!restored) return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ data, step }));
+    } catch {
+      /* storage unavailable */
+    }
+  }, [data, step, restored]);
 
   const set = (field: string, value: string) => setData((prev) => ({ ...prev, [field]: value }));
   const toggleMethod = (m: string) =>
@@ -65,7 +106,15 @@ export default function AgentApplicationForm() {
       });
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || "Something went wrong");
+      if (typeof window !== "undefined") {
+        try {
+          sessionStorage.removeItem(STORAGE_KEY);
+        } catch {
+          /* ignore */
+        }
+      }
       setDone(true);
+      router.replace("/agents/thank-you");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
