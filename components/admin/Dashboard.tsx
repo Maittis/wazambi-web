@@ -31,6 +31,7 @@ const navItems = [
   { key: "followups", label: "Follow-ups", icon: "→" },
   { key: "agentApplications", label: "Agent Applications", icon: "★" },
   { key: "creatorApplications", label: "Creator Applications", icon: "★" },
+  { key: "creatorVideos", label: "Creator Videos", icon: "▶" },
   { key: "salespeople", label: "Salespeople", icon: "●" },
   { key: "emails", label: "Email Delivery", icon: "✉" },
   { key: "content", label: "Website Content", icon: "✎" },
@@ -53,6 +54,7 @@ const roleNav: Record<string, string[]> = {
   followups: ["owner", "admin", "sales_manager", "salesperson"],
   agentApplications: ["owner", "admin"],
   creatorApplications: ["owner", "admin"],
+  creatorVideos: ["owner", "admin"],
   salespeople: ["owner", "admin"],
   emails: ["owner", "admin", "sales_manager", "salesperson"],
   content: ["owner", "admin", "content_manager"],
@@ -125,6 +127,7 @@ export default function Dashboard() {
       followups: ["followUps", "leads", "staff"],
       agentApplications: ["leads"],
       creatorApplications: ["leads", "leadEvents"],
+      creatorVideos: ["creatorVideos", "leads"],
       salespeople: ["staff"],
       emails: ["emailDeliveries", "leads"],
       content: [],
@@ -225,6 +228,7 @@ export default function Dashboard() {
           {section === "followups" && <FollowUps data={data} />}
           {section === "agentApplications" && <AgentApplications data={data} />}
           {section === "creatorApplications" && <CreatorApplications data={data} />}
+          {section === "creatorVideos" && <CreatorVideos data={data} />}
           {section === "salespeople" && <Salespeople data={data} />}
           {section === "emails" && <Emails data={data} />}
           {section === "content" && <ContentManager />}
@@ -990,6 +994,167 @@ function Detail({ label, value }: { label: string; value: string }) {
       <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/50">{label}</p>
       <p className="text-[13px] text-ink/80">{value}</p>
     </div>
+  );
+}
+
+function CreatorVideos({ data }: { data: any }) {
+  const videos: any[] = data.creatorVideos ?? [];
+  const leads: any[] = data.leads ?? [];
+  const [viewingId, setViewingId] = useState<number | null>(null);
+  const [sending, setSending] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [finalPostUrl, setFinalPostUrl] = useState("");
+
+  const v: any = videos.find((x) => x.id === viewingId);
+
+  const openView = (item: any) => {
+    setFeedback(item.feedback ?? "");
+    setFinalPostUrl(item.finalPostUrl ?? "");
+    setViewingId(item.id);
+  };
+
+  const review = async (item: any, status: string) => {
+    if ((status === "changes_requested" || status === "rejected") && !feedback.trim()) {
+      alert("Feedback is required when requesting changes or rejecting.");
+      return;
+    }
+    setSending(true);
+    try {
+      const res = await fetch("/api/creator-videos/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: item.id,
+          status,
+          feedback: feedback.trim() || undefined,
+          finalPostUrl: finalPostUrl.trim() || undefined,
+        }),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        alert(j.error || "Action failed");
+      } else {
+        window.location.reload();
+      }
+    } catch {
+      alert("Action failed");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="overflow-x-auto rounded-xl border border-navy/10 bg-white">
+        <table className="w-full min-w-[760px]">
+          <thead className="bg-paper">
+            <tr>
+              <Th>Creator</Th>
+              <Th>Title</Th>
+              <Th>Platform</Th>
+              <Th>Status</Th>
+              <Th>Submitted</Th>
+              <Th>Action</Th>
+            </tr>
+          </thead>
+          <tbody>
+            {videos.slice().reverse().map((item) => (
+              <tr key={item.id} className="border-t border-navy/5">
+                <Td className="font-semibold text-ink/90">
+                  {item.creatorName || `Creator #${item.leadId}`}
+                  <span className="block font-mono text-[11px] text-ink/45">{item.creatorCode}</span>
+                </Td>
+                <Td className="max-w-[280px]">{item.videoTitle}</Td>
+                <Td>{item.platform}</Td>
+                <Td><Badge status={item.status} /></Td>
+                <Td className="whitespace-nowrap">{item.submittedAt?.replace("T", " ").slice(0, 16)}</Td>
+                <Td><GhostBtn onClick={() => openView(item)}>Review</GhostBtn></Td>
+              </tr>
+            ))}
+            {videos.length === 0 && <tr><Td colSpan={6} className="text-center text-ink/40">No video submissions yet</Td></tr>}
+          </tbody>
+        </table>
+        <p className="p-3 text-[12px] text-ink/40">Creator payments are handled separately from video approval.</p>
+      </div>
+
+      {v && (
+        <Modal title="Video Review" onClose={() => setViewingId(null)}>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[16px] font-bold text-navy">{v.creatorName || `Creator #${v.leadId}`}</p>
+                <p className="text-[12px] text-ink/50">{v.creatorCode} &middot; {v.phone}</p>
+              </div>
+              <Badge status={v.status} />
+            </div>
+
+            <div>
+              <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink/50">Video</p>
+              {v.videoPath ? (
+                <video controls playsInline className="w-full rounded-lg bg-black" src={`/api/creator-videos/media/${v.id}`} />
+              ) : v.videoUrl ? (
+                <a href={v.videoUrl} target="_blank" rel="noreferrer" className="break-all text-[13px] text-electric-blue underline">
+                  Open submitted video →
+                </a>
+              ) : (
+                <p className="text-[13px] text-ink/45">No video attached</p>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[13px]">
+              <Detail label="Title" value={v.videoTitle} />
+              <Detail label="Platform" value={v.platform} />
+              <Detail label="Caption" value={v.caption || "—"} />
+              <Detail label="Additional note" value={v.note || "—"} />
+              <Detail label="Published link" value={v.publishedUrl || "—"} />
+              <Detail label="Published date" value={v.publishedDate ? String(v.publishedDate) : "—"} />
+              <Detail label="Submitted" value={v.submittedAt?.replace("T", " ").slice(0, 16)} />
+              <Detail label="Under review" value={v.underReviewAt ? v.underReviewAt.replace("T", " ").slice(0, 16) : "—"} />
+              <Detail label="Decision" value={v.decidedAt ? v.decidedAt.replace("T", " ").slice(0, 16) : "—"} />
+              <Detail label="Final post link" value={v.finalPostUrl || "—"} />
+            </div>
+
+            <div>
+              <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink/50">Feedback / internal review</p>
+              <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                rows={3}
+                placeholder="Feedback for the creator or internal review notes…"
+                className="w-full rounded-lg border border-navy/15 bg-white px-3 py-2 text-[13px] outline-none focus:border-electric-blue"
+              />
+            </div>
+
+            <div>
+              <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-ink/50">Final published-post link</p>
+              <input
+                type="url"
+                value={finalPostUrl}
+                onChange={(e) => setFinalPostUrl(e.target.value)}
+                className="w-full rounded-lg border border-navy/15 bg-white px-3 py-2 text-[13px] outline-none focus:border-electric-blue"
+                placeholder="https://…/post"
+              />
+            </div>
+
+            <div className="flex flex-wrap gap-2 border-t border-navy/10 pt-4">
+              <button onClick={() => review(v, "under_review")} disabled={sending} className="rounded-lg bg-sky-600 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-sky-700 disabled:opacity-50">
+                Mark Under Review
+              </button>
+              <button onClick={() => review(v, "approved")} disabled={sending} className="rounded-lg bg-green-600 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-green-700 disabled:opacity-50">
+                Approve
+              </button>
+              <button onClick={() => review(v, "changes_requested")} disabled={sending} className="rounded-lg bg-orange-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-orange-600 disabled:opacity-50">
+                Request Changes
+              </button>
+              <button onClick={() => review(v, "rejected")} disabled={sending} className="rounded-lg bg-alert px-3 py-1.5 text-[12px] font-semibold text-white hover:opacity-90 disabled:opacity-50">
+                Reject
+              </button>
+              <GhostBtn onClick={() => review(v, v.status === "submitted" ? "under_review" : v.status)}>Save Feedback / Link</GhostBtn>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </>
   );
 }
 

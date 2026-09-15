@@ -333,3 +333,29 @@ CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type, created_at);
 
 -- INSERT INTO system_settings (setting_key, setting_value) VALUES
 -- ('content', '{}');
+-- ---------- CREATOR PROGRAMS ----------
+CREATE TABLE IF NOT EXISTS creator_videos (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  lead_id BIGINT REFERENCES leads(id) ON DELETE CASCADE,
+  creator_code TEXT NOT NULL,
+  creator_name TEXT,
+  phone TEXT NOT NULL,
+  email TEXT,
+  platform TEXT NOT NULL,
+  video_title TEXT NOT NULL,
+  video_url TEXT,
+  video_path TEXT,
+  caption TEXT,
+  published_url TEXT,
+  published_date TIMESTAMPTZ,
+  note TEXT,
+  status TEXT NOT NULL DEFAULT 'submitted',
+  feedback TEXT,
+  final_post_url TEXT,
+  submitted_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  under_review_at TIMESTAMPTZ,
+  decided_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_creator_videos_lead ON creator_videos(lead_id, status);

@@ -21,6 +21,7 @@ const readable: Record<string, string[]> = {
   staff: ["owner", "admin"],
   pageViews: ["owner", "admin"],
   events: ["owner", "admin", "sales_manager"],
+  creatorVideos: ["owner", "admin"],
   settings: ["owner", "admin", "content_manager"],
 };
 

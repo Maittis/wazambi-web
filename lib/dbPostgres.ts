@@ -309,6 +309,30 @@ const TABLES: Record<CollectionName, TableDef> = {
       { k: "createdAt", col: "created_at", t: "ts" },
     ],
   },
+  creatorVideos: {
+    t: "creator_videos",
+    fields: [
+      { k: "leadId", col: "lead_id", t: "int" },
+      { k: "creatorCode", col: "creator_code", t: "text" },
+      { k: "creatorName", col: "creator_name", t: "text" },
+      { k: "phone", col: "phone", t: "text" },
+      { k: "email", col: "email", t: "text" },
+      { k: "platform", col: "platform", t: "text" },
+      { k: "videoTitle", col: "video_title", t: "text" },
+      { k: "videoUrl", col: "video_url", t: "text" },
+      { k: "videoPath", col: "video_path", t: "text" },
+      { k: "caption", col: "caption", t: "text" },
+      { k: "publishedUrl", col: "published_url", t: "text" },
+      { k: "publishedDate", col: "published_date", t: "ts" },
+      { k: "note", col: "note", t: "text" },
+      { k: "status", col: "status", t: "text" },
+      { k: "feedback", col: "feedback", t: "text" },
+      { k: "finalPostUrl", col: "final_post_url", t: "text" },
+      { k: "submittedAt", col: "submitted_at", t: "ts" },
+      { k: "underReviewAt", col: "under_review_at", t: "ts" },
+      { k: "decidedAt", col: "decided_at", t: "ts" },
+    ],
+  },
 };
 
 const SELECT_COLS: Record<CollectionName, string> = {
@@ -334,6 +358,7 @@ const SELECT_COLS: Record<CollectionName, string> = {
   pageViews: `id::int AS "id", path, ${tsSql("created_at")} AS "createdAt"`,
   events: `id::int AS "id", event_type AS "eventType", lead_id::int AS "leadId", meta, ${tsSql("created_at")} AS "createdAt"`,
   sessions: `id::int AS "id", token_hash AS "tokenHash", staff_id::int AS "staffId", customer_id::int AS "customerId", ${tsSql("expires_at")} AS "expiresAt", ${tsSql("created_at")} AS "createdAt"`,
+  creatorVideos: `id::int AS "id", lead_id::int AS "leadId", creator_code AS "creatorCode", creator_name AS "creatorName", phone, email, platform, video_title AS "videoTitle", video_url AS "videoUrl", video_path AS "videoPath", caption, published_url AS "publishedUrl", ${tsSql("published_date")} AS "publishedDate", note, status, feedback, final_post_url AS "finalPostUrl", ${tsSql("submitted_at")} AS "submittedAt", ${tsSql("under_review_at")} AS "underReviewAt", ${tsSql("decided_at")} AS "decidedAt"`,
 };
 
 type PgClient = { query: (text: string, values?: unknown[]) => Promise<{ rows: unknown[] }> };
@@ -420,6 +445,7 @@ async function readAllCollections(): Promise<Omit<DbShape, "settings">> {
     "pageViews",
     "events",
     "sessions",
+    "creatorVideos",
   ];
   const results: unknown[] = [];
   for (const k of keys) {

@@ -271,6 +271,28 @@ export type PageView = DbRow & {
   createdAt: string;
 };
 
+export type CreatorVideo = DbRow & {
+  leadId: number;
+  creatorCode: string;
+  creatorName?: string;
+  phone: string;
+  email?: string;
+  platform: string;
+  videoTitle: string;
+  videoUrl?: string;
+  videoPath?: string;
+  caption?: string;
+  publishedUrl?: string;
+  publishedDate?: string;
+  note?: string;
+  status: string;
+  feedback?: string;
+  finalPostUrl?: string;
+  submittedAt: string;
+  underReviewAt?: string;
+  decidedAt?: string;
+};
+
 export type CollectionName =
   | "staff"
   | "leads"
@@ -293,7 +315,8 @@ export type CollectionName =
   | "deposits"
   | "pageViews"
   | "events"
-  | "sessions";
+  | "sessions"
+  | "creatorVideos";
 
 export type DbShape = {
   staff: Staff[];
@@ -318,6 +341,7 @@ export type DbShape = {
   pageViews: Array<{ id: number; path: string; createdAt: string }>;
   events: Array<{ id: number; eventType: string; leadId?: number; meta: Record<string, unknown>; createdAt: string }>;
   sessions: Array<{ tokenHash: string; staffId?: number | null; customerId?: number | null; expiresAt: string; createdAt: string }>;
+  creatorVideos: CreatorVideo[];
   settings: Record<string, unknown>;
 };
 
