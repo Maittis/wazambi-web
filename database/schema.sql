@@ -295,7 +295,10 @@ ALTER TABLE customers ADD COLUMN IF NOT EXISTS password_hash TEXT;
 ALTER TABLE customers ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT TRUE;
 
 -- Leads columns added after the original leads table was created
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS main_challenge TEXT;
 ALTER TABLE leads ADD COLUMN IF NOT EXISTS main_challenges JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS still_exploring BOOLEAN DEFAULT FALSE;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS service_interest TEXT;
 ALTER TABLE leads ADD COLUMN IF NOT EXISTS service_interests JSONB DEFAULT '[]'::jsonb;
 ALTER TABLE leads ADD COLUMN IF NOT EXISTS needs_help_choosing BOOLEAN DEFAULT FALSE;
 ALTER TABLE leads ADD COLUMN IF NOT EXISTS lead_source TEXT;
@@ -311,7 +314,10 @@ ALTER TABLE leads ADD COLUMN IF NOT EXISTS follow_up_notes TEXT;
 ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent BOOLEAN NOT NULL DEFAULT FALSE;
 
 -- Assessments columns added after the original assessments table was created
+ALTER TABLE assessments ADD COLUMN IF NOT EXISTS main_challenge TEXT;
 ALTER TABLE assessments ADD COLUMN IF NOT EXISTS main_challenges JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE assessments ADD COLUMN IF NOT EXISTS still_exploring BOOLEAN DEFAULT FALSE;
+ALTER TABLE assessments ADD COLUMN IF NOT EXISTS service_interest TEXT;
 ALTER TABLE assessments ADD COLUMN IF NOT EXISTS service_interests JSONB DEFAULT '[]'::jsonb;
 ALTER TABLE assessments ADD COLUMN IF NOT EXISTS needs_help_choosing BOOLEAN DEFAULT FALSE;
 
