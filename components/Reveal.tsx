@@ -1,59 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
   direction?: "up" | "down" | "left" | "right" | "none" | "scale";
+  initial?: boolean;
 };
 
-export default function Reveal({
-  children,
-  className = "",
-  delay = 0,
-  direction = "up",
-}: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const transforms: Record<string, string> = {
-    up: "translateY(26px)",
-    down: "translateY(-26px)",
-    left: "translateX(-30px)",
-    right: "translateX(30px)",
-    none: "none",
-    scale: "scale(0.9)",
-  };
-
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "none" : transforms[direction],
-        transition: `opacity 0.4s ease-in-out ${delay}ms, transform 0.4s ease-in-out ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  );
+// Static passthrough wrapper. Scroll-triggered motion has been removed:
+// internal pages render instantly for a fast, stable, readable site.
+// `initial` plays one short fade-up on mount (used only on the homepage hero).
+export default function Reveal({ children, className = "", initial = false }: RevealProps) {
+  return <div className={initial ? `${className} animate-fadeUp` : className}>{children}</div>;
 }

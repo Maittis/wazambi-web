@@ -16,6 +16,8 @@ export type Solution = {
   description: string;
   features: string[];
   image: string;
+  accent: "blue" | "flame" | "steel";
+  kicker: string;
 };
 
 export type Course = {
@@ -147,6 +149,8 @@ export const solutions: Solution[] = [
       "See live location, route playback, trip history, geofences, ignition information and vehicle alerts — all in real time.",
     features: ["Live map", "Route playback", "Trip history", "Geofences", "Ignition status", "Vehicle alerts"],
     image: "/images/solutions/gps.jpg",
+    accent: "blue",
+    kicker: "Locate · Track · Recover",
   },
   {
     slug: "fuel-monitoring",
@@ -157,6 +161,8 @@ export const solutions: Solution[] = [
       "Real fuel graphs, filling events, fuel drops, consumption reports and fuel-loss alerts for every vehicle.",
     features: ["Fuel graphs", "Filling events", "Fuel drops", "Consumption reports", "Fuel-loss alerts"],
     image: "/images/solutions/fuel.jpg",
+    accent: "flame",
+    kicker: "Measure · Record · Stop Loss",
   },
   {
     slug: "fleet-management",
@@ -167,6 +173,8 @@ export const solutions: Solution[] = [
       "Vehicle lists, driver records, maintenance reminders, fleet reports and performance information in one system.",
     features: ["Vehicle list", "Driver records", "Maintenance reminders", "Fleet reports", "Performance information"],
     image: "/images/solutions/fleet.jpg",
+    accent: "steel",
+    kicker: "Control · Organise · Report",
   },
 ];
 

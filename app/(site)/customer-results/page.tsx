@@ -7,7 +7,7 @@ import { results } from "@/lib/content";
 export default function CustomerResultsPage() {
   return (
     <>
-      <section className="bg-paper pt-[160px] pb-16 md:pt-[170px] md:pb-24">
+      <section className="bg-paper pt-[120px] pb-16 md:pt-[140px] md:pb-24">
         <div className="container-wz text-center max-w-[760px]">
           <Reveal>
             <p className="eyebrow">Customer Results</p>

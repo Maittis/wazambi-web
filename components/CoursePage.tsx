@@ -39,7 +39,7 @@ export default function CoursePage({ course }: { course: Course }) {
 
   return (
     <>
-      <section className="bg-paper pt-[160px] pb-20 md:pt-[170px]">
+      <section className="bg-paper pt-[120px] pb-20 md:pt-[140px]">
         <div className="container-wz">
           <Reveal className="mx-auto max-w-[760px] text-center">
             <p className="eyebrow">Wazambi Fleet Academy · {course.badge}</p>

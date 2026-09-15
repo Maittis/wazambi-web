@@ -6,7 +6,7 @@ import { site } from "@/lib/content";
 export default function ContactPage() {
   return (
     <>
-      <section className="bg-navy pt-[160px] pb-16 md:pt-[170px]">
+      <section className="bg-navy pt-[120px] pb-16 md:pt-[140px]">
         <div className="container-wz text-center">
           <Reveal>
             <p className="eyebrow text-gold">Contact Us</p>

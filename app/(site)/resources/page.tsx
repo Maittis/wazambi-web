@@ -28,7 +28,7 @@ const resources = [
 export default function ResourcesPage() {
   return (
     <>
-      <section className="bg-paper pt-[160px] pb-16 md:pt-[170px] md:pb-20">
+      <section className="bg-paper pt-[120px] pb-16 md:pt-[140px] md:pb-20">
         <div className="container-wz">
           <Reveal className="mx-auto max-w-[700px] text-center">
             <p className="eyebrow">Free Resources</p>

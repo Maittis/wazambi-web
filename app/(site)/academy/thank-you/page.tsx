@@ -13,7 +13,7 @@ function ThankYouContent() {
     courses.find((c) => c.code === course)?.guideName ?? "your Wazambi guide";
 
   return (
-    <section className="bg-paper pt-[160px] pb-24 md:pt-[170px]">
+    <section className="bg-paper pt-[120px] pb-24 md:pt-[140px]">
       <div className="container-wz max-w-[640px] text-center">
         <Reveal>
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gold">
@@ -46,7 +46,7 @@ function ThankYouContent() {
 
 export default function ThankYouPage() {
   return (
-    <Suspense fallback={<div className="pt-[160px] pb-24" />}>
+    <Suspense fallback={<div className="pt-[120px] pb-24" />}>
       <ThankYouContent />
     </Suspense>
   );

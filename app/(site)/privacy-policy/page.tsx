@@ -2,7 +2,7 @@ import Reveal from "@/components/Reveal";
 
 export default function PrivacyPolicyPage() {
   return (
-    <section className="bg-paper pt-[160px] pb-20 md:pt-[170px]">
+    <section className="bg-paper pt-[120px] pb-20 md:pt-[140px]">
       <div className="container-wz max-w-[760px]">
         <Reveal>
           <p className="eyebrow">Legal</p>

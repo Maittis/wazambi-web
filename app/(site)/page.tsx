@@ -54,7 +54,7 @@ function Hero() {
         </div>
 
         <div className="w-full px-[15px] pt-[40px] pb-[20px] md:w-[62%] md:self-center md:p-[70px]">
-          <Reveal direction="down">
+          <Reveal direction="down" initial>
             <div className="mx-auto flex max-w-[810px] flex-col gap-6">
               <h1 className="headline text-center text-white text-[34px] sm:text-[44px] md:text-[40px] lg:text-[50px] xl:text-[58px] 2xl:text-[66px]">
                 {hero.headline}

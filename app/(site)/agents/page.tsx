@@ -91,7 +91,7 @@ export default function AgentsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-paper pt-[160px] pb-16 md:pt-[170px] md:pb-24">
+      <section className="bg-paper pt-[120px] pb-16 md:pt-[140px] md:pb-24">
         <div className="container-wz">
           <Reveal className="mx-auto max-w-[820px] text-center">
             <p className="eyebrow">Wazambi GPS Agent Program · Two Days · In Person</p>

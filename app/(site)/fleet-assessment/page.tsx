@@ -3,7 +3,7 @@ import AssessmentForm from "@/components/AssessmentForm";
 
 export default function FleetAssessmentPage() {
   return (
-    <section className="bg-paper pt-[160px] pb-24 md:pt-[170px]">
+    <section className="bg-paper pt-[120px] pb-20 md:pt-[140px]">
       <div className="container-wz">
         <Reveal className="mx-auto max-w-[620px] text-center">
           <p className="eyebrow">Free Fleet Assessment</p>
@@ -15,7 +15,7 @@ export default function FleetAssessmentPage() {
             the right solution and send you a clear quotation.
           </p>
         </Reveal>
-        <Reveal className="mt-12" delay={100}>
+        <Reveal className="mt-8" delay={100}>
           <AssessmentForm assessmentType="fleet" />
         </Reveal>
       </div>
