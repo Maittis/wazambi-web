@@ -294,6 +294,27 @@ ALTER TABLE customers ADD COLUMN IF NOT EXISTS email TEXT UNIQUE;
 ALTER TABLE customers ADD COLUMN IF NOT EXISTS password_hash TEXT;
 ALTER TABLE customers ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT TRUE;
 
+-- Leads columns added after the original leads table was created
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS main_challenges JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS service_interests JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS needs_help_choosing BOOLEAN DEFAULT FALSE;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS lead_source TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS campaign TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS utm_source TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS utm_medium TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS utm_campaign TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS utm_content TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS landing_page TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS agent_code TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS assigned_salesperson_id BIGINT REFERENCES staff(id) ON DELETE SET NULL;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS follow_up_notes TEXT;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS consent BOOLEAN NOT NULL DEFAULT FALSE;
+
+-- Assessments columns added after the original assessments table was created
+ALTER TABLE assessments ADD COLUMN IF NOT EXISTS main_challenges JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE assessments ADD COLUMN IF NOT EXISTS service_interests JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE assessments ADD COLUMN IF NOT EXISTS needs_help_choosing BOOLEAN DEFAULT FALSE;
+
 CREATE TABLE IF NOT EXISTS follow_ups (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   lead_id BIGINT REFERENCES leads(id) ON DELETE CASCADE,
