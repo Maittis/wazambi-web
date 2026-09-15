@@ -58,7 +58,7 @@ export type Package = {
 
 export const site = {
   name: "Wazambi GPS",
-  logo: "/images/wazambi-logo-light-v2.svg",
+  logo: "/images/wazambi-gps-logo.png",
   announcement: {
     badge: "NEW",
     text: "WAZAMBI GPS AGENT PROGRAM NOW OPEN — ONLY 100 AGENTS WILL BE SELECTED",

@@ -22,6 +22,7 @@ const config: Config = {
           blue: "#1E5EFF",
           dark: "#1440B8",
         },
+        // Wazambi Gold — exact gold from the Wazambi logo (#FFC400)
         gold: {
           DEFAULT: "#FFC400",
           dark: "#E6A900",

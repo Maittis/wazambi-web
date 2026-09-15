@@ -130,7 +130,7 @@ export default function AssessmentForm({ assessmentType }: Props) {
         <span>{progress}% complete</span>
       </div>
       <div className="mb-8 h-2 w-full rounded-full bg-navy/10">
-        <div className="h-2 rounded-full bg-electric-blue transition-all duration-300" style={{ width: `${progress}%` }} />
+        <div className="h-2 rounded-full bg-gold transition-all duration-300" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="min-h-[280px]">
@@ -167,7 +167,7 @@ export default function AssessmentForm({ assessmentType }: Props) {
               <p className="mb-3 text-[15px] font-bold text-navy">How many vehicles do you manage? *</p>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {fleetSizeOptions.map((o) => (
-                  <button key={o} type="button" onClick={() => set("fleetSize", o)} className={`rounded-lg border px-4 py-3 text-[14px] font-medium transition-colors ${data.fleetSize === o ? "border-electric-blue bg-electric-blue text-white" : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"}`}>
+                  <button key={o} type="button" onClick={() => set("fleetSize", o)} className={`rounded-lg border px-4 py-3 text-[14px] font-medium transition-colors ${data.fleetSize === o ? "border-gold bg-gold text-navy" : "border-navy/15 bg-white text-ink/70 hover:border-gold"}`}>
                     {o}
                   </button>
                 ))}

@@ -30,11 +30,13 @@
   }
 
   .btn-pill {
-    @apply inline-block rounded-[100px] px-6 py-3.5 text-center font-poppins font-bold leading-none transition-all duration-300 border-[2.5px];
+    @apply inline-block whitespace-nowrap rounded-[100px] px-6 py-3.5 text-center font-poppins font-bold leading-none transition-all duration-300 border-[2.5px]
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current focus-visible:ring-offset-2
+      disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-primary {
-    @apply btn-pill bg-gold border-gold text-navy hover:bg-white hover:text-navy;
+    @apply btn-pill bg-gold border-gold text-navy hover:bg-gold-dark hover:border-gold-dark active:translate-y-px active:bg-gold-dark active:border-gold-dark;
   }
 
   .btn-outline {

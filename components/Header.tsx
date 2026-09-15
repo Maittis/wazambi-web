@@ -90,10 +90,10 @@ export default function Header({ initialMe }: { initialMe?: SessionUser | null }
               <Image
                 src={site.logo}
                 alt="Wazambi GPS"
-                width={230}
-                height={49}
+                width={591}
+                height={591}
                 priority
-                className={`h-auto transition-all duration-300 ${scrolled ? "w-[150px]" : "w-[180px] md:w-[230px]"}`}
+                className={`w-auto transition-all duration-300 ${scrolled ? "h-[36px]" : "h-[46px]"}`}
               />
             </Link>
 

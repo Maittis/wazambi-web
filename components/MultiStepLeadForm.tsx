@@ -93,7 +93,7 @@ export default function MultiStepLeadForm({ courseCode, guideName, courseUrl }: 
       </div>
       <div className="mb-8 h-2 w-full rounded-full bg-navy/10">
         <div
-          className="h-2 rounded-full bg-electric-blue transition-all duration-300"
+          className="h-2 rounded-full bg-gold transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -155,7 +155,7 @@ export default function MultiStepLeadForm({ courseCode, guideName, courseUrl }: 
                   onClick={() => set("fleetSize", o)}
                   className={`rounded-lg border px-4 py-3 text-[14px] font-medium transition-colors ${
                     data.fleetSize === o
-                      ? "border-electric-blue bg-electric-blue text-white"
+                      ? "border-gold bg-gold text-navy"
                       : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"
                   }`}
                 >
@@ -177,7 +177,7 @@ export default function MultiStepLeadForm({ courseCode, guideName, courseUrl }: 
                   onClick={() => set("mainChallenge", o)}
                   className={`rounded-lg border px-4 py-3 text-[14px] font-medium transition-colors ${
                     data.mainChallenge === o
-                      ? "border-electric-blue bg-electric-blue text-white"
+                      ? "border-gold bg-gold text-navy"
                       : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"
                   }`}
                 >

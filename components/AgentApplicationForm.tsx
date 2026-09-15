@@ -96,7 +96,7 @@ export default function AgentApplicationForm() {
         {steps[step]} · {progress}% complete
       </p>
       <div className="mb-8 mt-3 h-2 w-full rounded-full bg-navy/10">
-        <div className="h-2 rounded-full bg-electric-blue transition-all duration-300" style={{ width: `${progress}%` }} />
+        <div className="h-2 rounded-full bg-gold transition-all duration-300" style={{ width: `${progress}%` }} />
       </div>
 
       <div className="min-h-[340px]">
@@ -124,7 +124,7 @@ export default function AgentApplicationForm() {
             <p className="text-[15px] font-bold text-navy">Which sales methods will you use? Select all that apply.</p>
             <div className="grid grid-cols-2 gap-2">
               {methodOptions.map((m) => (
-                <button key={m} type="button" onClick={() => toggleMethod(m)} className={`rounded-lg border px-3 py-3 text-[13px] font-medium transition-colors ${data.methods.includes(m) ? "border-electric-blue bg-electric-blue text-white" : "border-navy/15 bg-white text-ink/70"}`}>
+                <button key={m} type="button" onClick={() => toggleMethod(m)} className={`rounded-lg border px-3 py-3 text-[13px] font-medium transition-colors ${data.methods.includes(m) ? "border-gold bg-gold text-navy" : "border-navy/15 bg-white text-ink/70"}`}>
                   {m}
                 </button>
               ))}
@@ -212,7 +212,7 @@ function YesNo({
             onClick={() => onSelect(o)}
             className={`rounded-lg border px-6 py-2.5 text-[14px] font-medium transition-colors ${
               value === o
-                ? "border-electric-blue bg-electric-blue text-white"
+                ? "border-gold bg-gold text-navy"
                 : "border-navy/15 bg-white text-ink/70 hover:border-electric-blue"
             }`}
           >
