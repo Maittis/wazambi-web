@@ -788,7 +788,7 @@ function CreatorApplications({ data }: { data: any }) {
         <tbody>
           {apps.slice().reverse().map((a) => {
             const meta = metaFor(a.id);
-            const platforms = Array.isArray(meta.platforms) ? meta.platforms.join(", ") : (meta.platforms || "—");
+            const platforms = meta.mainPlatform || (Array.isArray(meta.platforms) ? meta.platforms.join(", ") : meta.platforms) || "—";
             const contentUrl = meta.mainContentUrl || "—";
             return (
               <tr key={a.id} className="border-t border-navy/5">

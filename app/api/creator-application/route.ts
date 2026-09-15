@@ -15,26 +15,24 @@ export async function POST(req: NextRequest) {
       phone,
       email,
       town,
-      platforms,
+      mainPlatform,
       mainContentUrl,
-      audienceSize,
-      contentFrequency,
-      sampleContent,
-      experience,
+      contentDuration,
+      canRecordEdit,
       whyYou,
-      understandPerformance,
-      understandReview,
-      accept,
+      consent,
+      acceptTerms,
     } = body;
 
     const name = String(fullName ?? "").trim();
     const phoneRaw = String(phone ?? "").trim();
     const emailRaw = String(email ?? "").trim();
     const contentUrl = String(mainContentUrl ?? "").trim();
+    const platform = String(mainPlatform ?? "").trim();
 
-    if (!name || !phoneRaw || !emailRaw || !contentUrl) {
+    if (!name || !phoneRaw || !emailRaw || !contentUrl || !platform) {
       return NextResponse.json(
-        { error: "Please provide your full name, WhatsApp number, email address and a link to your content." },
+        { error: "Please provide your full name, WhatsApp number, email address, main platform and a link to your content." },
         { status: 400 }
       );
     }
@@ -75,16 +73,13 @@ export async function POST(req: NextRequest) {
       email: emailRaw,
       phone: phoneRaw,
       town: String(town ?? ""),
-      platforms: Array.isArray(platforms) ? platforms : [],
+      mainPlatform: platform,
       mainContentUrl: contentUrl,
-      audienceSize: String(audienceSize ?? ""),
-      contentFrequency: String(contentFrequency ?? ""),
-      sampleContent: String(sampleContent ?? ""),
-      experience: String(experience ?? ""),
+      contentDuration: String(contentDuration ?? ""),
+      canRecordEdit: String(canRecordEdit ?? ""),
       whyYou: String(whyYou ?? ""),
-      understandPerformance: String(understandPerformance ?? ""),
-      understandReview: String(understandReview ?? ""),
-      accept: Boolean(accept),
+      consent: Boolean(consent),
+      acceptTerms: Boolean(acceptTerms),
       submittedAt,
     };
 
@@ -125,7 +120,7 @@ export async function POST(req: NextRequest) {
       email: emailRaw,
       phone: phoneRaw,
       town: String(town ?? ""),
-      platforms: Array.isArray(platforms) ? platforms.join(", ") : "",
+      platforms: platform,
       submittedAt,
     });
     await addLeadEvent(
