@@ -18,10 +18,15 @@ export async function POST() {
     }
     const raw = fs.readFileSync(schemaPath, "utf8");
 
-    const statements = raw
+    const noComments = raw
+      .split(/\r?\n/)
+      .filter((line) => !line.trim().startsWith("--"))
+      .join("\n");
+
+    const statements = noComments
       .split(/;\s*/)
       .map((s) => s.trim())
-      .filter((s) => s && !s.startsWith("--"));
+      .filter(Boolean);
 
     const client = await pool();
     let executed = 0;
