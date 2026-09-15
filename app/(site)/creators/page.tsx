@@ -226,9 +226,20 @@ export default function CreatorsPage() {
           <p className="mt-4 text-[15px] font-light text-white/70">
             Your Wazambi Creator Code is issued only after your application is approved.
           </p>
-          <a href="#apply" className="btn-primary mt-8 inline-block">
-            See if I Qualify →
-          </a>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a href="#apply" className="btn-primary">
+              See if I Qualify →
+            </a>
+            <a
+              href="/creators/submit-video"
+              className="inline-block rounded-[100px] border-[2.5px] border-white/40 px-7 py-3.5 text-center font-poppins text-[15px] font-bold leading-none text-white transition-colors hover:border-white hover:bg-white hover:text-navy"
+            >
+              Approved? Submit a Video →
+            </a>
+          </div>
+          <p className="mt-5 text-[12px] font-light text-white/45">
+            Already approved? Use your WZC code and registered phone to access the submission form.
+          </p>
         </div>
       </section>
     </>

@@ -64,8 +64,11 @@ export default function CreatorApplicationThankYouPage() {
             </div>
           </div>
 
-          <div className="mt-10 flex flex-col items-center gap-4">
-            <Link href="/" className="btn-primary">
+          <div className="mt-10 flex flex-col items-center gap-3">
+            <Link href="/creators/submit-video" className="btn-primary">
+              Submit a Video for Review
+            </Link>
+            <Link href="/" className="btn-secondary">
               Back to Homepage
             </Link>
             <p className="text-[13px] font-light text-ink/55">
