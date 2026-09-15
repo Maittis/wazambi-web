@@ -103,12 +103,12 @@ export default function Dashboard() {
       .then((r) => r.json())
       .then((d) => {
         if (!d.ok || d.kind !== "staff") {
-          router.replace(d.kind === "customer" ? "/portal" : "/customer-admin/login");
+          router.replace(d.kind === "customer" ? "/portal" : "/admin/login");
           return;
         }
         setMe(d.staff);
       })
-      .catch(() => router.replace("/customer-admin/login"));
+      .catch(() => router.replace("/admin/login"));
   }, [router]);
 
   useEffect(() => {
@@ -1792,7 +1792,7 @@ function Settings({ data }: { data: any }) {
       <div className="rounded-xl border border-navy/10 bg-white p-5">
         <p className="text-[14px] font-bold uppercase text-navy">External Links</p>
         <ul className="mt-3 space-y-2 text-[13px]">
-          <li>Client Login: <a className="text-electric-blue" href="/customer-admin">/customer-admin</a></li>
+          <li>Client Login: <a className="text-electric-blue" href="/admin">/admin</a></li>
           <li>Agent App: <a className="text-electric-blue" href="https://wazambi-gps.vercel.app/">wazambi-gps.vercel.app</a></li>
           <li>Agent Admin: <a className="text-electric-blue" href="https://wazambi-backend.vercel.app/admin">wazambi-backend.vercel.app/admin</a></li>
         </ul>

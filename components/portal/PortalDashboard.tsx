@@ -60,7 +60,7 @@ export default function PortalDashboard() {
           return;
         }
         if (d.kind === "staff") {
-          router.replace("/customer-admin");
+          router.replace("/admin");
           return;
         }
         setMe(d.customer);

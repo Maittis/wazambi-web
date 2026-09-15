@@ -47,7 +47,7 @@ export default function PortalInvoices() {
       .then((d) => {
         if (cancelled) return;
         if (!d.ok || d.kind !== "customer") {
-          router.replace(d.kind === "staff" ? "/customer-admin" : "/portal/login");
+          router.replace(d.kind === "staff" ? "/admin" : "/portal/login");
           return;
         }
         fetch("/api/customer/invoices")

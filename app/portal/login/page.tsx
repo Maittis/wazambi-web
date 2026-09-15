@@ -15,7 +15,7 @@ export default function PortalLoginPage() {
       .then((d) => {
         if (cancelled) return;
         if (d.ok && d.kind === "customer") router.replace("/portal");
-        if (d.ok && d.kind === "staff") router.replace("/customer-admin");
+        if (d.ok && d.kind === "staff") router.replace("/admin");
       })
       .catch(() => undefined)
       .finally(() => {

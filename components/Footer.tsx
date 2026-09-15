@@ -72,7 +72,7 @@ export default function Footer({ initialMe }: { initialMe?: SessionUser | null }
               title: "Access",
               links: [
                 { label: "Client Login", href: me ? dashHref : "/portal" },
-                { label: "Staff Login", href: "/customer-admin" },
+                { label: "Staff Login", href: "/admin" },
                 { label: "Agent Login", href: "https://wazambi-gps.vercel.app/" },
               ],
             }}

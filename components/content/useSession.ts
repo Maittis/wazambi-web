@@ -41,5 +41,5 @@ export function useSession(initialMe?: SessionUser | null) {
 }
 
 export function dashboardHref(me?: SessionUser | null): string {
-  return me?.kind === "customer" ? "/portal" : "/customer-admin";
+  return me?.kind === "customer" ? "/portal" : "/admin";
 }
